@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.fragments.MainScreenFragment
@@ -29,6 +32,10 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .add(R.id.details_fragment,mainScreenFragment,"MainScreenFragment")
             .commit()
+        var  navigation_recycler_view = findViewById<RecyclerView>(R.id.navigationrecyclerview)
+        navigation_recycler_view.layoutManager = LinearLayoutManager(this)
+        navigation_recycler_view.itemAnimator = DefaultItemAnimator()
+
 
 
     }
