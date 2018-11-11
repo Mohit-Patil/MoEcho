@@ -1,4 +1,4 @@
-package com.example.mohit.moecho
+package com.example.mohit.moecho.activities
 
 import android.Manifest
 import android.content.Context
@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.ActivityCompat
 import android.widget.Toast
+import com.example.mohit.moecho.R
 
 class SplashActivity : AppCompatActivity() {
     var permissionsString = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -67,7 +68,7 @@ class SplashActivity : AppCompatActivity() {
     }
     fun Handlr(context: Context){
         Handler().postDelayed({
-            val startAct = Intent(this@SplashActivity,MainActivity::class.java)
+            val startAct = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(startAct)
             this.finish()
         },1000)
