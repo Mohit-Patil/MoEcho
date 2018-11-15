@@ -1,6 +1,8 @@
 package com.example.mohit.moecho.adapters
 
 import android.content.Context
+import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,9 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.mohit.moecho.R
+import com.example.mohit.moecho.activities.MainActivity
+import com.example.mohit.moecho.fragments.MainScreenFragment
+import com.example.mohit.moecho.fragments.SongPlayingFragment
 import com.example.mohit.moecho.songs
 import org.w3c.dom.Text
 
@@ -28,7 +33,20 @@ class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
         p0.trackTitle?.text = songObject?.songTitle
         p0.trackArtist?.text = songObject?.artist
         p0.contentHolder?.setOnClickListener({
-            Toast.makeText(mContext, "Hey" + songObject?.songTitle, Toast.LENGTH_SHORT).show()
+            val songPlayingFragment = SongPlayingFragment()
+            var args = Bundle()
+            args.putString("songArtist",songObject?.artist)
+            args.putString("path",songObject?.songData)
+            args.putString("songTitle", songObject?.songTitle)
+            args.putInt("SongId",songObject?.songID?.toInt() as Int)
+            args.putInt("songPosition",p1)
+            args.putParcelableArrayList("songData",songDetails)
+
+            (mContext as FragmentActivity).supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.details_fragment, songPlayingFragment)
+                .commit()
+
         })
     }
 

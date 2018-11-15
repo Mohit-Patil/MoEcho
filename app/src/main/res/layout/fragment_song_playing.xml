@@ -96,13 +96,13 @@
                 android:layout_below="@+id/seekBArLayout">
 
                 <ImageButton
+                    android:id="@+id/playPauseButton"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:id="@+id/playPauseButton"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/play_icon" />
+                    android:background="@drawable/play_icon"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
