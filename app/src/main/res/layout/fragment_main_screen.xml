@@ -31,7 +31,8 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/pause_icon"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="31dp"/>
+                android:layout_marginRight="31dp" />
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -41,8 +42,8 @@
                 android:background="@drawable/now_playing_bar_eq_image"
                 android:layout_marginLeft="13dp"
                 android:minWidth="0dp"
-                android:minHeight="0dp"
-                />
+                android:minHeight="0dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +52,8 @@
                 android:layout_toRightOf="@+id/defaultMusic"
                 android:textColor="#BDBDBD"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="11dp"/>
+                android:layout_marginTop="11dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,18 +70,20 @@
                 android:layout_alignStart="@+id/nowplaying"
                 android:layout_marginTop="5dp" />
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
             android:visibility="invisible"
             android:id="@+id/nosongs">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="You Do NotmHave Any Songs At the moment"
-                android:textColor="#000000"/>
+                android:textColor="#000000" />
         </RelativeLayout>
     </RelativeLayout>
 

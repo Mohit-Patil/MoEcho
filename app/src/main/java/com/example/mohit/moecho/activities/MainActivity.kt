@@ -14,12 +14,16 @@ import com.example.mohit.moecho.fragments.MainScreenFragment
 
 class MainActivity : AppCompatActivity() {
     var navigationDrawerIconsList: ArrayList<String> = arrayListOf()
-    var imagesForNavdrawer = intArrayOf(R.drawable.navigation_allsongs,R.drawable.navigation_favorites,R.drawable.navigation_settings,R.drawable.navigation_aboutus)
-    object Statified{
-        var drawerLayout: DrawerLayout?= null
+    var imagesForNavdrawer = intArrayOf(
+        R.drawable.navigation_allsongs,
+        R.drawable.navigation_favorites,
+        R.drawable.navigation_settings,
+        R.drawable.navigation_aboutus
+    )
+
+    object Statified {
+        var drawerLayout: DrawerLayout? = null
     }
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +40,8 @@ class MainActivity : AppCompatActivity() {
         navigationDrawerIconsList.add("About Us")
 
 
-
-
-
-        val toggle = ActionBarDrawerToggle(this@MainActivity,MainActivity.Statified.drawerLayout,toolbar,
+        val toggle = ActionBarDrawerToggle(
+            this@MainActivity, MainActivity.Statified.drawerLayout, toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
@@ -48,18 +50,17 @@ class MainActivity : AppCompatActivity() {
         val mainScreenFragment = MainScreenFragment()
         this.supportFragmentManager
             .beginTransaction()
-            .add(R.id.details_fragment,mainScreenFragment,"MainScreenFragment")
+            .add(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
             .commit()
 
-        var _navigationAdapter = NavigationDrawerAdapter(navigationDrawerIconsList,imagesForNavdrawer,this)
+        var _navigationAdapter = NavigationDrawerAdapter(navigationDrawerIconsList, imagesForNavdrawer, this)
         _navigationAdapter.notifyDataSetChanged()
 
-        var  navigation_recycler_view = findViewById<RecyclerView>(R.id.navigationrecyclerview)
+        var navigation_recycler_view = findViewById<RecyclerView>(R.id.navigationrecyclerview)
         navigation_recycler_view.layoutManager = LinearLayoutManager(this)
         navigation_recycler_view.itemAnimator = DefaultItemAnimator()
         navigation_recycler_view.adapter = _navigationAdapter
         navigation_recycler_view.setHasFixedSize(true)
-
 
 
     }
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
     }
-    }
+}
 
 
 
