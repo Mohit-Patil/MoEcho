@@ -41,6 +41,7 @@ class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
             args.putInt("SongId",songObject?.songID?.toInt() as Int)
             args.putInt("songPosition",p1)
             args.putParcelableArrayList("songData",songDetails)
+            songPlayingFragment.arguments = args
 
             (mContext as FragmentActivity).supportFragmentManager
                 .beginTransaction()

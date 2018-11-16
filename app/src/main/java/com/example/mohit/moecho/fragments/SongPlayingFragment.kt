@@ -7,6 +7,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,9 @@ import com.example.mohit.moecho.R
 import com.example.mohit.moecho.songs
 import kotlinx.android.synthetic.main.fragment_song_playing.*
 import java.lang.Exception
+import java.sql.Time
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,6 +52,24 @@ class SongPlayingFragment : Fragment() {
     var currentPosition: Int = 0
     var fetchSongs: ArrayList<songs>? = null
 
+    var updateSongTime = object : Runnable {
+        override fun run() {
+            val getCurrent = mediaplayer?.currentPosition
+            startTimeText?.setText(
+                String.format(
+                    "%d:%d",
+                    TimeUnit.MILLISECONDS.toMinutes(getCurrent?.toLong() as Long),
+                    TimeUnit.MILLISECONDS.toSeconds(getCurrent?.toLong() as Long) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((getCurrent?.toLong() as Long)))
+                )
+            )
+            seekbar?.setProgress(getCurrent?.toInt() as Int)
+            Handler().postDelayed(this, 1000)
+        }
+
+
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +80,7 @@ class SongPlayingFragment : Fragment() {
         seekbar = view?.findViewById(R.id.seekBar)
         startTimeText = view?.findViewById(R.id.startTime)
         endTimeText = view?.findViewById(R.id.endTime)
-        playpauseImageButton = view?.findViewById(R.id.playpausebutton)
+        playpauseImageButton = view?.findViewById(R.id.playPauseButton)
         nextImageButton = view?.findViewById(R.id.nextButton)
         previousImageButton = view?.findViewById(R.id.previousButton)
         loopImageButton = view?.findViewById(R.id.loopButton)
@@ -109,6 +130,8 @@ class SongPlayingFragment : Fragment() {
             currentSongHelper?.songId = songId
             currentSongHelper?.currentPosition = currentPosition
 
+            updateTextViews(currentSongHelper?.songTitle as String, currentSongHelper?.songArtist as String)
+
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -122,21 +145,61 @@ class SongPlayingFragment : Fragment() {
             e.printStackTrace()
         }
         mediaplayer?.start()
+
+        processInformation(mediaplayer as MediaPlayer)
+
         if (currentSongHelper?.isPlaying as Boolean) {
             playpauseImageButton?.setBackgroundResource(R.drawable.pause_icon)
 
         } else
             playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
+        mediaplayer?.setOnCompletionListener {
+            onSongComplete()
+        }
+        clickHandler()
     }
 
     fun clickHandler() {
-        shuffleImageButton?.setOnClickListener({})
+        shuffleImageButton?.setOnClickListener({
+            if (currentSongHelper?.isshuffle as Boolean) {
+                shuffleImageButton?.setBackgroundResource(R.drawable.shuffle_white_icon)
+                currentSongHelper?.isshuffle = false
+            } else {
+                currentSongHelper?.isshuffle = true
+                currentSongHelper?.isLoop = false
+                shuffleImageButton?.setBackgroundResource(R.drawable.shuffle_icon)
+                loopImageButton?.setBackgroundResource(R.drawable.loop_white_icon)
 
-        nextImageButton?.setOnClickListener({})
+            }
+        })
 
-        previousImageButton?.setOnClickListener({})
+        nextImageButton?.setOnClickListener({
+            currentSongHelper?.isPlaying = true
+            if (currentSongHelper?.isshuffle as Boolean) {
+                playNext("PlayNextLikeNormalShuffle")
+            } else
+                playNext("PlayNextNormal")
+        })
 
-        loopImageButton?.setOnClickListener({})
+        previousImageButton?.setOnClickListener({
+            currentSongHelper?.isPlaying = true
+            if (currentSongHelper?.isLoop as Boolean) {
+                loopImageButton?.setBackgroundResource(R.drawable.loop_white_icon)
+            }
+            playPrevious()
+        })
+
+        loopImageButton?.setOnClickListener({
+            if (currentSongHelper?.isLoop as Boolean) {
+                currentSongHelper?.isLoop = false
+                loopImageButton?.setBackgroundResource(R.drawable.loop_white_icon)
+            } else {
+                currentSongHelper?.isLoop = true
+                currentSongHelper?.isshuffle = false
+                loopImageButton?.setBackgroundResource(R.drawable.loop_icon)
+                shuffleImageButton?.setBackgroundResource(R.drawable.shuffle_white_icon)
+            }
+        })
 
         playpauseImageButton?.setOnClickListener({
             if (mediaplayer?.isPlaying as Boolean) {
@@ -165,19 +228,122 @@ class SongPlayingFragment : Fragment() {
         if (currentPosition == fetchSongs?.size) {
             currentPosition = 0
         }
+        currentSongHelper?.isLoop = false
         var nextSong = fetchSongs?.get(currentPosition)
         currentSongHelper?.songPath = nextSong?.songData
+        currentSongHelper?.songArtist = nextSong?.artist
         currentSongHelper?.songTitle = nextSong?.songTitle
         currentSongHelper?.songId = nextSong?.songID as Long
         currentSongHelper?.currentPosition = currentPosition
+
+        updateTextViews(currentSongHelper?.songTitle as String, currentSongHelper?.songArtist as String)
+
         mediaplayer?.reset()
-        try{
-            mediaplayer?.setDataSource(myActivity,Uri.parse(currentSongHelper?.songPath))
+        try {
+            mediaplayer?.setDataSource(myActivity, Uri.parse(currentSongHelper?.songPath))
             mediaplayer?.prepare()
             mediaplayer?.start()
-        }catch (e: Exception){
+            processInformation(mediaplayer as MediaPlayer)
+        } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun playPrevious() {
+        currentPosition = currentPosition - 1
+        if (currentPosition == -1) {
+            currentPosition = 0
+        }
+        if (currentSongHelper?.isPlaying as Boolean) {
+            playpauseImageButton?.setBackgroundResource(R.drawable.pause_icon)
+        } else {
+            playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
+        }
+        currentSongHelper?.isLoop = false
+        val nextSong = fetchSongs?.get(currentPosition)
+        currentSongHelper?.songTitle = nextSong?.songTitle
+        currentSongHelper?.songArtist = nextSong?.artist
+        currentSongHelper?.songPath = nextSong?.songData
+        currentSongHelper?.currentPosition = currentPosition
+        currentSongHelper?.songId = nextSong?.songID as Long
+
+        updateTextViews(currentSongHelper?.songTitle as String, currentSongHelper?.songArtist as String)
+
+
+        mediaplayer?.reset()
+        try {
+            mediaplayer?.setDataSource(myActivity, Uri.parse(currentSongHelper?.songPath))
+            mediaplayer?.prepare()
+            mediaplayer?.start()
+            processInformation(mediaplayer as MediaPlayer)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun onSongComplete() {
+        if (currentSongHelper?.isshuffle as Boolean) {
+            playNext("PlayNextLikeNormalShuffle")
+            currentSongHelper?.isPlaying = true
+        } else {
+            if (currentSongHelper?.isLoop as Boolean) {
+                currentSongHelper?.isPlaying = true
+                var nextSong = fetchSongs?.get(currentPosition)
+
+                currentSongHelper?.songTitle = nextSong?.songTitle
+                currentSongHelper?.songArtist = nextSong?.artist
+                currentSongHelper?.songPath = nextSong?.songData
+                currentSongHelper?.currentPosition = currentPosition
+                currentSongHelper?.songId = nextSong?.songID as Long
+
+                updateTextViews(currentSongHelper?.songTitle as String, currentSongHelper?.songArtist as String)
+
+                mediaplayer?.reset()
+
+                try {
+                    mediaplayer?.setDataSource(myActivity, Uri.parse(currentSongHelper?.songPath))
+                    mediaplayer?.prepare()
+                    mediaplayer?.start()
+                    processInformation(mediaplayer as MediaPlayer)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+
+                }
+            } else {
+                playNext("PlayNextNormal")
+                currentSongHelper?.isPlaying = true
+            }
+        }
+    }
+
+    fun updateTextViews(sonTitle: String, songArtist: String) {
+        songTitileView?.setText(sonTitle)
+        songArtistView?.setText(songArtist)
+    }
+
+    fun processInformation(mediaPlayer: MediaPlayer) {
+        val finalTime = mediaPlayer.duration
+        val startTime = mediaPlayer.currentPosition
+        seekbar?.max = finalTime
+        startTimeText?.setText(
+            String.format(
+                "%d:%d",
+                TimeUnit.MILLISECONDS.toMinutes(startTime.toLong()),
+                TimeUnit.MILLISECONDS.toSeconds(startTime.toLong()) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(startTime.toLong()))
+            )
+        )
+        endTimeText?.setText(
+            String.format(
+                "%d:%d",
+                TimeUnit.MILLISECONDS.toMinutes(finalTime.toLong()),
+                TimeUnit.MILLISECONDS.toSeconds(finalTime.toLong()) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(finalTime.toLong()))
+            )
+        )
+        seekbar?.setProgress(startTime)
+
+        Handler().postDelayed(updateSongTime,1000)
     }
 
 
