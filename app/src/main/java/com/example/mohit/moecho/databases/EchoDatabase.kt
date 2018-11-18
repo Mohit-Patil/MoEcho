@@ -70,8 +70,10 @@ class EchoDatabase : SQLiteOpenHelper {
                     _songList.add(songs(_id.toLong(), _title, _artist, _songPath, 0))
                 } while (cSor.moveToNext())
             } else {
+                db.close()
                 return null
             }
+            db.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -89,8 +91,10 @@ class EchoDatabase : SQLiteOpenHelper {
                 storeId = cSor.getInt(cSor.getColumnIndexOrThrow(Staticated.COLUMN_ID))
             } while (cSor.moveToNext())
         } else {
+            db.close()
             return false
         }
+        db.close()
         return storeId != -1090
     }
 
@@ -109,8 +113,10 @@ class EchoDatabase : SQLiteOpenHelper {
                 counter = counter + 1
             } while (cSor.moveToNext())
         } else {
+            db.close()
             return 0
         }
+        db.close()
         return counter
 
     }

@@ -2,7 +2,12 @@ package com.example.mohit.moecho.fragments
 
 
 import android.app.Activity
+import android.app.Service
 import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -10,9 +15,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
@@ -27,6 +30,7 @@ import com.example.mohit.moecho.fragments.SongPlayingFragment.Staticated.onSongC
 import com.example.mohit.moecho.fragments.SongPlayingFragment.Staticated.playNext
 import com.example.mohit.moecho.fragments.SongPlayingFragment.Staticated.processInformation
 import com.example.mohit.moecho.fragments.SongPlayingFragment.Staticated.updateTextViews
+import com.example.mohit.moecho.fragments.SongPlayingFragment.Statified.myActivity
 import com.example.mohit.moecho.fragments.SongPlayingFragment.Statified.updateSongTime
 import com.example.mohit.moecho.songs
 import kotlinx.android.synthetic.main.fragment_song_playing.*
@@ -68,6 +72,9 @@ class SongPlayingFragment : Fragment() {
         var audioVisualization: AudioVisualization? = null
         var glView: GLAudioVisualizationView? = null
         var favoriteContent: EchoDatabase? = null
+        var mSensorManager: SensorManager? = null
+        var mSensorListener: SensorEventListener? = null
+        var MY_PREFS_NAME = "ShakeFeature"
 
         var updateSongTime = object : Runnable {
             override fun run() {
@@ -148,9 +155,18 @@ class SongPlayingFragment : Fragment() {
             }
         }
 
-        fun updateTextViews(sonTitle: String, songArtist: String) {
-            Statified.songTitileView?.setText(sonTitle)
-            Statified.songArtistView?.setText(songArtist)
+        fun updateTextViews(songTitle: String, songArtist: String) {
+            var songTitleupdated = songTitle
+            if (songTitle.equals("<unknown>",true)){
+                songTitleupdated = "unknown"
+            }
+
+            var songArtistupdated = songTitle
+            if (songArtist.equals("<unknown>",true)){
+                songArtistupdated = "unknown"
+            }
+            Statified.songTitileView?.setText(songTitleupdated)
+            Statified.songArtistView?.setText(songArtistupdated)
         }
 
         fun processInformation(mediaPlayer: MediaPlayer) {
@@ -234,6 +250,10 @@ class SongPlayingFragment : Fragment() {
         }
     }
 
+    var mAcceleration: Float = 0f
+    var mAccelerationCurrent: Float = 0f
+    var mAccelerationLast: Float = 0f
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -241,6 +261,8 @@ class SongPlayingFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_song_playing, container, false)
+        setHasOptionsMenu(true)
+        activity?.title = "Now Playing"
         Statified.seekbar = view?.findViewById(R.id.seekBar)
         Statified.startTimeText = view?.findViewById(R.id.startTime)
         Statified.endTimeText = view?.findViewById(R.id.endTime)
@@ -254,7 +276,6 @@ class SongPlayingFragment : Fragment() {
         Statified.glView = view?.findViewById(R.id.visualizer_view)
         Statified.fab = view?.findViewById(R.id.favouriteIcon)
         Statified.fab?.alpha = 0.8f
-
 
 
         return view
@@ -279,17 +300,33 @@ class SongPlayingFragment : Fragment() {
     override fun onResume() {
         Statified.audioVisualization?.onResume()
         super.onResume()
+        Statified.mSensorManager?.registerListener(
+            Statified.mSensorListener, Statified.mSensorManager?.getDefaultSensor(
+                Sensor.TYPE_ACCELEROMETER
+            ), SensorManager.SENSOR_DELAY_NORMAL
+        )
     }
 
     override fun onPause() {
         Statified.audioVisualization?.onResume()
         super.onPause()
+
+        Statified.mSensorManager?.unregisterListener(Statified.mSensorListener)
     }
 
 
     override fun onDestroy() {
         Statified.audioVisualization?.release()
         super.onDestroy()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Statified.mSensorManager = Statified.myActivity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        mAcceleration = 0.0f
+        mAccelerationCurrent = SensorManager.GRAVITY_EARTH
+        mAccelerationLast = SensorManager.GRAVITY_EARTH
+        bindShakeListener()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -331,9 +368,9 @@ class SongPlayingFragment : Fragment() {
         }
 
         var fromFavBottomBar = arguments?.get("FavBottomBar") as? String
-        if (fromFavBottomBar != null){
+        if (fromFavBottomBar != null) {
             Statified.mediaplayer = FavouriteFragment.Statified.mediaPlayer
-        }else{
+        } else {
             Statified.mediaplayer = MediaPlayer()
             Statified.mediaplayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
             try {
@@ -347,9 +384,9 @@ class SongPlayingFragment : Fragment() {
             Statified.mediaplayer?.start()
         }
         var fromMainBottomBar = arguments?.get("MainBottomBar") as? String
-        if (fromMainBottomBar != null){
+        if (fromMainBottomBar != null) {
             Statified.mediaplayer = MainScreenFragment.Statified.mediaPlayer
-        }else{
+        } else {
             Statified.mediaplayer = MediaPlayer()
             Statified.mediaplayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
             try {
@@ -358,8 +395,6 @@ class SongPlayingFragment : Fragment() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
-
             Statified.mediaplayer?.start()
         }
 
@@ -470,6 +505,7 @@ class SongPlayingFragment : Fragment() {
 
         Statified.nextImageButton?.setOnClickListener({
             Statified.currentSongHelper?.isPlaying = true
+            Statified.playpauseImageButton?.setBackgroundResource(R.drawable.pause_icon)
             if (Statified.currentSongHelper?.isshuffle as Boolean) {
                 playNext("PlayNextLikeNormalShuffle")
             } else
@@ -522,6 +558,30 @@ class SongPlayingFragment : Fragment() {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.clear()
+        inflater?.inflate(R.menu.song_playing_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        val item: MenuItem? = menu?.findItem(R.id.action_redirect)
+        item?.isVisible = true
+        val item2: MenuItem? = menu?.findItem(R.id.action_sort)
+        item2?.isVisible = false
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.action_redirect -> {
+                Statified.myActivity?.onBackPressed()
+                return false
+            }
+        }
+        return false
+    }
+
 
     fun playPrevious() {
         Statified.currentPosition = Statified.currentPosition - 1
@@ -570,6 +630,35 @@ class SongPlayingFragment : Fragment() {
                     R.drawable.favorite_off
                 )
             )
+        }
+    }
+
+    fun bindShakeListener() {
+        Statified.mSensorListener = object : SensorEventListener {
+            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+
+            }
+
+            override fun onSensorChanged(event: SensorEvent) {
+                val x = event.values[0]
+                val y = event.values[1]
+                val z = event.values[2]
+
+                mAcceleration = mAccelerationCurrent
+                mAccelerationCurrent = Math.sqrt((x * x + y * y + z * z).toDouble()).toFloat()
+                val delta = mAcceleration - mAccelerationLast
+                mAcceleration = mAcceleration * 0.9f + delta
+                if (mAcceleration > 12) {
+                    val prefs =
+                        Statified.myActivity?.getSharedPreferences(Statified.MY_PREFS_NAME, Context.MODE_PRIVATE)
+                    val isAllowed = prefs?.getBoolean("feature", false)
+                    if (isAllowed as Boolean) {
+                        Staticated.playNext("PlayNextNormal")
+                    }
+
+                }
+            }
+
         }
     }
 

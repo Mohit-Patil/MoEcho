@@ -14,6 +14,19 @@ class songs(var songID: Long, var songTitle: String, var artist: String, var son
     override fun describeContents(): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+    object Statified{
+        var nameComparator: Comparator<songs> = Comparator<songs> { song1, song2 ->
+            val songOne = song1.songTitle.toUpperCase()
+            val songTwo = song2.songTitle.toUpperCase()
+            songOne.compareTo(songTwo)
+
+        }
+        var dateComparator: Comparator<songs> = Comparator<songs>{song1,song2->
+            val songOne = song1.dateAdded.toDouble()
+            val songTwo = song2.dateAdded.toDouble()
+            songTwo.compareTo(songOne)
+        }
+    }
 
 
 }

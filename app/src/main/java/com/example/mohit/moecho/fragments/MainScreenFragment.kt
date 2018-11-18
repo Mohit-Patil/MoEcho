@@ -10,9 +10,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -21,6 +19,7 @@ import com.example.mohit.moecho.R
 import com.example.mohit.moecho.adapters.MainScreenAdapter
 import com.example.mohit.moecho.songs
 import java.lang.Exception
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -38,7 +37,7 @@ class MainScreenFragment : Fragment() {
     var _mainScreenAdapter: MainScreenAdapter? = null
     var trackPosition: Int = 0
 
-    object Statified{
+    object Statified {
         var mediaPlayer: MediaPlayer? = null
     }
 
@@ -49,6 +48,9 @@ class MainScreenFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_screen, container, false)
+        setHasOptionsMenu(true)
+        activity?.title = "All Songs"
+
         visibleLayout = view?.findViewById<RelativeLayout>(R.id.visibleLayout)
         noSongs = view?.findViewById<RelativeLayout>(R.id.nosongs)
         nowPlayingBottomBar = view?.findViewById<RelativeLayout>(R.id.hiddenbarmainscreen)
@@ -70,13 +72,69 @@ class MainScreenFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getSongsList = getSongsFromPhone()
-        _mainScreenAdapter = MainScreenAdapter(getSongsList as ArrayList<songs>, myActivity as Context)
         val mLayoutManager = LinearLayoutManager(myActivity)
-        recyclerView?.layoutManager = mLayoutManager
-        recyclerView?.itemAnimator = DefaultItemAnimator()
-        recyclerView?.adapter = _mainScreenAdapter
+        val prefs = activity?.getSharedPreferences("action_sort",Context.MODE_PRIVATE)
+        val action_sort_ascending = prefs?.getString("action_sort_ascending","true")
+        val action_sort_recent = prefs?.getString("action_sort_recent","false")
+
+        if (getSongsList == null){
+            visibleLayout?.visibility = View.INVISIBLE
+            noSongs?.visibility = View.VISIBLE
+        }else{
+            _mainScreenAdapter = MainScreenAdapter(getSongsList as ArrayList<songs>, myActivity as Context)
+            recyclerView?.layoutManager = mLayoutManager
+            recyclerView?.itemAnimator = DefaultItemAnimator()
+            recyclerView?.adapter = _mainScreenAdapter
+        }
+
+
+        if (getSongsList != null){
+            if (action_sort_ascending!!.equals("true",true)){
+                Collections.sort(getSongsList,songs.Statified.nameComparator)
+                _mainScreenAdapter?.notifyDataSetChanged()
+            }else if (action_sort_recent!!.equals("true",true)){
+                Collections.sort(getSongsList,songs.Statified.dateComparator)
+                _mainScreenAdapter?.notifyDataSetChanged()
+            }
+        }
+
         bottomBarSetup()
 
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.clear()
+        inflater?.inflate(R.menu.main, menu)
+        return
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val switcher = item?.itemId
+        if (switcher == R.id.action_sort_ascending) {
+            val editor = myActivity?.getSharedPreferences("action_sort",Context.MODE_PRIVATE)?.edit()
+            editor?.putString("action_sort_ascending","true")
+            editor?.putString("action_sort_recent","false")
+            editor?.apply()
+            if (getSongsList != null) {
+                Collections.sort(getSongsList, songs.Statified.nameComparator)
+            }
+            _mainScreenAdapter?.notifyDataSetChanged()
+            return false
+
+        } else if (switcher == R.id.action_sort_recent) {
+            val editor = myActivity?.getSharedPreferences("action_sort",Context.MODE_PRIVATE)?.edit()
+            editor?.putString("action_sort_ascending","false")
+            editor?.putString("action_sort_recent","true")
+            editor?.apply()
+            if (getSongsList != null) {
+                Collections.sort(getSongsList, songs.Statified.dateComparator)
+            }
+            _mainScreenAdapter?.notifyDataSetChanged()
+            return false
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onAttach(context: Context?) {
@@ -112,6 +170,7 @@ class MainScreenFragment : Fragment() {
             }
 
         }
+        songCursor?.close()
 
         return arrayList
 
@@ -165,6 +224,7 @@ class MainScreenFragment : Fragment() {
         playPauseButton?.setOnClickListener({
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 SongPlayingFragment.Statified.mediaplayer?.pause()
+                playPauseButton?.setBackgroundResource(R.drawable.play_icon)
                 trackPosition = SongPlayingFragment.Statified.mediaplayer?.getCurrentPosition() as Int
             } else {
                 SongPlayingFragment.Statified.mediaplayer?.seekTo(trackPosition)

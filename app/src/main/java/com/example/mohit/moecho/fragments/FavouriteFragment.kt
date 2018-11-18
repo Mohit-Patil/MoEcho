@@ -52,7 +52,7 @@ class FavouriteFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_favourite, container, false)
-
+        activity?.title = "Favorites"
         noFavorites = view?.findViewById(R.id.nofavorites)
         nowPlayingBottomBar = view.findViewById(R.id.hiddenbarfavscreen)
         songTitle = view.findViewById(R.id.songTitlefavScreen)
@@ -97,6 +97,8 @@ class FavouriteFragment : Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
+        val item = menu?.findItem(R.id.action_sort)
+        item?.isVisible = false
     }
 
     fun getSongsFromPhone(): ArrayList<songs> {
@@ -122,6 +124,7 @@ class FavouriteFragment : Fragment() {
             }
 
         }
+        songCursor?.close()
 
         return arrayList
 
@@ -192,7 +195,7 @@ class FavouriteFragment : Fragment() {
                 for (i in 0..fetchListfromDevice?.size - 1){
                     for (j in 0..getListfromDatabase?.size as Int - 1){
                         if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice?.get(i).songID)){
-                            refreshList?.add((getListfromDatabase?.get(j) as ArrayList<songs>)[j])
+                            refreshList?.add((getListfromDatabase as ArrayList<songs>)[j])
                         }
                     }
                 }
