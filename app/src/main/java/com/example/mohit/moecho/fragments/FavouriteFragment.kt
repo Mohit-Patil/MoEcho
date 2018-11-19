@@ -147,7 +147,6 @@ class FavouriteFragment : Fragment() {
             }
 
 
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
