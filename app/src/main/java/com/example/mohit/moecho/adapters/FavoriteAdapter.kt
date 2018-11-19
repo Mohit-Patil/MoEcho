@@ -26,6 +26,14 @@ class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
 
     override fun onBindViewHolder(p0: MyViewHolder, p1: Int) {
         val songObject = songDetails?.get(p1)
+        var songTitleUpdated = songObject?.songTitle
+        var songArtistUpdated = songObject?.artist
+        if (songObject?.songTitle.equals("<unknown>", true)) {
+            songTitleUpdated = "Unknown"
+        }
+        if (songObject?.artist.equals("<unknown>", true)) {
+            songArtistUpdated = "Unknown"
+        }
         p0.trackTitle?.text = songObject?.songTitle
         p0.trackArtist?.text = songObject?.artist
         p0.contentHolder?.setOnClickListener({
@@ -38,11 +46,16 @@ class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
             args.putInt("songPosition",p1)
             args.putParcelableArrayList("songData",songDetails)
             songPlayingFragment.arguments = args
+            SongPlayingFragment.Statified.back = "Favorite"
+            SongPlayingFragment.Statified.counter = 0
+            if (SongPlayingFragment.Statified.mediaplayer != null && SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
+                SongPlayingFragment.Statified.mediaplayer?.pause()
+                SongPlayingFragment.Statified.mediaplayer?.release()
+            }
 
             (mContext as FragmentActivity).supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.details_fragment, songPlayingFragment)
-                .addToBackStack("SongPlayingFragmentFavorite")
+                .replace(R.id.details_fragment, songPlayingFragment,"SongPlayingFragment")
                 .commit()
 
         })

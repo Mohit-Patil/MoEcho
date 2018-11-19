@@ -31,7 +31,7 @@ class MainScreenFragment : Fragment() {
     var playPauseButton: ImageButton? = null
     var songTitle: TextView? = null
     var visibleLayout: RelativeLayout? = null
-    var noSongs: RelativeLayout? = null
+    var noSongs: TextView? = null
     var recyclerView: RecyclerView? = null
     var myActivity: Activity? = null
     var _mainScreenAdapter: MainScreenAdapter? = null
@@ -39,6 +39,7 @@ class MainScreenFragment : Fragment() {
 
     object Statified {
         var mediaPlayer: MediaPlayer? = null
+        var sizeofarr: Int? = null
     }
 
 
@@ -52,9 +53,10 @@ class MainScreenFragment : Fragment() {
         activity?.title = "All Songs"
 
         visibleLayout = view?.findViewById<RelativeLayout>(R.id.visibleLayout)
-        noSongs = view?.findViewById<RelativeLayout>(R.id.nosongs)
-        nowPlayingBottomBar = view?.findViewById<RelativeLayout>(R.id.hiddenbarmainscreen)
+        noSongs = view?.findViewById(R.id.nosongs)
+        nowPlayingBottomBar = view?.findViewById(R.id.hiddenbarmainscreen)
         songTitle = view?.findViewById<TextView>(R.id.songTitleMainScreen)
+        songTitle?.setSelected(true)
         playPauseButton = view?.findViewById<ImageButton>(R.id.playpausebutton)
         recyclerView = view?.findViewById<RecyclerView>(R.id.contentMain)
 
@@ -73,14 +75,14 @@ class MainScreenFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         getSongsList = getSongsFromPhone()
         val mLayoutManager = LinearLayoutManager(myActivity)
-        val prefs = activity?.getSharedPreferences("action_sort",Context.MODE_PRIVATE)
-        val action_sort_ascending = prefs?.getString("action_sort_ascending","true")
-        val action_sort_recent = prefs?.getString("action_sort_recent","false")
+        val prefs = activity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)
+        val action_sort_ascending = prefs?.getString("action_sort_ascending", "true")
+        val action_sort_recent = prefs?.getString("action_sort_recent", "false")
 
-        if (getSongsList == null){
+        if (Statified.sizeofarr == 0) {
             visibleLayout?.visibility = View.INVISIBLE
             noSongs?.visibility = View.VISIBLE
-        }else{
+        } else {
             _mainScreenAdapter = MainScreenAdapter(getSongsList as ArrayList<songs>, myActivity as Context)
             recyclerView?.layoutManager = mLayoutManager
             recyclerView?.itemAnimator = DefaultItemAnimator()
@@ -88,12 +90,12 @@ class MainScreenFragment : Fragment() {
         }
 
 
-        if (getSongsList != null){
-            if (action_sort_ascending!!.equals("true",true)){
-                Collections.sort(getSongsList,songs.Statified.nameComparator)
+        if (getSongsList != null) {
+            if (action_sort_ascending!!.equals("true", true)) {
+                Collections.sort(getSongsList, songs.Statified.nameComparator)
                 _mainScreenAdapter?.notifyDataSetChanged()
-            }else if (action_sort_recent!!.equals("true",true)){
-                Collections.sort(getSongsList,songs.Statified.dateComparator)
+            } else if (action_sort_recent!!.equals("true", true)) {
+                Collections.sort(getSongsList, songs.Statified.dateComparator)
                 _mainScreenAdapter?.notifyDataSetChanged()
             }
         }
@@ -112,9 +114,9 @@ class MainScreenFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val switcher = item?.itemId
         if (switcher == R.id.action_sort_ascending) {
-            val editor = myActivity?.getSharedPreferences("action_sort",Context.MODE_PRIVATE)?.edit()
-            editor?.putString("action_sort_ascending","true")
-            editor?.putString("action_sort_recent","false")
+            val editor = myActivity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)?.edit()
+            editor?.putString("action_sort_ascending", "true")
+            editor?.putString("action_sort_recent", "false")
             editor?.apply()
             if (getSongsList != null) {
                 Collections.sort(getSongsList, songs.Statified.nameComparator)
@@ -123,9 +125,9 @@ class MainScreenFragment : Fragment() {
             return false
 
         } else if (switcher == R.id.action_sort_recent) {
-            val editor = myActivity?.getSharedPreferences("action_sort",Context.MODE_PRIVATE)?.edit()
-            editor?.putString("action_sort_ascending","false")
-            editor?.putString("action_sort_recent","true")
+            val editor = myActivity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)?.edit()
+            editor?.putString("action_sort_ascending", "false")
+            editor?.putString("action_sort_recent", "true")
             editor?.apply()
             if (getSongsList != null) {
                 Collections.sort(getSongsList, songs.Statified.dateComparator)
@@ -171,6 +173,7 @@ class MainScreenFragment : Fragment() {
 
         }
         songCursor?.close()
+        Statified.sizeofarr = arrayList.size
 
         return arrayList
 
@@ -200,7 +203,7 @@ class MainScreenFragment : Fragment() {
 
     fun bottomBarClickHandler() {
         nowPlayingBottomBar?.setOnClickListener({
-            Statified.mediaPlayer = SongPlayingFragment.Statified.mediaplayer
+            MainScreenFragment.Statified.mediaPlayer = SongPlayingFragment.Statified.mediaplayer
             val songPlayingFragment = SongPlayingFragment()
             var args = Bundle()
             args.putString("songArtist", SongPlayingFragment.Statified.currentSongHelper?.songArtist)

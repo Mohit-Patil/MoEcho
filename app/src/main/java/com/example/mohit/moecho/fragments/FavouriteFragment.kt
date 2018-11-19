@@ -52,10 +52,12 @@ class FavouriteFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_favourite, container, false)
+        setHasOptionsMenu(true)
         activity?.title = "Favorites"
         noFavorites = view?.findViewById(R.id.nofavorites)
         nowPlayingBottomBar = view.findViewById(R.id.hiddenbarfavscreen)
         songTitle = view.findViewById(R.id.songTitlefavScreen)
+        songTitle?.setSelected(true)
         playPauseButton = view.findViewById(R.id.playpausebuttonfav)
         recyclerView = view.findViewById(R.id.favoriteRecycler)
 
@@ -145,6 +147,7 @@ class FavouriteFragment : Fragment() {
             }
 
 
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -176,6 +179,7 @@ class FavouriteFragment : Fragment() {
         playPauseButton?.setOnClickListener({
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 SongPlayingFragment.Statified.mediaplayer?.pause()
+                playPauseButton?.setBackgroundResource(R.drawable.play_icon)
                 trackPosition = SongPlayingFragment.Statified.mediaplayer?.getCurrentPosition() as Int
             } else {
                 SongPlayingFragment.Statified.mediaplayer?.seekTo(trackPosition)

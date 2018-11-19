@@ -16,6 +16,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.KeyEvent
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.adapters.NavigationDrawerAdapter
 import com.example.mohit.moecho.fragments.MainScreenFragment
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     object Statified {
         var drawerLayout: DrawerLayout? = null
         var notificationManager: NotificationManager? = null
+        var IS_MUSIC_SCREEN = false
     }
 
 
@@ -67,10 +69,10 @@ class MainActivity : AppCompatActivity() {
             .add(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
             .commit()
 
-        var _navigationAdapter = NavigationDrawerAdapter(navigationDrawerIconsList, imagesForNavdrawer, this)
+        val _navigationAdapter = NavigationDrawerAdapter(navigationDrawerIconsList, imagesForNavdrawer, this)
         _navigationAdapter.notifyDataSetChanged()
 
-        var navigation_recycler_view = findViewById<RecyclerView>(R.id.navigationrecyclerview)
+        val navigation_recycler_view = findViewById<RecyclerView>(R.id.navigationrecyclerview)
         navigation_recycler_view.layoutManager = LinearLayoutManager(this)
         navigation_recycler_view.itemAnimator = DefaultItemAnimator()
         navigation_recycler_view.adapter = _navigationAdapter
@@ -79,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         val pIntent = PendingIntent.getActivity(this@MainActivity, System.currentTimeMillis().toInt(), intent, 0)
         trackNotificationBuilder = Notification.Builder(this)
             .setContentTitle("A Track is Playing in Background")
-            .setSmallIcon(R.drawable.echo_logo)
+            .setSmallIcon(R.drawable.echo_icon)
             .setContentIntent(pIntent)
             .setOngoing(true)
             .setAutoCancel(true)
@@ -89,16 +91,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStart() {
-        super.onStart()
+
         try{
             Statified.notificationManager?.cancel(1998)
         }catch (e:Exception){
             e.printStackTrace()
         }
+        super.onStart()
     }
 
     override fun onStop() {
-        super.onStop()
         try{
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean){
                 Statified.notificationManager?.notify(1998,trackNotificationBuilder)
@@ -106,15 +108,43 @@ class MainActivity : AppCompatActivity() {
         }catch (e:Exception){
             e.printStackTrace()
         }
+        super.onStop()
     }
 
     override fun onResume() {
-        super.onResume()
+
         try{
             Statified.notificationManager?.cancel(1998)
         }catch (e:Exception){
             e.printStackTrace()
         }
+        super.onResume()
+    }
+
+    override fun onDestroy() {
+        try {
+            if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
+                Statified.notificationManager?.notify(1998, trackNotificationBuilder)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        super.onDestroy()
+    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                if (Statified.IS_MUSIC_SCREEN == true) {
+                    val startAct = Intent(this, MainActivity::class.java)
+                    startActivity(startAct)
+                    Statified.IS_MUSIC_SCREEN = false
+                } else {
+                    moveTaskToBack(true)
+                    return true
+                }
+            }
+        }
+        return false
     }
 }
 

@@ -16,6 +16,7 @@ import com.example.mohit.moecho.fragments.MainScreenFragment
 import com.example.mohit.moecho.fragments.SongPlayingFragment
 import com.example.mohit.moecho.songs
 import org.w3c.dom.Text
+import java.lang.Exception
 
 class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
     RecyclerView.Adapter<MainScreenAdapter.MyViewHolder>() {
@@ -30,6 +31,14 @@ class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
 
     override fun onBindViewHolder(p0: MyViewHolder, p1: Int) {
         val songObject = songDetails?.get(p1)
+        var songTitleUpdated = songObject?.songTitle
+        var songArtistUpdated = songObject?.artist
+        if (songObject?.songTitle.equals("<unknown>", true)) {
+            songObject?.songTitle = "Unknown"
+        }
+        if (songObject?.artist.equals("<unknown>", true)) {
+            songObject?.artist = "Unknown"
+        }
         p0.trackTitle?.text = songObject?.songTitle
         p0.trackArtist?.text = songObject?.artist
         p0.contentHolder?.setOnClickListener({
@@ -42,7 +51,17 @@ class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
             args.putInt("songPosition",p1)
             args.putParcelableArrayList("songData",songDetails)
             songPlayingFragment.arguments = args
-
+            songPlayingFragment.arguments = args
+            SongPlayingFragment.Statified.back = "MainScreen"
+            SongPlayingFragment.Statified.counter = 0
+            try {
+                if (SongPlayingFragment.Statified.mediaplayer != null && SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
+                    SongPlayingFragment.Statified.mediaplayer?.pause()
+                    SongPlayingFragment.Statified.mediaplayer?.release()
+                }
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
             (mContext as FragmentActivity).supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.details_fragment, songPlayingFragment)

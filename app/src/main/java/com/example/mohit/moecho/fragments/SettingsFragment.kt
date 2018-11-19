@@ -5,10 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.CompoundButton
 import android.widget.Switch
 import com.example.mohit.moecho.R
@@ -63,7 +60,7 @@ class SettingsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val prefs = myActivity?.getSharedPreferences(Statified.MY_PREFS_NAME, Context.MODE_PRIVATE)
         val isAllowed = prefs?.getBoolean("feature", false)
-        if (isAdded as Boolean) {
+        if (isAllowed as Boolean) {
             shakeSwitch?.isChecked = true
         } else {
             shakeSwitch?.isChecked = false
@@ -86,6 +83,12 @@ class SettingsFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
         val item = menu?.findItem(R.id.action_sort)
         item?.isVisible = false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.clear()
+        inflater?.inflate(R.menu.menu_blank, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
 
