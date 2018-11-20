@@ -92,20 +92,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
 
-        try{
+        try {
             Statified.notificationManager?.cancel(1998)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         super.onStart()
     }
 
     override fun onStop() {
-        try{
-            if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean){
-                Statified.notificationManager?.notify(1998,trackNotificationBuilder)
+        try {
+            if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
+                Statified.notificationManager?.cancel(1998)
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         super.onStop()
@@ -113,9 +113,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
 
-        try{
+        try {
             Statified.notificationManager?.cancel(1998)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         super.onResume()
@@ -131,21 +131,8 @@ class MainActivity : AppCompatActivity() {
         }
         super.onDestroy()
     }
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        when (keyCode) {
-            KeyEvent.KEYCODE_BACK -> {
-                if (Statified.IS_MUSIC_SCREEN == true) {
-                    val startAct = Intent(this, MainActivity::class.java)
-                    startActivity(startAct)
-                    Statified.IS_MUSIC_SCREEN = false
-                } else {
-                    moveTaskToBack(true)
-                    return true
-                }
-            }
-        }
-        return false
-    }
+
+
 }
 
 
