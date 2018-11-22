@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
     object Statified {
         var drawerLayout: DrawerLayout? = null
         var notificationManager: NotificationManager? = null
-        var IS_MUSIC_SCREEN = false
+        var IS_MUSIC_SCREEN_MAIN = false
+        var IS_MUSIC_SCREEN_FAV = false
     }
 
 
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         this.supportFragmentManager
             .beginTransaction()
             .add(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
+            .addToBackStack(null)
             .commit()
 
         val _navigationAdapter = NavigationDrawerAdapter(navigationDrawerIconsList, imagesForNavdrawer, this)

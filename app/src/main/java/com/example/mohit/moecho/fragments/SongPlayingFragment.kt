@@ -336,7 +336,7 @@ class SongPlayingFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_song_playing, container, false)
         setHasOptionsMenu(true)
-        MainActivity.Statified.IS_MUSIC_SCREEN = true
+        MainActivity.Statified.IS_MUSIC_SCREEN_MAIN = true
         activity?.title = "Now Playing"
         Statified.seekbar = view?.findViewById(R.id.seekBar)
         Statified.startTimeText = view?.findViewById(R.id.startTime)
@@ -410,7 +410,7 @@ class SongPlayingFragment : Fragment() {
 
 
         Statified.currentSongHelper = CurrentSongHelper()
-        Statified.currentSongHelper?.isPlaying = true
+        //Statified.currentSongHelper?.isPlaying = true
         Statified.currentSongHelper?.isLoop = false
         Statified.currentSongHelper?.isshuffle = false
 
@@ -493,13 +493,15 @@ class SongPlayingFragment : Fragment() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+            Statified.mediaplayer?.start()
+            Statified.currentSongHelper?.isPlaying = true
         }
         System.out.println("Song Played")
-        Statified.mediaplayer?.start()
+
 
         Staticated.processInformation(Statified.mediaplayer as MediaPlayer)
 
-        if (Statified.currentSongHelper?.isPlaying as Boolean) {
+        if (Statified.mediaplayer?.isPlaying as Boolean) {
             Statified.playpauseImageButton?.setBackgroundResource(R.drawable.pause_icon)
 
         } else {

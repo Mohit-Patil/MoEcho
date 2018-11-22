@@ -154,7 +154,7 @@ class FavouriteFragment : Fragment() {
 
     fun bottomBarClickHandler() {
         nowPlayingBottomBar?.setOnClickListener({
-            Statified.mediaPlayer = SongPlayingFragment.Statified.mediaplayer
+            FavouriteFragment.Statified.mediaPlayer = SongPlayingFragment.Statified.mediaplayer
             val songPlayingFragment = SongPlayingFragment()
             var args = Bundle()
             args.putString("songArtist", SongPlayingFragment.Statified.currentSongHelper?.songArtist)
@@ -170,7 +170,7 @@ class FavouriteFragment : Fragment() {
             songPlayingFragment.arguments = args
             fragmentManager!!.beginTransaction()
                 .replace(R.id.details_fragment, songPlayingFragment)
-                .addToBackStack("SongPlayingFragment")
+                .addToBackStack(null)
                 .commit()
 
 

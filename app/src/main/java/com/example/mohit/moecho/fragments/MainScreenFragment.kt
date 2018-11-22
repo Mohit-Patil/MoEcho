@@ -219,7 +219,7 @@ class MainScreenFragment : Fragment() {
             songPlayingFragment.arguments = args
             fragmentManager!!.beginTransaction()
                 .replace(R.id.details_fragment, songPlayingFragment)
-                .addToBackStack("SongPlayingFragment")
+                .addToBackStack(null)
                 .commit()
 
 
