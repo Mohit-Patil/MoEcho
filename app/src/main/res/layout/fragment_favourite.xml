@@ -5,12 +5,19 @@
     android:background="#FFFFFF"
     android:clickable="true">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/favoriteRecycler"
+    <RelativeLayout
+        android:id="@+id/visiblefav"
+        android:layout_above="@+id/hiddenbarfavscreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/favoriteRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/hiddenbarfavscreen"
@@ -55,13 +62,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/nowplaying"
-            android:marqueeRepeatLimit="marquee_forever"
             android:layout_alignStart="@+id/nowplaying"
             android:layout_alignLeft="@id/nowplaying"
             android:layout_marginTop="5dp"
-            android:ellipsize="marquee"
             android:layout_toLeftOf="@+id/playpausebuttonfav"
-            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:text="..."
@@ -71,11 +77,11 @@
 
     <TextView
         android:id="@+id/nofavorites"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="You Have Not Got Any Favorites"
-        android:textColor="#212121" />
+        android:textColor="#212121"
+        android:visibility="invisible" />
 
 </RelativeLayout>

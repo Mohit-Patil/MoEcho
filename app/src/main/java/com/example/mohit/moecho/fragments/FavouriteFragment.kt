@@ -46,6 +46,7 @@ class FavouriteFragment : Fragment() {
     var favoriteContent: EchoDatabase? = null
     var refreshList: ArrayList<songs>? = null
     var getListfromDatabase: ArrayList<songs>? = null
+    var visibleFav: RelativeLayout? = null
     object Statified{
         var mediaPlayer: MediaPlayer? = null
     }
@@ -60,6 +61,7 @@ class FavouriteFragment : Fragment() {
         songTitle?.setSelected(true)
         playPauseButton = view.findViewById(R.id.playpausebuttonfav)
         recyclerView = view.findViewById(R.id.favoriteRecycler)
+        visibleFav = view.findViewById(R.id.visiblefav)
 
 
 
@@ -85,6 +87,10 @@ class FavouriteFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         favoriteContent = EchoDatabase(myActivity)
+         if (SongPlayingFragment.Statified?.mediaplayer?.isPlaying == null || SongPlayingFragment.Statified?.mediaplayer?.isPlaying == false) {
+            nowPlayingBottomBar?.layoutParams?.height = 0
+            visibleFav?.layoutParams?.height = -2
+        }
         display_favorites_by_searching()
         bottomBarSetup()
 

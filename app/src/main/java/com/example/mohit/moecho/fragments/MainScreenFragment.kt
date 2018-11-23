@@ -18,8 +18,19 @@ import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.adapters.MainScreenAdapter
 import com.example.mohit.moecho.songs
+import kotlinx.android.synthetic.main.fragment_main_screen.*
 import java.lang.Exception
 import java.util.*
+import android.view.ViewGroup
+import android.R.attr.y
+import android.R.attr.x
+import android.graphics.Point
+import android.util.DisplayMetrics
+import android.view.Display
+
+
+
+
 
 /**
  * A simple [Fragment] subclass.
@@ -74,11 +85,16 @@ class MainScreenFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getSongsList = getSongsFromPhone()
+        val windowManager: WindowManager? = null
         val mLayoutManager = LinearLayoutManager(myActivity)
         val prefs = activity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)
         val action_sort_ascending = prefs?.getString("action_sort_ascending", "true")
         val action_sort_recent = prefs?.getString("action_sort_recent", "false")
 
+        if (SongPlayingFragment.Statified?.mediaplayer?.isPlaying == null || SongPlayingFragment.Statified?.mediaplayer?.isPlaying == false) {
+            hiddenbarmainscreen?.layoutParams?.height = 0
+            visibleLayout?.layoutParams?.height = -2
+        }
         if (Statified.sizeofarr == 0) {
             visibleLayout?.visibility = View.INVISIBLE
             noSongs?.visibility = View.VISIBLE
@@ -192,6 +208,11 @@ class MainScreenFragment : Fragment() {
                 nowPlayingBottomBar?.visibility = View.VISIBLE
             } else {
                 nowPlayingBottomBar?.visibility = View.INVISIBLE
+            }
+            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
+                SongPlayingFragment.Staticated.onSongComplete()
+                songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
+                _mainScreenAdapter?.notifyDataSetChanged()
             }
 
 
