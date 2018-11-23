@@ -39,15 +39,6 @@ import java.sql.Time
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class SongPlayingFragment : Fragment() {
 
     object Statified {
@@ -95,7 +86,7 @@ class SongPlayingFragment : Fragment() {
                     Statified.seekbar?.setProgress(getCurrent?.toInt() as Int)
                     Statified.isSongPlaying = true
                     Handler().postDelayed(this, 15)
-                }catch (e: Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
@@ -203,6 +194,7 @@ class SongPlayingFragment : Fragment() {
 
             Handler().postDelayed(updateSongTime, 15)
         }
+
         fun playNext(check: String) {
             if (check.equals("PlayNextNormal", true)) {
                 Statified.currentPosition = Statified.currentPosition + 1
@@ -222,7 +214,8 @@ class SongPlayingFragment : Fragment() {
             Statified.currentSongHelper?.songTitle = nextSong?.songTitle
             Statified.currentSongHelper?.songId = nextSong?.songID as Long
             Statified.currentSongHelper?.currentPosition = Statified.currentPosition
-            var editorLoop = Statified.myActivity?.getSharedPreferences(Staticated.MY_PREFS_LOOP, Context.MODE_PRIVATE)?.edit()
+            var editorLoop =
+                Statified.myActivity?.getSharedPreferences(Staticated.MY_PREFS_LOOP, Context.MODE_PRIVATE)?.edit()
             Statified.currentSongHelper?.isLoop = false
             Statified.loopImageButton?.setBackgroundResource(R.drawable.loop_white_icon)
             editorLoop?.putBoolean("feature", false)
@@ -268,6 +261,7 @@ class SongPlayingFragment : Fragment() {
                 )
             }
         }
+
         fun playPrevious() {
             Statified.currentPosition = Statified.currentPosition - 1
             if (Statified.currentPosition == -1) {
@@ -294,7 +288,10 @@ class SongPlayingFragment : Fragment() {
 
             Statified.mediaplayer?.reset()
             try {
-                Statified.mediaplayer?.setDataSource(Statified.myActivity, Uri.parse(Statified.currentSongHelper?.songPath))
+                Statified.mediaplayer?.setDataSource(
+                    Statified.myActivity,
+                    Uri.parse(Statified.currentSongHelper?.songPath)
+                )
                 Statified.mediaplayer?.prepare()
                 System.out.println("Song Played")
                 Statified.mediaplayer?.start()
@@ -327,6 +324,24 @@ class SongPlayingFragment : Fragment() {
     var mAccelerationCurrent: Float = 0f
     var mAccelerationLast: Float = 0f
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        Statified.myActivity = context as Activity
+    }
+
+    override fun onAttach(activity: Activity?) {
+        super.onAttach(activity)
+        Statified.myActivity = activity
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Statified.mSensorManager = Statified.myActivity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        mAcceleration = 0.0f
+        mAccelerationCurrent = SensorManager.GRAVITY_EARTH
+        mAccelerationLast = SensorManager.GRAVITY_EARTH
+        bindShakeListener()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -352,7 +367,6 @@ class SongPlayingFragment : Fragment() {
         Statified.songplayinglinearlayout = view?.findViewById(R.id.songplaying)
         Statified.fab?.alpha = 0.8f
 
-
         return view
 
     }
@@ -363,46 +377,10 @@ class SongPlayingFragment : Fragment() {
 
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        Statified.myActivity = context as Activity
-    }
-
-    override fun onAttach(activity: Activity?) {
-        super.onAttach(activity)
-        Statified.myActivity = activity
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Statified.audioVisualization?.onResume()
-        Statified.mSensorManager?.registerListener(
-            Statified.mSensorListener, Statified.mSensorManager?.getDefaultSensor(
-                Sensor.TYPE_ACCELEROMETER
-            ), SensorManager.SENSOR_DELAY_NORMAL
-        )
-    }
-
-    override fun onPause() {
-        Statified.audioVisualization?.onPause()
-        super.onPause()
-
-        Statified.mSensorManager?.unregisterListener(Statified.mSensorListener)
-    }
-
-
-    override fun onDestroyView() {
-        Statified.audioVisualization?.release()
-        super.onDestroyView()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Statified.mSensorManager = Statified.myActivity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        mAcceleration = 0.0f
-        mAccelerationCurrent = SensorManager.GRAVITY_EARTH
-        mAccelerationLast = SensorManager.GRAVITY_EARTH
-        bindShakeListener()
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.clear()
+        inflater?.inflate(R.menu.song_playing_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -561,6 +539,67 @@ class SongPlayingFragment : Fragment() {
 
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        val item: MenuItem? = menu?.findItem(R.id.action_redirect)
+        item?.isVisible = true
+        val item2: MenuItem? = menu?.findItem(R.id.action_sort)
+        item2?.isVisible = false
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_redirect -> {
+                var pos = 0
+                if (Statified.back.equals("Favorite", true)) {
+                    pos = 0
+                }
+                if (Statified.back.equals("MainScreen", true)) {
+                    pos = 1
+                }
+                if (pos == 1) {
+                    val mainScreenFragment = MainScreenFragment()
+                    (context as MainActivity).supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.details_fragment, mainScreenFragment)
+                        .commit()
+                }
+                if (pos == 0) {
+                    val favoriteFragment = FavouriteFragment()
+                    (context as MainActivity).supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.details_fragment, favoriteFragment)
+                        .commit()
+                }
+                return false
+            }
+        }
+        return false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Statified.audioVisualization?.onResume()
+        Statified.mSensorManager?.registerListener(
+            Statified.mSensorListener, Statified.mSensorManager?.getDefaultSensor(
+                Sensor.TYPE_ACCELEROMETER
+            ), SensorManager.SENSOR_DELAY_NORMAL
+        )
+    }
+
+    override fun onPause() {
+        Statified.audioVisualization?.onPause()
+        super.onPause()
+
+        Statified.mSensorManager?.unregisterListener(Statified.mSensorListener)
+    }
+
+
+    override fun onDestroyView() {
+        Statified.audioVisualization?.release()
+        super.onDestroyView()
+    }
+
     fun clickHandler() {
         Statified.fab?.setOnClickListener({
             if (Statified.favoriteContent?.checkifIdExists(Statified.currentSongHelper?.songId?.toInt() as Int) as Boolean) {
@@ -669,57 +708,12 @@ class SongPlayingFragment : Fragment() {
                     Statified.playpauseImageButton?.setBackgroundResource(R.drawable.pause_icon)
                     Staticated.processInformation(Statified.mediaplayer as MediaPlayer)
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
 
         })
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
-        inflater?.inflate(R.menu.song_playing_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        super.onPrepareOptionsMenu(menu)
-        val item: MenuItem? = menu?.findItem(R.id.action_redirect)
-        item?.isVisible = true
-        val item2: MenuItem? = menu?.findItem(R.id.action_sort)
-        item2?.isVisible = false
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_redirect -> {
-                var pos = 0
-                if (Statified.back.equals("Favorite", true)) {
-                    pos = 0
-                }
-                if (Statified.back.equals("MainScreen", true)) {
-                    pos = 1
-                }
-                if (pos == 1) {
-                    val mainScreenFragment = MainScreenFragment()
-                    (context as MainActivity).supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.details_fragment, mainScreenFragment)
-                        .commit()
-                }
-                if (pos == 0) {
-                    val favoriteFragment = FavouriteFragment()
-                    (context as MainActivity).supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.details_fragment, favoriteFragment)
-                        .commit()
-                }
-                return false
-            }
-        }
-        return false
-    }
-
 
     fun bindShakeListener() {
         Statified.mSensorListener = object : SensorEventListener {
@@ -736,7 +730,8 @@ class SongPlayingFragment : Fragment() {
                 val delta = mAccelerationCurrent - mAccelerationLast
                 mAcceleration = mAcceleration * 0.9f + delta
                 if (mAcceleration > 12) {
-                    val prefs = Statified.myActivity?.getSharedPreferences(Statified.MY_PREFS_NAME, Context.MODE_PRIVATE)
+                    val prefs =
+                        Statified.myActivity?.getSharedPreferences(Statified.MY_PREFS_NAME, Context.MODE_PRIVATE)
                     val isAllowed = prefs?.getBoolean("feature", false)
                     if (isAllowed as Boolean && Statified.isSongPlaying == true) {
                         Statified.currentSongHelper?.isPlaying = true
@@ -756,6 +751,7 @@ class SongPlayingFragment : Fragment() {
 
         }
     }
+
     fun seekbarHandler() {
         val seekbarListener = SeekBarControl()
         Statified.seekbar?.setOnSeekBarChangeListener(seekbarListener)

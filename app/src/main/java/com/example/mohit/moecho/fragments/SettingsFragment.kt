@@ -10,41 +10,13 @@ import android.widget.CompoundButton
 import android.widget.Switch
 import com.example.mohit.moecho.R
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class SettingsFragment : Fragment() {
-
     var myActivity: Activity? = null
     var shakeSwitch: Switch? = null
 
     object Statified {
         var MY_PREFS_NAME = "ShakeFeature"
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_settings, container, false)
-        activity?.title = "Settings"
-        shakeSwitch = view?.findViewById(R.id.switchShake)
-        return view
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -54,6 +26,21 @@ class SettingsFragment : Fragment() {
     override fun onAttach(activity: Activity?) {
         super.onAttach(activity)
         myActivity = activity
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+        activity?.title = "Settings"
+        shakeSwitch = view?.findViewById(R.id.switchShake)
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -90,6 +77,5 @@ class SettingsFragment : Fragment() {
         inflater?.inflate(R.menu.menu_blank, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
-
 
 }

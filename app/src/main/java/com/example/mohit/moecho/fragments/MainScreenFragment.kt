@@ -1,6 +1,5 @@
 package com.example.mohit.moecho.fragments
 
-
 import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
@@ -28,14 +27,6 @@ import android.graphics.Point
 import android.util.DisplayMetrics
 import android.view.Display
 
-
-
-
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class MainScreenFragment : Fragment() {
     var getSongsList: ArrayList<songs>? = null
     var nowPlayingBottomBar: RelativeLayout? = null
@@ -53,12 +44,20 @@ class MainScreenFragment : Fragment() {
         var sizeofarr: Int? = null
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        myActivity = context as Activity
+    }
+
+    override fun onAttach(activity: Activity?) {
+        super.onAttach(activity)
+        myActivity = activity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_screen, container, false)
         setHasOptionsMenu(true)
         activity?.title = "All Songs"
@@ -71,15 +70,13 @@ class MainScreenFragment : Fragment() {
         playPauseButton = view?.findViewById<ImageButton>(R.id.playpausebutton)
         recyclerView = view?.findViewById<RecyclerView>(R.id.contentMain)
 
-
-
-
-
-
-
-
-
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.clear()
+        inflater?.inflate(R.menu.main, menu)
+        return
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -118,13 +115,6 @@ class MainScreenFragment : Fragment() {
 
         bottomBarSetup()
 
-
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
-        inflater?.inflate(R.menu.main, menu)
-        return
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -153,16 +143,6 @@ class MainScreenFragment : Fragment() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        myActivity = context as Activity
-    }
-
-    override fun onAttach(activity: Activity?) {
-        super.onAttach(activity)
-        myActivity = activity
     }
 
     fun getSongsFromPhone(): ArrayList<songs> {
@@ -195,7 +175,6 @@ class MainScreenFragment : Fragment() {
 
     }
 
-
     fun bottomBarSetup() {
         try {
             bottomBarClickHandler()
@@ -220,7 +199,6 @@ class MainScreenFragment : Fragment() {
             e.printStackTrace()
         }
     }
-
 
     fun bottomBarClickHandler() {
         nowPlayingBottomBar?.setOnClickListener({
@@ -258,5 +236,4 @@ class MainScreenFragment : Fragment() {
             }
         })
     }
-
 }

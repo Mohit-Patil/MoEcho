@@ -81,8 +81,10 @@ class MainActivity : AppCompatActivity() {
         navigation_recycler_view.setHasFixedSize(true)
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         var intent = Intent(this@MainActivity, MainActivity::class.java)
-        var pintent = PendingIntent.getActivity(this@MainActivity, System.currentTimeMillis().toInt(),
-            intent, 0)
+        var pintent = PendingIntent.getActivity(
+            this@MainActivity, System.currentTimeMillis().toInt(),
+            intent, 0
+        )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
@@ -120,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         try {
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
-                Statified.notificationManager?.notify(1998,trackNotificationBuilder)
+                Statified.notificationManager?.notify(1998, trackNotificationBuilder)
             }
         } catch (e: Exception) {
             e.printStackTrace()

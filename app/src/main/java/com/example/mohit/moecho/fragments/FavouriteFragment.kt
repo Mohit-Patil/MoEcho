@@ -25,16 +25,6 @@ import com.example.mohit.moecho.databases.EchoDatabase
 import com.example.mohit.moecho.songs
 import java.lang.Exception
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class FavouriteFragment : Fragment() {
     var myActivity: Activity? = null
     var noFavorites: TextView? = null
@@ -46,27 +36,11 @@ class FavouriteFragment : Fragment() {
     var favoriteContent: EchoDatabase? = null
     var refreshList: ArrayList<songs>? = null
     var getListfromDatabase: ArrayList<songs>? = null
+    var _favScreenAdapter: FavoriteAdapter? = null
     var visibleFav: RelativeLayout? = null
-    object Statified{
+
+    object Statified {
         var mediaPlayer: MediaPlayer? = null
-    }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_favourite, container, false)
-        setHasOptionsMenu(true)
-        activity?.title = "Favorites"
-        noFavorites = view?.findViewById(R.id.nofavorites)
-        nowPlayingBottomBar = view.findViewById(R.id.hiddenbarfavscreen)
-        songTitle = view.findViewById(R.id.songTitlefavScreen)
-        songTitle?.setSelected(true)
-        playPauseButton = view.findViewById(R.id.playpausebuttonfav)
-        recyclerView = view.findViewById(R.id.favoriteRecycler)
-        visibleFav = view.findViewById(R.id.visiblefav)
-
-
-
-
-        return view
     }
 
     override fun onAttach(context: Context?) {
@@ -84,29 +58,41 @@ class FavouriteFragment : Fragment() {
 
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_favourite, container, false)
+        setHasOptionsMenu(true)
+        activity?.title = "Favorites"
+        noFavorites = view?.findViewById(R.id.nofavorites)
+        nowPlayingBottomBar = view.findViewById(R.id.hiddenbarfavscreen)
+        songTitle = view.findViewById(R.id.songTitlefavScreen)
+        songTitle?.setSelected(true)
+        playPauseButton = view.findViewById(R.id.playpausebuttonfav)
+        recyclerView = view.findViewById(R.id.favoriteRecycler)
+        visibleFav = view.findViewById(R.id.visiblefav)
+
+        return view
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         favoriteContent = EchoDatabase(myActivity)
-         if (SongPlayingFragment.Statified?.mediaplayer?.isPlaying == null || SongPlayingFragment.Statified?.mediaplayer?.isPlaying == false) {
+        if (SongPlayingFragment.Statified?.mediaplayer?.isPlaying == null || SongPlayingFragment.Statified?.mediaplayer?.isPlaying == false) {
             nowPlayingBottomBar?.layoutParams?.height = 0
             visibleFav?.layoutParams?.height = -2
         }
         display_favorites_by_searching()
         bottomBarSetup()
-
-
-
-
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
         val item = menu?.findItem(R.id.action_sort)
         item?.isVisible = false
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     fun getSongsFromPhone(): ArrayList<songs> {
@@ -150,6 +136,11 @@ class FavouriteFragment : Fragment() {
                 nowPlayingBottomBar?.visibility = View.VISIBLE
             } else {
                 nowPlayingBottomBar?.visibility = View.INVISIBLE
+            }
+            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
+                SongPlayingFragment.Staticated.onSongComplete()
+                songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
+                _favScreenAdapter?.notifyDataSetChanged()
             }
 
 
@@ -195,20 +186,20 @@ class FavouriteFragment : Fragment() {
         })
     }
 
-    fun display_favorites_by_searching(){
-        if (favoriteContent?.checkSize() as Int > 0){
+    fun display_favorites_by_searching() {
+        if (favoriteContent?.checkSize() as Int > 0) {
             refreshList = ArrayList<songs>()
             getListfromDatabase = favoriteContent?.queryDBList()
             var fetchListfromDevice = getSongsFromPhone()
-            if (fetchListfromDevice != null){
-                for (i in 0..fetchListfromDevice?.size - 1){
-                    for (j in 0..getListfromDatabase?.size as Int - 1){
-                        if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice?.get(i).songID)){
+            if (fetchListfromDevice != null) {
+                for (i in 0..fetchListfromDevice?.size - 1) {
+                    for (j in 0..getListfromDatabase?.size as Int - 1) {
+                        if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice?.get(i).songID)) {
                             refreshList?.add((getListfromDatabase as ArrayList<songs>)[j])
                         }
                     }
                 }
-            }else{
+            } else {
 
             }
             if (refreshList == null) {
@@ -226,8 +217,7 @@ class FavouriteFragment : Fragment() {
             }
 
 
-
-        }else{
+        } else {
             recyclerView?.visibility = View.INVISIBLE
             noFavorites?.visibility = View.VISIBLE
 

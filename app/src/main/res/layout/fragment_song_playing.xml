@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/songplaying"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/bg_background"
-    android:visibility="visible"
-    android:clickable="true">
+              xmlns:tools="http://schemas.android.com/tools" android:id="@+id/songplaying"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@drawable/bg_background"
+              android:visibility="visible"
+              android:clickable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,13 +33,13 @@
                 app:av_wavesColors="@array/rainbow"
                 />
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/favouriteIcon"
-                android:layout_alignParentRight="true"
-                android:layout_margin="11dp"
-                android:background="@drawable/white_circle_icon"
-                android:src="@drawable/favorite_off"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/favouriteIcon"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="11dp"
+                    android:background="@drawable/white_circle_icon"
+                    android:src="@drawable/favorite_off" tools:ignore="ContentDescription"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -128,57 +128,57 @@
                 android:layout_below="@+id/seekBArLayout">
 
                 <ImageButton
-                    android:id="@+id/playPauseButton"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/play_icon"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp" />
+                        android:id="@+id/playPauseButton"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/play_icon"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp" tools:ignore="ContentDescription"/>
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="19dp"
-                    android:layout_toLeftOf="@+id/playPauseButton"
-                    android:id="@+id/previousButton"
-                    android:background="@drawable/play_previous_icon" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="19dp"
+                        android:layout_toLeftOf="@+id/playPauseButton"
+                        android:id="@+id/previousButton"
+                        android:background="@drawable/play_previous_icon" tools:ignore="ContentDescription"/>
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="19dp"
-                    android:layout_toRightOf="@+id/playPauseButton"
-                    android:id="@+id/nextButton"
-                    android:background="@drawable/play_next_icon" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="19dp"
+                        android:layout_toRightOf="@+id/playPauseButton"
+                        android:id="@+id/nextButton"
+                        android:background="@drawable/play_next_icon" tools:ignore="ContentDescription"/>
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/loopButton"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@id/nextButton"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:background="@drawable/loop_white_icon" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/loopButton"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/nextButton"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:background="@drawable/loop_white_icon" tools:ignore="ContentDescription"/>
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:id="@+id/shuffleButton"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="20dp"
-                    android:layout_toLeftOf="@+id/previousButton"
-                    android:background="@drawable/shuffle_white_icon" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:id="@+id/shuffleButton"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:layout_toLeftOf="@+id/previousButton"
+                        android:background="@drawable/shuffle_white_icon" tools:ignore="ContentDescription"/>
             </RelativeLayout>
         </RelativeLayout>
 

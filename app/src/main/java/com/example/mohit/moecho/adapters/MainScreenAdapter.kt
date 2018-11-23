@@ -44,12 +44,12 @@ class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
         p0.contentHolder?.setOnClickListener({
             val songPlayingFragment = SongPlayingFragment()
             var args = Bundle()
-            args.putString("songArtist",songObject?.artist)
-            args.putString("path",songObject?.songData)
+            args.putString("songArtist", songObject?.artist)
+            args.putString("path", songObject?.songData)
             args.putString("songTitle", songObject?.songTitle)
-            args.putInt("SongId",songObject?.songID?.toInt() as Int)
-            args.putInt("songPosition",p1)
-            args.putParcelableArrayList("songData",songDetails)
+            args.putInt("SongId", songObject?.songID?.toInt() as Int)
+            args.putInt("songPosition", p1)
+            args.putParcelableArrayList("songData", songDetails)
             songPlayingFragment.arguments = args
             songPlayingFragment.arguments = args
             SongPlayingFragment.Statified.back = "MainScreen"
@@ -59,7 +59,7 @@ class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
                     SongPlayingFragment.Statified.mediaplayer?.pause()
                     SongPlayingFragment.Statified.mediaplayer?.release()
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
             (mContext as FragmentActivity).supportFragmentManager

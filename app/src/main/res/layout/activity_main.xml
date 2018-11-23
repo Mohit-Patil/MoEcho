@@ -29,15 +29,15 @@
                 android:id="@+id/header">
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/bg_gradient" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/bg_gradient" tools:ignore="ContentDescription"/>
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/echo_logo"
-                    android:layout_centerInParent="true" />
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/echo_logo"
+                        android:layout_centerInParent="true" tools:ignore="ContentDescription"/>
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView

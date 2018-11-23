@@ -12,7 +12,7 @@ class EchoDatabase : SQLiteOpenHelper {
     var _songList = ArrayList<songs>()
 
 
-    object Staticated{
+    object Staticated {
         var DB_VERSION = 1
         val DB_NAME = "FavoriteDatabase"
         val TABLE_NAME = "FavoriteTable"
@@ -28,6 +28,7 @@ class EchoDatabase : SQLiteOpenHelper {
         factory,
         version
     )
+
     constructor(context: Context?) : super(
         context,
         Staticated.DB_NAME,
@@ -36,7 +37,7 @@ class EchoDatabase : SQLiteOpenHelper {
     )
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
-        sqLiteDatabase?.execSQL("CREATE TABLE " + Staticated.TABLE_NAME + "(" + Staticated.COLUMN_ID + " INTEGER," +  Staticated.COLUMN_SONG_ARTIST + " STRING," + Staticated.COLUMN_SONG_TITLE + " STRING," + Staticated.COLUMN_SONG_PATH + " STRING);")
+        sqLiteDatabase?.execSQL("CREATE TABLE " + Staticated.TABLE_NAME + "(" + Staticated.COLUMN_ID + " INTEGER," + Staticated.COLUMN_SONG_ARTIST + " STRING," + Staticated.COLUMN_SONG_TITLE + " STRING," + Staticated.COLUMN_SONG_PATH + " STRING);")
 
 
     }
@@ -100,12 +101,13 @@ class EchoDatabase : SQLiteOpenHelper {
         return storeId != -1090
     }
 
-    fun deleteFavorite(_id: Int){
+    fun deleteFavorite(_id: Int) {
         val db = this.writableDatabase
-        db.delete(Staticated.TABLE_NAME,Staticated.COLUMN_ID + "=" + _id,null)
+        db.delete(Staticated.TABLE_NAME, Staticated.COLUMN_ID + "=" + _id, null)
         db.close()
     }
-    fun checkSize(): Int{
+
+    fun checkSize(): Int {
         var counter = 0
         val db = this.readableDatabase
         val query_params = "SELECT * FROM " + Staticated.TABLE_NAME
