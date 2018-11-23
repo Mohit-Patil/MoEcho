@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:clickable="true"
-    android:paddingTop="11dp"
-    android:background="#FFFFFF">
+    android:paddingTop="11dp">
 
     <TextView
         android:id="@+id/shaketochange"

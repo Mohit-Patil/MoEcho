@@ -11,13 +11,13 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.fragments.SongPlayingFragment
-import com.example.mohit.moecho.songs
+import com.example.mohit.moecho.Songs
 
-class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
+class FavoriteAdapter(_songdetails: ArrayList<Songs>, _context: Context) :
     RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
 
-    var songDetails: ArrayList<songs>? = null
-    var mContext: Context? = null
+    private var songDetails: ArrayList<Songs>? = null
+    private var mContext: Context? = null
 
     init {
         this.songDetails = _songdetails
@@ -26,25 +26,23 @@ class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
 
     override fun onBindViewHolder(p0: MyViewHolder, p1: Int) {
         val songObject = songDetails?.get(p1)
-        var songTitleUpdated = songObject?.songTitle
-        var songArtistUpdated = songObject?.artist
         if (songObject?.songTitle.equals("<unknown>", true)) {
-            songTitleUpdated = "Unknown"
+            songObject?.songTitle = "Unknown"
         }
         if (songObject?.artist.equals("<unknown>", true)) {
-            songArtistUpdated = "Unknown"
+            songObject?.artist = "Unknown"
         }
         p0.trackTitle?.text = songObject?.songTitle
         p0.trackArtist?.text = songObject?.artist
-        p0.contentHolder?.setOnClickListener({
+        p0.contentHolder?.setOnClickListener {
             val songPlayingFragment = SongPlayingFragment()
-            var args = Bundle()
-            args.putString("songArtist",songObject?.artist)
-            args.putString("path",songObject?.songData)
+            val args = Bundle()
+            args.putString("songArtist", songObject?.artist)
+            args.putString("path", songObject?.songData)
             args.putString("songTitle", songObject?.songTitle)
-            args.putInt("SongId",songObject?.songID?.toInt() as Int)
-            args.putInt("songPosition",p1)
-            args.putParcelableArrayList("songData",songDetails)
+            args.putInt("SongId", songObject?.songID?.toInt() as Int)
+            args.putInt("songPosition", p1)
+            args.putParcelableArrayList("songData", songDetails)
             songPlayingFragment.arguments = args
             SongPlayingFragment.Statified.back = "Favorite"
             SongPlayingFragment.Statified.counter = 0
@@ -59,12 +57,12 @@ class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
                 .addToBackStack(null)
                 .commit()
 
-        })
+        }
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MyViewHolder {
 
-        val itemView = LayoutInflater.from(p0?.context)
+        val itemView = LayoutInflater.from(p0.context)
             .inflate(R.layout.row_custom_mainscreen_adapter, p0, false)
 
         return MyViewHolder(itemView)
@@ -77,7 +75,7 @@ class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
         if (songDetails == null)
             return 0
         else
-            return (songDetails as ArrayList<songs>).size
+            return (songDetails as ArrayList<Songs>).size
     }
 
 
@@ -87,9 +85,9 @@ class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
         var contentHolder: RelativeLayout? = null
 
         init {
-            trackArtist = view.findViewById<TextView>(R.id.trackArtist)
-            trackTitle = view.findViewById<TextView>(R.id.tracktitle)
-            contentHolder = view.findViewById<RelativeLayout>(R.id.contentRow)
+            trackArtist = view.findViewById(R.id.trackArtist)
+            trackTitle = view.findViewById(R.id.tracktitle)
+            contentHolder = view.findViewById(R.id.contentRow)
 
         }
 
