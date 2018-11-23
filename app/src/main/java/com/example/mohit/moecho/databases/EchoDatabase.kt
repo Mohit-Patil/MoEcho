@@ -74,6 +74,7 @@ class EchoDatabase : SQLiteOpenHelper {
                 return null
             }
             db.close()
+            cSor.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -95,6 +96,7 @@ class EchoDatabase : SQLiteOpenHelper {
             return false
         }
         db.close()
+        cSor.close()
         return storeId != -1090
     }
 
@@ -117,6 +119,7 @@ class EchoDatabase : SQLiteOpenHelper {
             return 0
         }
         db.close()
+        cSor.close()
         return counter
 
     }
