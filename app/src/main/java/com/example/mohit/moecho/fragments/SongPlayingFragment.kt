@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.*
 import android.widget.*
 import com.cleveroad.audiovisualization.AudioVisualization
@@ -127,8 +128,6 @@ class SongPlayingFragment : Fragment() {
                             Uri.parse(Statified.currentSongHelper?.songPath)
                         )
                         Statified.mediaplayer?.prepare()
-                        System.out.println("Song Played")
-                        Statified.mediaplayer?.start()
                         processInformation(Statified.mediaplayer as MediaPlayer)
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -386,6 +385,11 @@ class SongPlayingFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Statified.favoriteContent = EchoDatabase(Statified.myActivity)
+        val fm = fragmentManager
+        for (entry in 0 until fm!!.backStackEntryCount) {
+            Log.d("hello", "Found fragment: " + fm.getBackStackEntryAt(entry).id)
+        }
+
 
 
         Statified.currentSongHelper = CurrentSongHelper()
@@ -558,6 +562,11 @@ class SongPlayingFragment : Fragment() {
                     pos = 1
                 }
                 if (pos == 1) {
+                    val fm = fragmentManager
+                    for (entry in 0 until fm!!.backStackEntryCount) {
+                        fm.popBackStack()
+                    }
+
                     val mainScreenFragment = MainScreenFragment()
                     (context as MainActivity).supportFragmentManager
                         .beginTransaction()
@@ -565,6 +574,11 @@ class SongPlayingFragment : Fragment() {
                         .commit()
                 }
                 if (pos == 0) {
+                    val fm = fragmentManager
+                    for (entry in 0 until fm!!.backStackEntryCount) {
+                        fm.popBackStack()
+                    }
+
                     val favoriteFragment = FavouriteFragment()
                     (context as MainActivity).supportFragmentManager
                         .beginTransaction()

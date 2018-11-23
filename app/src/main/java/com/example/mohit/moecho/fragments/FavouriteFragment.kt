@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -82,6 +83,11 @@ class FavouriteFragment : Fragment() {
             visibleFav?.layoutParams?.height = -2
         }
         display_favorites_by_searching()
+        val fm = fragmentManager
+        for (entry in 0 until fm!!.backStackEntryCount) {
+            fm.popBackStack()
+            Log.d("hello", "Found fragment: " + fm.getBackStackEntryAt(entry).id)
+        }
         bottomBarSetup()
     }
 

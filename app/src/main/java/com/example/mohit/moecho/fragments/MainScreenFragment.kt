@@ -25,6 +25,7 @@ import android.R.attr.y
 import android.R.attr.x
 import android.graphics.Point
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Display
 
 class MainScreenFragment : Fragment() {
@@ -178,6 +179,7 @@ class MainScreenFragment : Fragment() {
     fun bottomBarSetup() {
         try {
             bottomBarClickHandler()
+
             songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
             SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener({
                 songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
@@ -216,7 +218,10 @@ class MainScreenFragment : Fragment() {
             args.putParcelableArrayList("songData", SongPlayingFragment.Statified.fetchSongs)
             args.putString("MainBottomBar", "success")
             songPlayingFragment.arguments = args
+
+
             fragmentManager!!.beginTransaction()
+                .remove(MainScreenFragment())
                 .replace(R.id.details_fragment, songPlayingFragment)
                 .addToBackStack(null)
                 .commit()

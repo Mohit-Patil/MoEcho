@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
+import android.support.v4.app.FragmentActivity
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -13,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.KeyEvent
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.activities.MainActivity.Statified.notificationManager
@@ -66,10 +68,14 @@ class MainActivity : AppCompatActivity() {
         MainActivity.Statified.drawerLayout?.addDrawerListener(toggle)
         toggle.syncState()
         val mainScreenFragment = MainScreenFragment()
+
+
         this.supportFragmentManager
             .beginTransaction()
             .add(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
             .commit()
+
+
 
         val _navigationAdapter = NavigationDrawerAdapter(navigationDrawerIconsList, imagesForNavdrawer, this)
         _navigationAdapter.notifyDataSetChanged()

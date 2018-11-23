@@ -1,14 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.AboutUsFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:clickable="true"
+                android:padding="12dp"
+                android:background="@drawable/bg_gradient">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+            android:layout_width="80dp"
+            android:id="@+id/propicture"
+            android:layout_height="80dp"
+            android:src="@drawable/propic1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp" />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/name"
+            android:layout_below="@+id/propicture"
+            android:layout_centerHorizontal="true"
+            android:text="Mohit Patil"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-</FrameLayout>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/email"
+            android:layout_below="@+id/name"
+            android:layout_centerHorizontal="true"
+            android:text="mohit_patil@outlook.in"
+            android:textColor="#FFFFFF"
+
+            android:textSize="14sp" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/mobile"
+            android:layout_below="@+id/email"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:text="+91 9766606681"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/description"
+            android:layout_below="@+id/mobile"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:textSize="16dp"
+            android:text="I am currently in the 3rd year of Computer Engineering in AISSMS COE, Pune." />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/description2"
+            android:layout_below="@+id/description"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="20dp"
+            android:textSize="16dp"
+            android:text="This App was made as part of Internshala's training project." />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="20dp"
+            android:id="@+id/description3"
+            android:layout_below="@+id/description2"
+            android:layout_centerHorizontal="true"
+            android:autoLink="web"
+            android:textColorLink="#a3a375"
+            android:textColor="#FFFFFF"
+            android:textSize="16dp"
+            android:text="Repository: https://github.com/Mohit-Patil/MoEcho" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/description3"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:textSize="16dp"
+            android:text="Feel free to report Bugs on the above Repository Link. App will be updated with the Streaming capability." />
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true">
+
+        <ImageView
+                android:layout_width="19dp"
+                android:layout_height="20dp"
+                android:src="@drawable/heart"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:layout_margin="10dp" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="14dp"
+                android:id="@+id/MoEcho"
+                android:textColor="#FFFFFF"
+                android:text="MoEcho" />
+
+        <ImageView
+                android:layout_width="19dp"
+                android:layout_height="20dp"
+                android:src="@drawable/heart"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:layout_margin="10dp" />
+    </LinearLayout>
+</RelativeLayout>

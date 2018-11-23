@@ -39,7 +39,7 @@ class SettingsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         activity?.title = "Settings"
-        shakeSwitch = view?.findViewById(R.id.switchShake)
+        shakeSwitch = view?.findViewById(R.id.switchButton)
         return view
     }
 
