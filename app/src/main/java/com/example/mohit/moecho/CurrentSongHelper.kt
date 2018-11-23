@@ -1,6 +1,6 @@
 package com.example.mohit.moecho
 
-class CurrentSongHelper{
+class CurrentSongHelper {
     var songArtist: String? = null
     var songTitle: String? = null
     var songPath: String? = null
@@ -10,6 +10,4 @@ class CurrentSongHelper{
     var isPlaying: Boolean = false
     var isLoop: Boolean = false
     var isshuffle: Boolean = false
-
-    var trackPosition: Int = 0
 }

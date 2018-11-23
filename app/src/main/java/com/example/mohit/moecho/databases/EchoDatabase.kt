@@ -4,22 +4,22 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.mohit.moecho.songs
+import com.example.mohit.moecho.Songs
 import java.lang.Exception
 
 class EchoDatabase : SQLiteOpenHelper {
 
-    var _songList = ArrayList<songs>()
+    private var _songList = ArrayList<Songs>()
 
 
-    object Staticated{
+    object Staticated {
         var DB_VERSION = 1
-        val DB_NAME = "FavoriteDatabase"
-        val TABLE_NAME = "FavoriteTable"
-        val COLUMN_ID = "SongId"
-        val COLUMN_SONG_TITLE = "SongTitle"
-        val COLUMN_SONG_ARTIST = "SongArtist"
-        val COLUMN_SONG_PATH = "SongPath"
+        const val DB_NAME = "FavoriteDatabase"
+        const val TABLE_NAME = "FavoriteTable"
+        const val COLUMN_ID = "SongId"
+        const val COLUMN_SONG_TITLE = "SongTitle"
+        const val COLUMN_SONG_ARTIST = "SongArtist"
+        const val COLUMN_SONG_PATH = "SongPath"
     }
 
     constructor(context: Context?, name: String?, factory: SQLiteDatabase.CursorFactory?, version: Int) : super(
@@ -28,6 +28,7 @@ class EchoDatabase : SQLiteOpenHelper {
         factory,
         version
     )
+
     constructor(context: Context?) : super(
         context,
         Staticated.DB_NAME,
@@ -36,7 +37,7 @@ class EchoDatabase : SQLiteOpenHelper {
     )
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
-        sqLiteDatabase?.execSQL("CREATE TABLE " + Staticated.TABLE_NAME + "(" + Staticated.COLUMN_ID + " INTEGER," +  Staticated.COLUMN_SONG_ARTIST + " STRING," + Staticated.COLUMN_SONG_TITLE + " STRING," + Staticated.COLUMN_SONG_PATH + " STRING);")
+        sqLiteDatabase?.execSQL("CREATE TABLE " + Staticated.TABLE_NAME + "(" + Staticated.COLUMN_ID + " INTEGER," + Staticated.COLUMN_SONG_ARTIST + " STRING," + Staticated.COLUMN_SONG_TITLE + " STRING," + Staticated.COLUMN_SONG_PATH + " STRING);")
 
 
     }
@@ -56,24 +57,25 @@ class EchoDatabase : SQLiteOpenHelper {
         db.close()
     }
 
-    fun queryDBList(): ArrayList<songs>? {
+    fun queryDBList(): ArrayList<Songs>? {
         try {
             val db = this.readableDatabase
-            val query_params = "SELECT * FROM " + Staticated.TABLE_NAME
-            val cSor = db.rawQuery(query_params, null)
+            val queryparams = "SELECT * FROM " + Staticated.TABLE_NAME
+            val cSor = db.rawQuery(queryparams, null)
             if (cSor.moveToFirst()) {
                 do {
                     var _id = cSor.getInt(cSor.getColumnIndexOrThrow(Staticated.COLUMN_ID))
                     var _artist = cSor.getString(cSor.getColumnIndexOrThrow(Staticated.COLUMN_SONG_ARTIST))
                     var _title = cSor.getString(cSor.getColumnIndexOrThrow(Staticated.COLUMN_SONG_TITLE))
                     var _songPath = cSor.getString(cSor.getColumnIndexOrThrow(Staticated.COLUMN_SONG_PATH))
-                    _songList.add(songs(_id.toLong(), _title, _artist, _songPath, 0))
+                    _songList.add(Songs(_id.toLong(), _title, _artist, _songPath, 0))
                 } while (cSor.moveToNext())
             } else {
                 db.close()
                 return null
             }
             db.close()
+            cSor.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -94,16 +96,18 @@ class EchoDatabase : SQLiteOpenHelper {
             db.close()
             return false
         }
+        cSor.close()
         db.close()
         return storeId != -1090
     }
 
-    fun deleteFavorite(_id: Int){
+    fun deleteFavorite(_id: Int) {
         val db = this.writableDatabase
-        db.delete(Staticated.TABLE_NAME,Staticated.COLUMN_ID + "=" + _id,null)
+        db.delete(Staticated.TABLE_NAME, Staticated.COLUMN_ID + "=" + _id, null)
         db.close()
     }
-    fun checkSize(): Int{
+
+    fun checkSize(): Int {
         var counter = 0
         val db = this.readableDatabase
         val query_params = "SELECT * FROM " + Staticated.TABLE_NAME
@@ -116,6 +120,7 @@ class EchoDatabase : SQLiteOpenHelper {
             db.close()
             return 0
         }
+        cSor.close()
         db.close()
         return counter
 

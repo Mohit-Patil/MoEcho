@@ -13,34 +13,32 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.view.KeyEvent
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.activities.MainActivity.Statified.notificationManager
 import com.example.mohit.moecho.adapters.NavigationDrawerAdapter
 import com.example.mohit.moecho.fragments.MainScreenFragment
 import com.example.mohit.moecho.fragments.SongPlayingFragment
-import kotlinx.android.synthetic.main.app_bar_main.*
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
-    var navigationDrawerIconsList: ArrayList<String> = arrayListOf()
-    var imagesForNavdrawer = intArrayOf(
+    private var navigationDrawerIconsList: ArrayList<String> = arrayListOf()
+    private var imagesForNavdrawer = intArrayOf(
         R.drawable.navigation_allsongs,
         R.drawable.navigation_favorites,
         R.drawable.navigation_settings,
         R.drawable.navigation_aboutus
     )
-    var trackNotificationBuilder: Notification? = null
-    var notificationChannel: NotificationChannel? = null
-    var channelId = "com.example.mohit.moecho.activities"
+    private var trackNotificationBuilder: Notification? = null
+    private var notificationChannel: NotificationChannel? = null
+    private var channelId = "com.example.mohit.moecho.activities"
     var description = "Song Playing Notification"
+
 
     object Statified {
         var drawerLayout: DrawerLayout? = null
         var notificationManager: NotificationManager? = null
         var IS_MUSIC_SCREEN_MAIN = false
-        var IS_MUSIC_SCREEN_FAV = false
     }
 
 
@@ -50,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        MainActivity.Statified.drawerLayout = findViewById(R.id.drawer_layout)
+        Statified.drawerLayout = findViewById(R.id.drawer_layout)
 
         navigationDrawerIconsList.add("All Songs")
         navigationDrawerIconsList.add("Favorites")
@@ -59,13 +57,14 @@ class MainActivity : AppCompatActivity() {
 
 
         val toggle = ActionBarDrawerToggle(
-            this@MainActivity, MainActivity.Statified.drawerLayout, toolbar,
+            this@MainActivity, Statified.drawerLayout, toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-        MainActivity.Statified.drawerLayout?.addDrawerListener(toggle)
+        Statified.drawerLayout?.addDrawerListener(toggle)
         toggle.syncState()
         val mainScreenFragment = MainScreenFragment()
+        fragmentManager.popBackStackImmediate()
         this.supportFragmentManager
             .beginTransaction()
             .add(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
@@ -80,13 +79,15 @@ class MainActivity : AppCompatActivity() {
         navigation_recycler_view.adapter = _navigationAdapter
         navigation_recycler_view.setHasFixedSize(true)
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        var intent = Intent(this@MainActivity, MainActivity::class.java)
-        var pintent = PendingIntent.getActivity(this@MainActivity, System.currentTimeMillis().toInt(),
-            intent, 0)
+        val intent = Intent(this@MainActivity, MainActivity::class.java)
+        val pintent = PendingIntent.getActivity(
+            this@MainActivity, System.currentTimeMillis().toInt(),
+            intent, 0
+        )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
-            notificationManager?.createNotificationChannel(notificationChannel)
+            notificationManager?.createNotificationChannel(notificationChannel as NotificationChannel)
             trackNotificationBuilder = Notification.Builder(this, channelId)
                 .setContentTitle("A track is playing in the background")
                 .setSmallIcon(R.drawable.echo_logo)
@@ -120,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         try {
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
-                Statified.notificationManager?.notify(1998,trackNotificationBuilder)
+                Statified.notificationManager?.notify(1998, trackNotificationBuilder)
             }
         } catch (e: Exception) {
             e.printStackTrace()
