@@ -9,14 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.example.mohit.moecho.R
-import com.example.mohit.moecho.activities.MainActivity
-import com.example.mohit.moecho.fragments.MainScreenFragment
 import com.example.mohit.moecho.fragments.SongPlayingFragment
 import com.example.mohit.moecho.songs
-import org.w3c.dom.Text
-import java.lang.Exception
 
 class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
     RecyclerView.Adapter<MainScreenAdapter.MyViewHolder>() {

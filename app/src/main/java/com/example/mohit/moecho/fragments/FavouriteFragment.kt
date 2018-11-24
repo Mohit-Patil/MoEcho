@@ -89,12 +89,9 @@ class FavouriteFragment : Fragment() {
             nowPlayingBottomBar?.layoutParams?.height = 0
             visibleFav?.layoutParams?.height = -2
         }
-        display_favorites_by_searching()
         val fm = fragmentManager
-        for (entry in 0 until fm!!.backStackEntryCount) {
-            fm.popBackStack()
-            Log.d("hello", "Found fragment: " + fm.getBackStackEntryAt(entry).id)
-        }
+        fm?.popBackStack("MainScreen",0)
+        display_favorites_by_searching()
 
         if (SongPlayingFragment.Statified.currentSongHelper?.isPlaying == true)
             bottomBarSetup()
@@ -174,7 +171,7 @@ class FavouriteFragment : Fragment() {
             songPlayingFragment.arguments = args
             fragmentManager!!.beginTransaction()
                 .replace(R.id.details_fragment, songPlayingFragment)
-                .addToBackStack(null)
+                .addToBackStack("FavScreen")
                 .commit()
 
 

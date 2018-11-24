@@ -402,7 +402,7 @@ class SongPlayingFragment : Fragment() {
         Statified.favoriteContent = EchoDatabase(Statified.myActivity)
         val fm = fragmentManager
         for (entry in 0 until fm!!.backStackEntryCount) {
-            Log.d("hello", "Found fragment: " + fm.getBackStackEntryAt(entry).id)
+            Log.d("hello song", "Found fragment: " + fm.getBackStackEntryAt(entry).name)
         }
 
 
@@ -470,6 +470,7 @@ class SongPlayingFragment : Fragment() {
         } else if (fromMainBottomBar != null) {
             Statified.mediaplayer = MainScreenFragment.Statified.mediaPlayer
             Staticated.processInformation(Statified.mediaplayer as MediaPlayer)
+
             if (Statified.favoriteContent?.checkifIdExists(Statified.currentSongHelper?.songId?.toInt() as Int) as Boolean) {
                 Statified.fab?.setImageDrawable(
                     ContextCompat.getDrawable(

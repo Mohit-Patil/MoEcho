@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import android.R.attr.y
 import android.R.attr.x
 import android.graphics.Point
+import android.support.v4.app.FragmentManager
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Display
@@ -94,6 +95,13 @@ class MainScreenFragment : Fragment() {
         val prefs = activity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)
         val action_sort_ascending = prefs?.getString("action_sort_ascending", "true")
         val action_sort_recent = prefs?.getString("action_sort_recent", "false")
+        val fm = fragmentManager
+
+        for (entry in 0 until fm!!.backStackEntryCount) {
+            fm?.popBackStack("MainScreen",0)
+            fm?.popBackStack("FavScreen",1)
+            Log.d("hello main", "Found fragment: " + fm.getBackStackEntryAt(entry).name)
+        }
 
         if (SongPlayingFragment.Statified?.mediaplayer?.isPlaying == null || SongPlayingFragment.Statified?.mediaplayer?.isPlaying == false) {
             hiddenbarmainscreen?.layoutParams?.height = 0
@@ -118,11 +126,6 @@ class MainScreenFragment : Fragment() {
                 Collections.sort(getSongsList, songs.Statified.dateComparator)
                 _mainScreenAdapter?.notifyDataSetChanged()
             }
-        }
-        val fm = fragmentManager
-        for (entry in 0 until fm!!.backStackEntryCount) {
-            fm.popBackStack()
-            Log.d("hello", "Found fragment: " + fm.getBackStackEntryAt(entry).id)
         }
         if (SongPlayingFragment.Statified?.currentSongHelper?.isPlaying == true ) {
             bottomBarSetup()
@@ -224,11 +227,9 @@ class MainScreenFragment : Fragment() {
             args.putParcelableArrayList("songData", SongPlayingFragment.Statified.fetchSongs)
             args.putString("MainBottomBar", "success")
             songPlayingFragment.arguments = args
-
-
             fragmentManager!!.beginTransaction()
                 .replace(R.id.details_fragment, songPlayingFragment)
-                .addToBackStack(null)
+                .addToBackStack("MainScreen")
                 .commit()
 
 
