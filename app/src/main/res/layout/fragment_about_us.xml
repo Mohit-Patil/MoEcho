@@ -72,7 +72,7 @@
         android:text="I am currently in the 3rd year of Computer Engineering in AISSMS COE, Pune."
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <TextView
         android:id="@+id/description2"
@@ -86,7 +86,7 @@
         android:text="This App was made as part of Internshala's training project."
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <TextView
         android:id="@+id/description3"
@@ -102,7 +102,7 @@
         android:textColor="#FFFFFF"
         android:textColorLink="#a3a375"
         android:textSize="16sp"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
         android:text="Feel free to report Bugs on the above Repository Link. App will be updated with the Streaming capability."
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <LinearLayout
         android:layout_width="wrap_content"
