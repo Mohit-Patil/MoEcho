@@ -1,6 +1,7 @@
 package com.example.mohit.moecho.fragments
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Service
 import android.content.Context
@@ -42,20 +43,33 @@ import java.util.concurrent.TimeUnit
 
 class SongPlayingFragment : Fragment() {
 
+    @SuppressLint("StaticFieldLeak")
     object Statified {
+        @SuppressLint("StaticFieldLeak")
         var myActivity: Activity? = null
         var mediaplayer: MediaPlayer? = null
+        @SuppressLint("StaticFieldLeak")
         var startTimeText: TextView? = null
+        @SuppressLint("StaticFieldLeak")
         var endTimeText: TextView? = null
+        @SuppressLint("StaticFieldLeak")
         var playpauseImageButton: ImageButton? = null
+        @SuppressLint("StaticFieldLeak")
         var previousImageButton: ImageButton? = null
+        @SuppressLint("StaticFieldLeak")
         var nextImageButton: ImageButton? = null
+        @SuppressLint("StaticFieldLeak")
         var loopImageButton: ImageButton? = null
+        @SuppressLint("StaticFieldLeak")
         var seekbar: SeekBar? = null
+        @SuppressLint("StaticFieldLeak")
         var songArtistView: TextView? = null
         var isSongPlaying: Boolean = true
-        var songTitileView: TextView? = null
+        @SuppressLint("StaticFieldLeak")
+        var songTitleView: TextView? = null
+        @SuppressLint("StaticFieldLeak")
         var shuffleImageButton: ImageButton? = null
+        @SuppressLint("StaticFieldLeak")
         var fab: ImageButton? = null
 
         var currentSongHelper: CurrentSongHelper? = null
@@ -70,6 +84,7 @@ class SongPlayingFragment : Fragment() {
         var MY_PREFS_NAME = "ShakeFeature"
         var back: String? = null
         var counter: Int = 0
+        @SuppressLint("StaticFieldLeak")
         var songplayinglinearlayout: LinearLayout? = null
 
         var updateSongTime = object : Runnable {
@@ -165,7 +180,7 @@ class SongPlayingFragment : Fragment() {
             if (songArtist.equals("<unknown>", true)) {
                 songArtistupdated = "Unknown"
             }
-            Statified.songTitileView?.setText(songTitleupdated)
+            Statified.songTitleView?.setText(songTitleupdated)
             Statified.songArtistView?.setText(songArtistupdated)
         }
 
@@ -360,7 +375,7 @@ class SongPlayingFragment : Fragment() {
         Statified.loopImageButton = view?.findViewById(R.id.loopButton)
         Statified.shuffleImageButton = view?.findViewById(R.id.shuffleButton)
         Statified.songArtistView = view?.findViewById(R.id.songArtist)
-        Statified.songTitileView = view?.findViewById(R.id.songTitle)
+        Statified.songTitleView = view?.findViewById(R.id.songTitle)
         Statified.glView = view?.findViewById(R.id.visualizer_view)
         Statified.fab = view?.findViewById(R.id.favouriteIcon)
         Statified.songplayinglinearlayout = view?.findViewById(R.id.songplaying)

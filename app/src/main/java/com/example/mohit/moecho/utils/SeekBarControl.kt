@@ -14,7 +14,7 @@ class SeekBarControl : SeekBar.OnSeekBarChangeListener {
 
     override fun onStopTrackingTouch(p0: SeekBar?) {
         if (p0?.progress!! < SongPlayingFragment.Statified.mediaplayer!!.duration) {
-            SongPlayingFragment.Statified.mediaplayer!!.seekTo(p0?.progress!!)
+            SongPlayingFragment.Statified.mediaplayer!!.seekTo(p0.progress)
         } else {
             SongPlayingFragment.Statified.mediaplayer?.seekTo((SongPlayingFragment.Statified.mediaplayer?.duration)!!.toInt())
         }

@@ -9,7 +9,7 @@ import java.lang.Exception
 
 class EchoDatabase : SQLiteOpenHelper {
 
-    var _songList = ArrayList<songs>()
+    private var _songList = ArrayList<songs>()
 
 
     object Staticated {
@@ -37,7 +37,7 @@ class EchoDatabase : SQLiteOpenHelper {
     )
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
-        sqLiteDatabase?.execSQL("CREATE TABLE " + Staticated.TABLE_NAME + "(" + Staticated.COLUMN_ID + " INTEGER," + Staticated.COLUMN_SONG_ARTIST + " STRING," + Staticated.COLUMN_SONG_TITLE + " STRING," + Staticated.COLUMN_SONG_PATH + " STRING);")
+        sqLiteDatabase?.execSQL("CREATE TABLE " + Staticated.TABLE_NAME + "(" + Staticated.COLUMN_ID + " INTEGER," + Staticated.COLUMN_SONG_ARTIST + " TEXT," + Staticated.COLUMN_SONG_TITLE + " TEXT," + Staticated.COLUMN_SONG_PATH + " TEXT);")
 
 
     }
@@ -114,7 +114,7 @@ class EchoDatabase : SQLiteOpenHelper {
         val cSor = db.rawQuery(query_params, null)
         if (cSor.moveToFirst()) {
             do {
-                counter = counter + 1
+                counter += 1
             } while (cSor.moveToNext())
         } else {
             db.close()

@@ -28,7 +28,7 @@ class CaptureBroadcast : BroadcastReceiver() {
             }
         } else {
             val tm: TelephonyManager = context?.getSystemService(Service.TELEPHONY_SERVICE) as TelephonyManager
-            when (tm?.callState) {
+            when (tm.callState) {
                 TelephonyManager.CALL_STATE_RINGING -> {
                     try {
                         MainActivity.Statified.notificationManager?.cancel(1998)

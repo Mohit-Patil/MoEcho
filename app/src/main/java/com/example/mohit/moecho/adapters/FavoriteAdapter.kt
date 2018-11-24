@@ -16,8 +16,8 @@ import com.example.mohit.moecho.songs
 class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
     RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
 
-    var songDetails: ArrayList<songs>? = null
-    var mContext: Context? = null
+    private var songDetails: ArrayList<songs>? = null
+    private var mContext: Context? = null
 
     init {
         this.songDetails = _songdetails
@@ -64,7 +64,7 @@ class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MyViewHolder {
 
-        val itemView = LayoutInflater.from(p0?.context)
+        val itemView = LayoutInflater.from(p0.context)
             .inflate(R.layout.row_custom_mainscreen_adapter, p0, false)
 
         return MyViewHolder(itemView)
@@ -74,10 +74,10 @@ class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
 
     override fun getItemCount(): Int {
 
-        if (songDetails == null)
-            return 0
+        return if (songDetails == null)
+            0
         else
-            return (songDetails as ArrayList<songs>).size
+            (songDetails as ArrayList<songs>).size
     }
 
 

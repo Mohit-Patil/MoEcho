@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_sort"
@@ -8,9 +9,11 @@
         app:showAsAction="always">
         <menu>
             <item android:id="@+id/action_sort_recent"
-                android:title="By Recently Added"/>
+                android:title="By Recently Added"
+                tools:ignore="HardcodedText" />
             <item android:id="@+id/action_sort_ascending"
-                android:title="By Name"/>
+                android:title="By Name"
+                tools:ignore="HardcodedText" />
         </menu>
 
     </item>

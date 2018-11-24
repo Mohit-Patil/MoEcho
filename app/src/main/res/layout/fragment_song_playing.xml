@@ -6,7 +6,8 @@
               android:orientation="vertical"
               android:background="@drawable/bg_background"
               android:visibility="visible"
-              android:clickable="true">
+              android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +16,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
             <com.cleveroad.audiovisualization.GLAudioVisualizationView
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -39,7 +41,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_margin="11dp"
                     android:background="@drawable/white_circle_icon"
-                    android:src="@drawable/favorite_off" tools:ignore="ContentDescription"/>
+                    android:src="@drawable/favorite_off" tools:ignore="ContentDescription,RtlHardcoded"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -52,7 +54,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
 
             <RelativeLayout
                 android:id="@+id/information_song"
@@ -70,7 +73,8 @@
                     android:text="Castle of Glass"
                     android:textColor="#FFFFFF"
                     android:textSize="21sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/songArtist"
@@ -82,7 +86,8 @@
                     android:singleLine="true"
                     android:text="Linkin Park"
                     android:textColor="#EEEEEE"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    tools:ignore="HardcodedText" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -105,7 +110,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="15dp"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    tools:ignore="RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/endTime"
@@ -115,7 +121,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    tools:ignore="RtlHardcoded" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -145,7 +152,7 @@
                         android:layout_marginRight="19dp"
                         android:layout_toLeftOf="@+id/playPauseButton"
                         android:id="@+id/previousButton"
-                        android:background="@drawable/play_previous_icon" tools:ignore="ContentDescription"/>
+                        android:background="@drawable/play_previous_icon" tools:ignore="ContentDescription,RtlHardcoded"/>
 
                 <ImageButton
                         android:layout_width="wrap_content"
@@ -156,7 +163,7 @@
                         android:layout_marginLeft="19dp"
                         android:layout_toRightOf="@+id/playPauseButton"
                         android:id="@+id/nextButton"
-                        android:background="@drawable/play_next_icon" tools:ignore="ContentDescription"/>
+                        android:background="@drawable/play_next_icon" tools:ignore="ContentDescription,RtlHardcoded"/>
 
                 <ImageButton
                         android:layout_width="wrap_content"
@@ -167,7 +174,7 @@
                         android:layout_toRightOf="@id/nextButton"
                         android:minWidth="0dp"
                         android:minHeight="0dp"
-                        android:background="@drawable/loop_white_icon" tools:ignore="ContentDescription"/>
+                        android:background="@drawable/loop_white_icon" tools:ignore="ContentDescription,RtlHardcoded"/>
 
                 <ImageButton
                         android:layout_width="wrap_content"
@@ -178,7 +185,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="20dp"
                         android:layout_toLeftOf="@+id/previousButton"
-                        android:background="@drawable/shuffle_white_icon" tools:ignore="ContentDescription"/>
+                        android:background="@drawable/shuffle_white_icon" tools:ignore="ContentDescription,RtlHardcoded"/>
             </RelativeLayout>
         </RelativeLayout>
 

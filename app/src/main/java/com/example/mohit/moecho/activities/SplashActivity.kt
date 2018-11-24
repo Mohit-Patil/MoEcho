@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -12,13 +13,12 @@ import android.widget.Toast
 import com.example.mohit.moecho.R
 
 class SplashActivity : AppCompatActivity() {
-    var permissionsString = arrayOf(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.MODIFY_AUDIO_SETTINGS,
-        Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.PROCESS_OUTGOING_CALLS,
-        Manifest.permission.RECORD_AUDIO
-    )
+    var permissionsString = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.PROCESS_OUTGOING_CALLS,
+            Manifest.permission.RECORD_AUDIO
+        )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +60,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    fun hasPermissions(context: Context, vararg permissions: String): Boolean {
+    private fun hasPermissions(context: Context, vararg permissions: String): Boolean {
         var hasAllpermisiions = true
         for (permission in permissions) {
             val res = context.checkCallingOrSelfPermission(permission)
@@ -71,7 +71,7 @@ class SplashActivity : AppCompatActivity() {
         return hasAllpermisiions
     }
 
-    fun Handlr(context: Context) {
+    private fun Handlr(context: Context) {
         Handler().postDelayed({
             val startAct = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(startAct)

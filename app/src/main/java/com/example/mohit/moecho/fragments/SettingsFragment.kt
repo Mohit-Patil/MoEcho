@@ -6,13 +6,12 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
-import android.widget.CompoundButton
 import android.widget.Switch
 import com.example.mohit.moecho.R
 
 class SettingsFragment : Fragment() {
-    var myActivity: Activity? = null
-    var shakeSwitch: Switch? = null
+    private var myActivity: Activity? = null
+    private var shakeSwitch: Switch? = null
 
     object Statified {
         var MY_PREFS_NAME = "ShakeFeature"
@@ -47,11 +46,7 @@ class SettingsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val prefs = myActivity?.getSharedPreferences(Statified.MY_PREFS_NAME, Context.MODE_PRIVATE)
         val isAllowed = prefs?.getBoolean("feature", false)
-        if (isAllowed as Boolean) {
-            shakeSwitch?.isChecked = true
-        } else {
-            shakeSwitch?.isChecked = false
-        }
+        shakeSwitch?.isChecked = isAllowed as Boolean
         shakeSwitch?.setOnCheckedChangeListener({ compoundButton, b ->
             if (b) {
                 val editor = myActivity?.getSharedPreferences(Statified.MY_PREFS_NAME, Context.MODE_PRIVATE)?.edit()

@@ -70,6 +70,12 @@ class MainScreenFragment : Fragment() {
         songTitle?.setSelected(true)
         playPauseButton = view?.findViewById<ImageButton>(R.id.playpausebutton)
         recyclerView = view?.findViewById<RecyclerView>(R.id.contentMain)
+        SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
+            SongPlayingFragment.Staticated.onSongComplete()
+            songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
+            _mainScreenAdapter?.notifyDataSetChanged()
+        }
+
 
         return view
     }
@@ -113,8 +119,14 @@ class MainScreenFragment : Fragment() {
                 _mainScreenAdapter?.notifyDataSetChanged()
             }
         }
-
-        bottomBarSetup()
+        val fm = fragmentManager
+        for (entry in 0 until fm!!.backStackEntryCount) {
+            fm.popBackStack()
+            Log.d("hello", "Found fragment: " + fm.getBackStackEntryAt(entry).id)
+        }
+        if (SongPlayingFragment.Statified?.currentSongHelper?.isPlaying == true ) {
+            bottomBarSetup()
+        }
 
     }
 
@@ -180,21 +192,15 @@ class MainScreenFragment : Fragment() {
         try {
             bottomBarClickHandler()
 
+
             songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
-            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener({
-                songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
-                SongPlayingFragment.Staticated.onSongComplete()
-            })
+
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 nowPlayingBottomBar?.visibility = View.VISIBLE
             } else {
                 nowPlayingBottomBar?.visibility = View.INVISIBLE
             }
-            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
-                SongPlayingFragment.Staticated.onSongComplete()
-                songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
-                _mainScreenAdapter?.notifyDataSetChanged()
-            }
+
 
 
         } catch (e: Exception) {
@@ -221,7 +227,6 @@ class MainScreenFragment : Fragment() {
 
 
             fragmentManager!!.beginTransaction()
-                .remove(MainScreenFragment())
                 .replace(R.id.details_fragment, songPlayingFragment)
                 .addToBackStack(null)
                 .commit()

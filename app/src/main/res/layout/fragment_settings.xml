@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        android:layout_width="match_parent"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
         android:orientation="vertical"
         android:background="#ffffff"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="Overdraw"
+    android:focusable="true">
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp">
+            android:layout_height="72dp"
+        tools:ignore="UselessParent">
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/shakeToChange"
                 android:text="Shake to change song"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/prodsansregular"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:textColor="#212121"
                 android:textSize="17sp"
-        />
+            tools:targetApi="jelly_bean"
+            tools:ignore="HardcodedText" />
 
         <Switch
                 android:layout_width="wrap_content"
@@ -30,7 +34,10 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="#212121" />
+                android:layout_marginRight="16dp"
+                android:backgroundTint="#212121"
+            tools:ignore="RtlHardcoded"
+            tools:targetApi="lollipop" />
 
         <View
                 android:layout_width="match_parent"

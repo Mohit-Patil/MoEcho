@@ -37,11 +37,12 @@ class FavouriteFragment : Fragment() {
     var favoriteContent: EchoDatabase? = null
     var refreshList: ArrayList<songs>? = null
     var getListfromDatabase: ArrayList<songs>? = null
-    var _favScreenAdapter: FavoriteAdapter? = null
     var visibleFav: RelativeLayout? = null
+    var _favScreenAdapter: FavoriteAdapter? = null
 
     object Statified {
         var mediaPlayer: MediaPlayer? = null
+
     }
 
     override fun onAttach(context: Context?) {
@@ -71,6 +72,12 @@ class FavouriteFragment : Fragment() {
         playPauseButton = view.findViewById(R.id.playpausebuttonfav)
         recyclerView = view.findViewById(R.id.favoriteRecycler)
         visibleFav = view.findViewById(R.id.visiblefav)
+        songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
+        SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
+            SongPlayingFragment.Staticated.onSongComplete()
+            songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
+            _favScreenAdapter?.notifyDataSetChanged()
+        }
 
         return view
     }
@@ -88,7 +95,9 @@ class FavouriteFragment : Fragment() {
             fm.popBackStack()
             Log.d("hello", "Found fragment: " + fm.getBackStackEntryAt(entry).id)
         }
-        bottomBarSetup()
+
+        if (SongPlayingFragment.Statified.currentSongHelper?.isPlaying == true)
+            bottomBarSetup()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
@@ -133,20 +142,12 @@ class FavouriteFragment : Fragment() {
     fun bottomBarSetup() {
         try {
             bottomBarClickHandler()
-            songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
-            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener({
-                songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
-                SongPlayingFragment.Staticated.onSongComplete()
-            })
+
+
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 nowPlayingBottomBar?.visibility = View.VISIBLE
             } else {
                 nowPlayingBottomBar?.visibility = View.INVISIBLE
-            }
-            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
-                SongPlayingFragment.Staticated.onSongComplete()
-                songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
-                _favScreenAdapter?.notifyDataSetChanged()
             }
 
 
