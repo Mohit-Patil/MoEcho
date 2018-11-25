@@ -97,11 +97,6 @@ class MainScreenFragment : Fragment() {
         val action_sort_recent = prefs?.getString("action_sort_recent", "false")
         val fm = fragmentManager
 
-        for (entry in 0 until fm!!.backStackEntryCount) {
-            fm?.popBackStack("MainScreen",0)
-            fm?.popBackStack("FavScreen",1)
-            Log.d("hello main", "Found fragment: " + fm.getBackStackEntryAt(entry).name)
-        }
 
         if (SongPlayingFragment.Statified?.mediaplayer?.isPlaying == null || SongPlayingFragment.Statified?.mediaplayer?.isPlaying == false) {
             hiddenbarmainscreen?.layoutParams?.height = 0

@@ -143,6 +143,8 @@ class SongPlayingFragment : Fragment() {
                             Uri.parse(Statified.currentSongHelper?.songPath)
                         )
                         Statified.mediaplayer?.prepare()
+                        Statified.mediaplayer?.start()
+
                         processInformation(Statified.mediaplayer as MediaPlayer)
                     } catch (e: Exception) {
                         e.printStackTrace()

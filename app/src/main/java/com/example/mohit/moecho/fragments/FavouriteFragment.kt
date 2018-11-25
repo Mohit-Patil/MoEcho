@@ -89,8 +89,6 @@ class FavouriteFragment : Fragment() {
             nowPlayingBottomBar?.layoutParams?.height = 0
             visibleFav?.layoutParams?.height = -2
         }
-        val fm = fragmentManager
-        fm?.popBackStack("MainScreen",0)
         display_favorites_by_searching()
 
         if (SongPlayingFragment.Statified.currentSongHelper?.isPlaying == true)
