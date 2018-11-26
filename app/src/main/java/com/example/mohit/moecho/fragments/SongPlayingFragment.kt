@@ -65,6 +65,7 @@ class SongPlayingFragment : Fragment() {
         @SuppressLint("StaticFieldLeak")
         var songArtistView: TextView? = null
         var isSongPlaying: Boolean = true
+        var playing: Boolean = false
         @SuppressLint("StaticFieldLeak")
         var songTitleView: TextView? = null
         @SuppressLint("StaticFieldLeak")
@@ -95,8 +96,8 @@ class SongPlayingFragment : Fragment() {
                         String.format(
                             "%02d:%02d",
                             TimeUnit.MILLISECONDS.toMinutes(getCurrent?.toLong() as Long),
-                            TimeUnit.MILLISECONDS.toSeconds(getCurrent?.toLong() as Long) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((getCurrent?.toLong() as Long)))
+                            TimeUnit.MILLISECONDS.toSeconds(getCurrent.toLong()) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(getCurrent.toLong()))
                         )
                     )
                     Statified.seekbar?.setProgress(getCurrent?.toInt() as Int)
@@ -114,6 +115,7 @@ class SongPlayingFragment : Fragment() {
     object Staticated {
         var MY_PREFS_SHUFFLE = "Shuffle feature"
         var MY_PREFS_LOOP = "Loop feature"
+
 
         fun onSongComplete() {
             if (Statified.currentSongHelper?.isshuffle as Boolean) {
@@ -427,7 +429,7 @@ class SongPlayingFragment : Fragment() {
             path = arguments?.getString("path")
             _songArtist = arguments?.getString("songArtist")
             _songTitle = arguments?.getString("songTitle")
-            songId = arguments!!.getInt("SongId")!!.toLong()
+            songId = arguments!!.getInt("SongId").toLong()
             Statified.currentPosition = arguments!!.getInt("songPosition")
             Statified.fetchSongs = arguments!!.getParcelableArrayList("songData")
 

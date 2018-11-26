@@ -16,12 +16,13 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.widget.Button
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.activities.MainActivity.Statified.notificationManager
 import com.example.mohit.moecho.adapters.NavigationDrawerAdapter
 import com.example.mohit.moecho.fragments.MainScreenFragment
 import com.example.mohit.moecho.fragments.SongPlayingFragment
-import com.example.mohit.moecho.utils.MediaPlayerService
+import com.example.mohit.moecho.utils.NotificationBuilder
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         R.drawable.navigation_settings,
         R.drawable.navigation_aboutus
     )
+    var buttonplayer: Button?= null
     private var trackNotificationBuilder: Notification? = null
     private var notificationChannel: NotificationChannel? = null
     private var channelId = "com.example.mohit.moecho.activities"
@@ -53,6 +55,11 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         Statified.drawerLayout = findViewById(R.id.drawer_layout)
+        buttonplayer = findViewById<Button>(R.id.buttonplayer)
+        buttonplayer?.setOnClickListener {
+            var clickIntent = Intent(this@MainActivity,StepOne::class.java)
+            startActivity(clickIntent)
+        }
 
         navigationDrawerIconsList.add("All Songs")
         navigationDrawerIconsList.add("Favorites")
@@ -114,7 +121,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         try {
-            MediaPlayerService.Statified.notificationManager?.cancel(1998)
+            NotificationBuilder.Statified.notificationManager?.cancel(1998)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -125,8 +132,8 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         try {
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
-                val intentnotif = Intent(applicationContext, MediaPlayerService::class.java)
-                intentnotif.action = MediaPlayerService().ACTION_PLAY
+                val intentnotif = Intent(applicationContext, NotificationBuilder::class.java)
+                intentnotif.action = NotificationBuilder().ACTION_PLAY
                 startService(intentnotif)
             }
         } catch (e: Exception) {
@@ -138,7 +145,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         try {
-            MediaPlayerService.Statified?.notificationManager?.cancel(1)
+            NotificationBuilder.Statified?.notificationManager?.cancel(1998)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -148,7 +155,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         try {
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
-                MediaPlayerService.Statified.notificationManager?.notify(1998, trackNotificationBuilder)
+                NotificationBuilder.Statified.notificationManager?.notify(1998, trackNotificationBuilder)
             }
         } catch (e: Exception) {
             e.printStackTrace()

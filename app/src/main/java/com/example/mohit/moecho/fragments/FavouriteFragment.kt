@@ -98,7 +98,9 @@ class FavouriteFragment : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
         val item = menu?.findItem(R.id.action_sort)
+        val searchItem = menu?.findItem(R.id.search)
         item?.isVisible = false
+        searchItem?.isVisible = false
     }
 
     override fun onResume() {
@@ -194,9 +196,9 @@ class FavouriteFragment : Fragment() {
             getListfromDatabase = favoriteContent?.queryDBList()
             var fetchListfromDevice = getSongsFromPhone()
             if (fetchListfromDevice != null) {
-                for (i in 0..fetchListfromDevice?.size - 1) {
+                for (i in 0..fetchListfromDevice.size - 1) {
                     for (j in 0..getListfromDatabase?.size as Int - 1) {
-                        if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice?.get(i).songID)) {
+                        if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice.get(i).songID)) {
                             refreshList?.add((getListfromDatabase as ArrayList<songs>)[j])
                         }
                     }

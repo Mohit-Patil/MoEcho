@@ -68,7 +68,7 @@ class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MyViewHolder {
 
-        val itemView = LayoutInflater.from(p0?.context)
+        val itemView = LayoutInflater.from(p0.context)
             .inflate(R.layout.row_custom_mainscreen_adapter, p0, false)
 
         return MyViewHolder(itemView)
@@ -99,5 +99,17 @@ class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
 
     }
 
+    fun filter_data(newList: ArrayList<songs>?) {
 
+
+        if (newList != null) {
+
+            songDetails = ArrayList<songs>()
+            songDetails?.addAll(newList)
+
+            notifyDataSetChanged()
+        }
+
+
+    }
 }

@@ -20,7 +20,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -30,6 +30,7 @@
                 <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:id="@+id/maingradient"
                         android:src="@drawable/bg_gradient" tools:ignore="ContentDescription"/>
 
                 <ImageView
@@ -37,14 +38,25 @@
                         android:layout_height="50dp"
                         android:background="@drawable/echo_logo"
                         android:layout_centerInParent="true" tools:ignore="ContentDescription"/>
+
+
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/header"
-                android:id="@+id/navigationrecyclerview"></android.support.v7.widget.RecyclerView>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/header"
+                    android:id="@+id/navigationrecyclerview" android:layout_alignParentStart="true"
+                    android:layout_marginTop="0dp"></android.support.v7.widget.RecyclerView>
+            <Button
+                    android:text="Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/buttonplayer"
+                    android:layout_below="@+id/navigationrecyclerview"/>
+
         </RelativeLayout>
+
 
     </android.support.design.widget.NavigationView>
 

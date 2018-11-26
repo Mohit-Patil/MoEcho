@@ -28,7 +28,7 @@ class NavigationDrawerAdapter(_contentList: ArrayList<String>, _getImages: IntAr
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): NavViewHolder {
-        var itemView = LayoutInflater.from(p0?.context)
+        var itemView = LayoutInflater.from(p0.context)
             .inflate(R.layout.row_custom_navigationdrawer, p0, false)
         val returnThis = NavViewHolder(itemView)
         return returnThis
@@ -40,9 +40,9 @@ class NavigationDrawerAdapter(_contentList: ArrayList<String>, _getImages: IntAr
     }
 
     override fun onBindViewHolder(p0: NavViewHolder, p1: Int) {
-        p0?.icon_GET?.setBackgroundResource(getImages?.get(p1) as Int)
-        p0?.text_GET?.setText(contentList?.get(p1))
-        p0?.contentHolder?.setOnClickListener({
+        p0.icon_GET?.setBackgroundResource(getImages?.get(p1) as Int)
+        p0.text_GET?.setText(contentList?.get(p1))
+        p0.contentHolder?.setOnClickListener({
             if (p1 == 0) {
                 val mainScreenFragment = MainScreenFragment()
                 (mContext as MainActivity).supportFragmentManager
@@ -81,9 +81,9 @@ class NavigationDrawerAdapter(_contentList: ArrayList<String>, _getImages: IntAr
         var contentHolder: RelativeLayout? = null
 
         init {
-            icon_GET = itemView?.findViewById(R.id.icon_navdrawer)
-            text_GET = itemView?.findViewById(R.id.text_navdrawer)
-            contentHolder = itemView?.findViewById(R.id.navdrawer_item_content_holder)
+            icon_GET = itemView.findViewById(R.id.icon_navdrawer)
+            text_GET = itemView.findViewById(R.id.text_navdrawer)
+            contentHolder = itemView.findViewById(R.id.navdrawer_item_content_holder)
 
         }
 

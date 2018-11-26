@@ -21,7 +21,7 @@ import com.example.mohit.moecho.fragments.SongPlayingFragment
 import java.lang.Exception
 
 
-class MediaPlayerService : Service() {
+class NotificationBuilder : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -92,7 +92,7 @@ class MediaPlayerService : Service() {
                 SongPlayingFragment.Statified.mediaplayer?.start()
                 SongPlayingFragment.Statified.currentSongHelper?.isPlaying = true
                 SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.pause_icon)
-                Log.e("MediaPlayerService", "onPlay")
+                Log.e("NotificationBuilder", "onPlay")
                 buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE))
             }
 
@@ -101,13 +101,13 @@ class MediaPlayerService : Service() {
                 SongPlayingFragment.Statified.mediaplayer?.pause()
                 SongPlayingFragment.Statified.currentSongHelper?.isPlaying = false
                 SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
-                Log.e("MediaPlayerService", "onPause")
+                Log.e("NotificationBuilder", "onPause")
                 buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY))
             }
 
             override fun onSkipToNext() {
                 super.onSkipToNext()
-                Log.e("MediaPlayerService", "onSkipToNext")
+                Log.e("NotificationBuilder", "onSkipToNext")
                 SongPlayingFragment.Statified.currentSongHelper?.isPlaying = true
                 if (SongPlayingFragment.Statified.currentSongHelper?.isshuffle as Boolean) {
                     SongPlayingFragment.Staticated.playNext("PlayNextLikeNormalShuffle")
@@ -119,7 +119,7 @@ class MediaPlayerService : Service() {
 
             override fun onSkipToPrevious() {
                 super.onSkipToPrevious()
-                Log.e("MediaPlayerService", "onSkipToPrevious")
+                Log.e("NotificationBuilder", "onSkipToPrevious")
                 SongPlayingFragment.Statified.currentSongHelper?.isPlaying = true
                 SongPlayingFragment.Staticated.playPrevious()
                 buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE))
@@ -128,11 +128,11 @@ class MediaPlayerService : Service() {
 
             override fun onStop() {
                 super.onStop()
-                Log.e("MediaPlayerService", "onStop")
+                Log.e("NotificationBuilder", "onStop")
                 val notificationManager =
                     applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 notificationManager.cancel(1)
-                val intent = Intent(applicationContext, MediaPlayerService::class.java)
+                val intent = Intent(applicationContext, NotificationBuilder::class.java)
                 stopService(intent)
             }
         }
@@ -140,7 +140,7 @@ class MediaPlayerService : Service() {
     }
 
     private fun generateAction(icon: Int, title: String, intentAction: String): NotificationCompat.Action {
-        val intent = Intent(applicationContext, MediaPlayerService::class.java)
+        val intent = Intent(applicationContext, NotificationBuilder::class.java)
         intent.action = intentAction
         val pendingIntent = PendingIntent.getService(applicationContext, 1, intent, 0)
         return NotificationCompat.Action.Builder(icon, title, pendingIntent).build()
@@ -148,7 +148,11 @@ class MediaPlayerService : Service() {
 
     @SuppressLint("NewApi", "InlinedApi")
     fun buildNotification(action: NotificationCompat.Action) {
+        val description = mController?.metadata?.description
+        val playbackState = mController?.playbackState
         val style = android.support.v4.media.app.NotificationCompat.MediaStyle()
+            .setShowActionsInCompactView()
+            .setShowCancelButton(true)
 
         val intent = Intent(this, MainActivity::class.java)
         var pendingIntent = PendingIntent.getActivity(
@@ -168,6 +172,8 @@ class MediaPlayerService : Service() {
                     .setContentTitle(SongPlayingFragment.Statified?.currentSongHelper?.songTitle)
                     .setContentText(SongPlayingFragment.Statified?.currentSongHelper?.songArtist)
                     .setContentIntent(pendingIntent)
+                    .setOnlyAlertOnce(true)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setOngoing(true)
                     .setAutoCancel(true)
                     .setStyle(style)
@@ -181,6 +187,8 @@ class MediaPlayerService : Service() {
                     .setContentIntent(pendingIntent)
                     .setOngoing(true)
                     .setAutoCancel(true)
+                    .setOnlyAlertOnce(true)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setStyle(style)
             }
 
@@ -214,4 +222,6 @@ class MediaPlayerService : Service() {
         }
 
     }
+
+
 }

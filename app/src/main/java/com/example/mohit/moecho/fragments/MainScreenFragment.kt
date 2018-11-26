@@ -25,6 +25,7 @@ import android.R.attr.y
 import android.R.attr.x
 import android.graphics.Point
 import android.support.v4.app.FragmentManager
+import android.support.v7.widget.SearchView
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Display
@@ -40,6 +41,7 @@ class MainScreenFragment : Fragment() {
     var myActivity: Activity? = null
     var _mainScreenAdapter: MainScreenAdapter? = null
     var trackPosition: Int = 0
+    var flag = 0
 
     object Statified {
         var mediaPlayer: MediaPlayer? = null
@@ -84,6 +86,44 @@ class MainScreenFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.clear()
         inflater?.inflate(R.menu.main, menu)
+
+        val searchItem = menu?.findItem(R.id.search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.queryHint = "Search Song or Artist"
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+
+            override fun onQueryTextChange(query: String): Boolean {
+                flag = 1
+
+                var name_to_saerch = query.toLowerCase()
+
+                var newList:ArrayList<songs>?= ArrayList<songs>()
+
+                for(songs in getSongsList!!) {
+                    var name = songs.songTitle.toLowerCase()
+                    var artist = songs.artist.toLowerCase()
+                    if (name.contains(name_to_saerch, true))
+                        newList?.add(songs)
+                    else if (artist.contains(name_to_saerch, true))
+                        newList?.add(songs)
+
+                }
+
+               _mainScreenAdapter?.filter_data(newList)
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+                return true
+            }
+
+
+
+        })
+
         return
     }
 
@@ -95,7 +135,6 @@ class MainScreenFragment : Fragment() {
         val prefs = activity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)
         val action_sort_ascending = prefs?.getString("action_sort_ascending", "true")
         val action_sort_recent = prefs?.getString("action_sort_recent", "false")
-        val fm = fragmentManager
 
 
         if (SongPlayingFragment.Statified?.mediaplayer?.isPlaying == null || SongPlayingFragment.Statified?.mediaplayer?.isPlaying == false) {
@@ -111,8 +150,6 @@ class MainScreenFragment : Fragment() {
             recyclerView?.itemAnimator = DefaultItemAnimator()
             recyclerView?.adapter = _mainScreenAdapter
         }
-
-
         if (getSongsList != null) {
             if (action_sort_ascending!!.equals("true", true)) {
                 Collections.sort(getSongsList, songs.Statified.nameComparator)
