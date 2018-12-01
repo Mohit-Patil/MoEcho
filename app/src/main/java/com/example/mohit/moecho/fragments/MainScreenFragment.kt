@@ -89,6 +89,7 @@ class MainScreenFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
 
+            @SuppressLint("SyntheticAccessor")
             override fun onQueryTextChange(query: String): Boolean {
                 flag = 1
 

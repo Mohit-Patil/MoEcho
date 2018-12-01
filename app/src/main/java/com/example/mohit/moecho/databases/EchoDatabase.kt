@@ -8,7 +8,7 @@ import com.example.mohit.moecho.resources.songs
 
 class EchoDatabase : SQLiteOpenHelper {
 
-    private var _songList = ArrayList<songs>()
+    var _songList = ArrayList<songs>()
 
 
     object Staticated {
@@ -42,7 +42,6 @@ class EchoDatabase : SQLiteOpenHelper {
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun storeAsFavourite(id: Int?, artist: String?, songTitle: String?, path: String?) {

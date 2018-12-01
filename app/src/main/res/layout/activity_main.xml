@@ -30,7 +30,6 @@
                 <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/maingradient"
                         android:src="@drawable/bg_gradient" tools:ignore="ContentDescription"/>
 
                 <ImageView
@@ -60,7 +59,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/buttonplayer"
                     android:id="@+id/navigationrecyclerview" android:layout_alignParentStart="true"
-                    android:layout_marginTop="0dp"></android.support.v7.widget.RecyclerView>
+                    android:layout_marginTop="0dp">
+
+            </android.support.v7.widget.RecyclerView>
 
 
         </RelativeLayout>

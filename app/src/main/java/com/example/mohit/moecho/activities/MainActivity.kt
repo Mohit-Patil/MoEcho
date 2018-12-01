@@ -27,17 +27,18 @@ import com.example.mohit.moecho.utils.NotificationBuilder
 
 class MainActivity : AppCompatActivity() {
 
-    private var navigationDrawerIconsList: ArrayList<String> = arrayListOf()
-    private var imagesForNavdrawer = intArrayOf(
+    @SuppressLint("SyntheticAccessor")
+    var navigationDrawerIconsList: ArrayList<String> = arrayListOf()
+    var imagesForNavdrawer = intArrayOf(
         R.drawable.navigation_allsongs,
         R.drawable.navigation_favorites,
         R.drawable.navigation_settings,
         R.drawable.navigation_aboutus
     )
     var buttonplayer: Button? = null
-    private var trackNotificationBuilder: Notification? = null
-    private var notificationChannel: NotificationChannel? = null
-    private var channelId = "com.example.mohit.moecho.activities"
+    var trackNotificationBuilder: Notification? = null
+    var notificationChannel: NotificationChannel? = null
+    var channelId = "com.example.mohit.moecho.activities"
     var description = "Song Playing Notification"
 
     @SuppressLint("StaticFieldLeak")

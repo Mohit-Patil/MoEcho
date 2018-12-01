@@ -60,7 +60,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private fun hasPermissions(context: Context, vararg permissions: String): Boolean {
+    fun hasPermissions(context: Context, vararg permissions: String): Boolean {
         var hasAllpermisiions = true
         for (permission in permissions) {
             val res = context.checkCallingOrSelfPermission(permission)
@@ -71,7 +71,7 @@ class SplashActivity : AppCompatActivity() {
         return hasAllpermisiions
     }
 
-    private fun Handlr(context: Context) {
+    fun Handlr(context: Context) {
         Handler().postDelayed({
             val startAct = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(startAct)

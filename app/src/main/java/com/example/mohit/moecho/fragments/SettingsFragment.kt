@@ -10,8 +10,8 @@ import android.widget.Switch
 import com.example.mohit.moecho.R
 
 class SettingsFragment : Fragment() {
-    private var myActivity: Activity? = null
-    private var shakeSwitch: Switch? = null
+    var myActivity: Activity? = null
+    var shakeSwitch: Switch? = null
 
     object Statified {
         var MY_PREFS_NAME = "ShakeFeature"

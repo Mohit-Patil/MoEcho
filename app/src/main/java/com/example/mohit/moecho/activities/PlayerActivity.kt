@@ -13,13 +13,13 @@ import com.google.android.youtube.player.YouTubePlayerView
 
 
 class PlayerActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
-    private var youTubeView: YouTubePlayerView? = null
-    private val YOUTUBE_API_KEY = "AIzaSyAecm5XasJhbVEXzp_XHZ8_R3p166R186Y"
-    private var playerStateChangeListener: MyPlayerStateChangeListener? = null
-    private var playbackEventListener: MyPlaybackEventListener? = null
+    var youTubeView: YouTubePlayerView? = null
+    val YOUTUBE_API_KEY = "AIzaSyAecm5XasJhbVEXzp_XHZ8_R3p166R186Y"
+    var playerStateChangeListener: MyPlayerStateChangeListener? = null
+    var playbackEventListener: MyPlaybackEventListener? = null
     var dialog: ProgressDialog? = null
 
-    private val youTubePlayerProvider: Provider?
+    val youTubePlayerProvider: Provider?
         get() = youTubeView
 
 
@@ -67,11 +67,11 @@ class PlayerActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListene
         }
     }
 
-    private fun showMessage(message: String) {
+    fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
-    private inner class MyPlaybackEventListener : YouTubePlayer.PlaybackEventListener {
+    inner class MyPlaybackEventListener : YouTubePlayer.PlaybackEventListener {
 
         override fun onPlaying() {
             // Called when playback starts, either due to user action or call to play().
@@ -98,7 +98,7 @@ class PlayerActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListene
         }
     }
 
-    private inner class MyPlayerStateChangeListener : YouTubePlayer.PlayerStateChangeListener {
+    inner class MyPlayerStateChangeListener : YouTubePlayer.PlayerStateChangeListener {
 
         override fun onLoading() {
             // Called when the player is loading a video
@@ -128,7 +128,7 @@ class PlayerActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListene
     }
 
     companion object {
-        private val RECOVERY_REQUEST = 1
+        val RECOVERY_REQUEST = 1
     }
 
 

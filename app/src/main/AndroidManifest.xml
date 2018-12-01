@@ -4,6 +4,7 @@
           package="com.example.mohit.moecho"
           tools:ignore="GoogleAppIndexingWarning">
     <permission android:name="android.permission.MEDIA_CONTENT_CONTROL"/>
+    <uses-feature android:name="android.hardware.telephony" android:required="false"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>

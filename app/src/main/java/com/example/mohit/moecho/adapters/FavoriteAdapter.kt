@@ -16,8 +16,8 @@ import com.example.mohit.moecho.resources.songs
 class FavoriteAdapter(_songdetails: ArrayList<songs>, _context: Context) :
     RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
 
-    private var songDetails: ArrayList<songs>? = null
-    private var mContext: Context? = null
+    var songDetails: ArrayList<songs>? = null
+    var mContext: Context? = null
 
     init {
         this.songDetails = _songdetails

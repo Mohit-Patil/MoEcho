@@ -32,10 +32,10 @@ class NotificationBuilder : Service() {
     val ACTION_NEXT = "action_next"
     val ACTION_PREVIOUS = "action_previous"
     val ACTION_STOP = "action_stop"
-    private val mManager: MediaSessionManager? = null
-    private var mSession: MediaSession? = null
-    private var mController: MediaController? = null
-    private var channelId = "com.example.mohit.moecho.activities"
+    val mManager: MediaSessionManager? = null
+    var mSession: MediaSession? = null
+    var mController: MediaController? = null
+    var channelId = "com.example.mohit.moecho.activities"
     var builder: NotificationCompat.Builder? = null
 
     object Statified {
@@ -43,7 +43,7 @@ class NotificationBuilder : Service() {
     }
 
 
-    private fun handleIntent(intent: Intent?) {
+    fun handleIntent(intent: Intent?) {
         if (intent == null || intent.action == null)
             return
 
@@ -80,7 +80,7 @@ class NotificationBuilder : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    private fun initMediaSessions() {
+    fun initMediaSessions() {
 
         mSession = MediaSession(applicationContext, "simple player session")
         mController = MediaController(applicationContext, mSession!!.sessionToken)
@@ -138,7 +138,7 @@ class NotificationBuilder : Service() {
         )
     }
 
-    private fun generateAction(icon: Int, title: String, intentAction: String): NotificationCompat.Action {
+    fun generateAction(icon: Int, title: String, intentAction: String): NotificationCompat.Action {
         val intent = Intent(applicationContext, NotificationBuilder::class.java)
         intent.action = intentAction
         val pendingIntent = PendingIntent.getService(applicationContext, 1, intent, 0)

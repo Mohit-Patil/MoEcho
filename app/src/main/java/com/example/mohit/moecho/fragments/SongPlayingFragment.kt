@@ -15,7 +15,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.*
 import android.widget.*
 import com.cleveroad.audiovisualization.AudioVisualization
@@ -390,9 +389,6 @@ class SongPlayingFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         Statified.favoriteContent = EchoDatabase(Statified.myActivity)
         val fm = fragmentManager
-        for (entry in 0 until fm!!.backStackEntryCount) {
-            Log.d("hello song", "Found fragment: " + fm.getBackStackEntryAt(entry).name)
-        }
 
 
 
