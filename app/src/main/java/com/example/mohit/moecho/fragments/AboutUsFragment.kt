@@ -24,7 +24,9 @@ class AboutUsFragment : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
         val item: MenuItem? = menu?.findItem(R.id.action_sort)
+        val searchItem = menu?.findItem(R.id.search)
         item?.isVisible = false
+        searchItem?.isVisible = false
     }
 
 
