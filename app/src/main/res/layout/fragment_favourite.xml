@@ -4,30 +4,30 @@
                 android:layout_height="match_parent"
                 android:background="#FFFFFF"
                 android:clickable="true"
-    tools:ignore="Overdraw"
-    android:focusable="true">
+                tools:ignore="Overdraw"
+                android:focusable="true">
 
     <RelativeLayout
-        android:id="@+id/visiblefav"
-        android:layout_above="@+id/hiddenbarfavscreen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/favoriteRecycler"
+            android:id="@+id/visiblefav"
+            android:layout_above="@+id/hiddenbarfavscreen"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/favoriteRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/hiddenbarfavscreen"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
-        android:visibility="invisible">
+            android:id="@+id/hiddenbarfavscreen"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:visibility="invisible">
 
         <ImageButton
                 android:id="@+id/playpausebuttonfav"
@@ -50,43 +50,43 @@
                 android:minHeight="0dp" tools:ignore="ContentDescription,RtlHardcoded"/>
 
         <TextView
-            android:id="@+id/nowplaying"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="11dp"
-            android:layout_toRightOf="@+id/defaultMusic"
-            android:text="Now Playing"
-            android:textColor="#BDBDBD"
-            tools:ignore="HardcodedText,RtlHardcoded" />
+                android:id="@+id/nowplaying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="11dp"
+                android:layout_toRightOf="@+id/defaultMusic"
+                android:text="Now Playing"
+                android:textColor="#BDBDBD"
+                tools:ignore="HardcodedText,RtlHardcoded"/>
 
         <TextView
-            android:id="@+id/songTitlefavScreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nowplaying"
-            android:layout_alignStart="@+id/nowplaying"
-            android:layout_alignLeft="@id/nowplaying"
-            android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@+id/playpausebuttonfav"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="..."
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#FFFFFF"
-            tools:ignore="HardcodedText,RtlHardcoded" />
+                android:id="@+id/songTitlefavScreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nowplaying"
+                android:layout_alignStart="@+id/nowplaying"
+                android:layout_alignLeft="@id/nowplaying"
+                android:layout_marginTop="5dp"
+                android:layout_toLeftOf="@+id/playpausebuttonfav"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="..."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FFFFFF"
+                tools:ignore="HardcodedText,RtlHardcoded"/>
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/nofavorites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="You Have Not Got Any Favorites"
-        android:textColor="#212121"
-        android:visibility="invisible"
-        tools:ignore="HardcodedText" />
+            android:id="@+id/nofavorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="You Have Not Got Any Favorites"
+            android:textColor="#212121"
+            android:visibility="invisible"
+            tools:ignore="HardcodedText"/>
 
 </RelativeLayout>

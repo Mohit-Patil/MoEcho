@@ -6,7 +6,7 @@
                 android:background="@drawable/bg_gradient"
                 android:clickable="true"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="12dp" tools:ignore="KeyboardInaccessibleWidget">
 
     <TextView
             android:id="@+id/mobile"

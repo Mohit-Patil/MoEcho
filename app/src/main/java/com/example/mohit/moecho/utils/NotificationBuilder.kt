@@ -18,7 +18,6 @@ import android.util.Log
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.activities.MainActivity
 import com.example.mohit.moecho.fragments.SongPlayingFragment
-import java.lang.Exception
 
 
 class NotificationBuilder : Service() {
@@ -52,19 +51,19 @@ class NotificationBuilder : Service() {
 
         if (action!!.equals(ACTION_PLAY, ignoreCase = true)) {
 
-            mController?.getTransportControls()?.play()
+            mController?.transportControls?.play()
         } else if (action.equals(ACTION_PAUSE, ignoreCase = true)) {
-            mController?.getTransportControls()?.pause()
+            mController?.transportControls?.pause()
         } else if (action.equals(ACTION_FAST_FORWARD, ignoreCase = true)) {
-            mController?.getTransportControls()?.fastForward()
+            mController?.transportControls?.fastForward()
         } else if (action.equals(ACTION_REWIND, ignoreCase = true)) {
-            mController?.getTransportControls()?.rewind()
+            mController?.transportControls?.rewind()
         } else if (action.equals(ACTION_PREVIOUS, ignoreCase = true)) {
-            mController?.getTransportControls()?.skipToPrevious()
+            mController?.transportControls?.skipToPrevious()
         } else if (action.equals(ACTION_NEXT, ignoreCase = true)) {
-            mController?.getTransportControls()?.skipToNext()
+            mController?.transportControls?.skipToNext()
         } else if (action.equals(ACTION_STOP, ignoreCase = true)) {
-            mController?.getTransportControls()?.stop()
+            mController?.transportControls?.stop()
         }
     }
 
@@ -74,7 +73,7 @@ class NotificationBuilder : Service() {
         }
         try {
             handleIntent(intent)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
@@ -200,7 +199,7 @@ class NotificationBuilder : Service() {
 
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(1, builder?.build())
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }

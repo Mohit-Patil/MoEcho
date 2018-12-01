@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.mohit.moecho.R
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
-import com.google.api.client.http.HttpRequest
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
@@ -20,26 +18,28 @@ import com.google.api.services.youtube.model.SearchResult
 import java.io.IOException
 
 class StepTwo : AppCompatActivity() {
-    var searchbutton: Button? = null
+    var searchsongbutton: Button? = null
     var searchquery: EditText? = null
     internal var tosearch: String? = null
     internal var videoid: String? = null
-    var qq: String? = null
+
+    var qt: String? = null
 
     object Statified {
         var search: String? = null
+        var qq: String? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_steptwo)
-        searchbutton = findViewById<Button>(R.id.searchbuttonsong)
+        searchsongbutton = findViewById<Button>(R.id.searchbuttonsong)
         searchquery = findViewById(R.id.searchquery)
-        searchbutton?.setOnClickListener {
-            var searchquery1 = searchquery?.getText().toString()
+        searchsongbutton?.setOnClickListener {
+            var searchquery1 = searchquery?.text.toString()
             Statified.search = searchquery1
             if (searchquery1.isEmpty()) {
-                searchquery?.setError("Song Name is required")
+                searchquery?.error = "Song Name is required"
                 searchquery?.requestFocus()
             } else {
                 val manager = applicationContext
@@ -47,9 +47,9 @@ class StepTwo : AppCompatActivity() {
                 val activeNetwork = manager.activeNetworkInfo
                 if (null != activeNetwork) {
                     if (activeNetwork.type == ConnectivityManager.TYPE_WIFI || activeNetwork.type == ConnectivityManager.TYPE_MOBILE) {
-                        qq = ytsearch(searchquery1)
+                        qt = ytsearch(searchquery1)
                         var clickIntent = Intent(this, PlayerActivity::class.java)
-                        clickIntent.putExtra("videoid", qq)
+                        //clickIntent.putExtra("videoid", qq)
                         startActivity(clickIntent)
                         System.out.println("Has Connection")
                     }
@@ -108,7 +108,7 @@ class StepTwo : AppCompatActivity() {
                         val searchResponse = search.execute()
                         val searchResultList = searchResponse.items
                         if (searchResultList != null) {
-                            videoid = prettyPrint(searchResultList!!.iterator(), queryTerm)
+                            videoid = prettyPrint(searchResultList.iterator(), queryTerm)
                         }
                     } catch (e: IOException) {
                         e.printStackTrace()
@@ -162,7 +162,7 @@ class StepTwo : AppCompatActivity() {
 
             val singleVideo = iteratorSearchResults.next()
             val rId = singleVideo.id
-            qq = rId.videoId
+            Statified.qq = rId.videoId
 
             // Confirm that the result represents a video. Otherwise, the
             // item will not contain a video ID.

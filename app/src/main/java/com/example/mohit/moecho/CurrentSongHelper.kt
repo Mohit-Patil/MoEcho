@@ -1,6 +1,6 @@
 package com.example.mohit.moecho
 
-class CurrentSongHelper{
+class CurrentSongHelper {
     var songArtist: String? = null
     var songTitle: String? = null
     var songPath: String? = null

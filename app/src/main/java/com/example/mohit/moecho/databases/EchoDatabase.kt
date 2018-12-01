@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.mohit.moecho.songs
-import java.lang.Exception
 
 class EchoDatabase : SQLiteOpenHelper {
 

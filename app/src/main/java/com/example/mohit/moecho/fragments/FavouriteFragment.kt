@@ -7,12 +7,9 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -23,14 +20,14 @@ import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.adapters.FavoriteAdapter
 import com.example.mohit.moecho.databases.EchoDatabase
+import com.example.mohit.moecho.fragments.FavouriteFragment.Statified.playPauseButton
 import com.example.mohit.moecho.songs
-import java.lang.Exception
 
 class FavouriteFragment : Fragment() {
     var myActivity: Activity? = null
     var noFavorites: TextView? = null
     var nowPlayingBottomBar: RelativeLayout? = null
-    var playPauseButton: ImageButton? = null
+
     var songTitle: TextView? = null
     var recyclerView: RecyclerView? = null
     var trackPosition: Int = 0
@@ -42,6 +39,7 @@ class FavouriteFragment : Fragment() {
 
     object Statified {
         var mediaPlayer: MediaPlayer? = null
+        var playPauseButton: ImageButton? = null
 
     }
 
@@ -55,11 +53,6 @@ class FavouriteFragment : Fragment() {
         myActivity = activity
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_favourite, container, false)
@@ -68,14 +61,14 @@ class FavouriteFragment : Fragment() {
         noFavorites = view?.findViewById(R.id.nofavorites)
         nowPlayingBottomBar = view.findViewById(R.id.hiddenbarfavscreen)
         songTitle = view.findViewById(R.id.songTitlefavScreen)
-        songTitle?.setSelected(true)
+        songTitle?.isSelected = true
         playPauseButton = view.findViewById(R.id.playpausebuttonfav)
         recyclerView = view.findViewById(R.id.favoriteRecycler)
         visibleFav = view.findViewById(R.id.visiblefav)
-        songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
+        songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
         SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
             SongPlayingFragment.Staticated.onSongComplete()
-            songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
+            songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
             _favScreenAdapter?.notifyDataSetChanged()
         }
 
@@ -101,10 +94,6 @@ class FavouriteFragment : Fragment() {
         val searchItem = menu?.findItem(R.id.search)
         item?.isVisible = false
         searchItem?.isVisible = false
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     fun getSongsFromPhone(): ArrayList<songs> {
@@ -180,7 +169,7 @@ class FavouriteFragment : Fragment() {
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 SongPlayingFragment.Statified.mediaplayer?.pause()
                 playPauseButton?.setBackgroundResource(R.drawable.play_icon)
-                trackPosition = SongPlayingFragment.Statified.mediaplayer?.getCurrentPosition() as Int
+                trackPosition = SongPlayingFragment.Statified.mediaplayer?.currentPosition as Int
             } else {
                 SongPlayingFragment.Statified.mediaplayer?.seekTo(trackPosition)
                 SongPlayingFragment.Statified.mediaplayer?.start()

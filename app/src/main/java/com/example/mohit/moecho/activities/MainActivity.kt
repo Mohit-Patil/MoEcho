@@ -20,6 +20,7 @@ import android.widget.Button
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.activities.MainActivity.Statified.notificationManager
 import com.example.mohit.moecho.adapters.NavigationDrawerAdapter
+import com.example.mohit.moecho.fragments.FavouriteFragment
 import com.example.mohit.moecho.fragments.MainScreenFragment
 import com.example.mohit.moecho.fragments.SongPlayingFragment
 import com.example.mohit.moecho.utils.NotificationBuilder
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         R.drawable.navigation_settings,
         R.drawable.navigation_aboutus
     )
-    var buttonplayer: Button?= null
+    var buttonplayer: Button? = null
     private var trackNotificationBuilder: Notification? = null
     private var notificationChannel: NotificationChannel? = null
     private var channelId = "com.example.mohit.moecho.activities"
@@ -57,7 +58,14 @@ class MainActivity : AppCompatActivity() {
         Statified.drawerLayout = findViewById(R.id.drawer_layout)
         buttonplayer = findViewById<Button>(R.id.buttonplayer)
         buttonplayer?.setOnClickListener {
-            var clickIntent = Intent(this@MainActivity,StepOne::class.java)
+
+            if (SongPlayingFragment.Statified.currentSongHelper?.isPlaying as Boolean) {
+                SongPlayingFragment.Statified.mediaplayer?.pause()
+                MainScreenFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
+                FavouriteFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
+                SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
+            }
+            var clickIntent = Intent(this@MainActivity, StepOne::class.java)
             startActivity(clickIntent)
         }
 
@@ -81,7 +89,6 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
             .commit()
-
 
 
         val _navigationAdapter = NavigationDrawerAdapter(navigationDrawerIconsList, imagesForNavdrawer, this)
@@ -115,7 +122,6 @@ class MainActivity : AppCompatActivity() {
                 .build()
         }*/
     }
-
 
 
     override fun onStart() {

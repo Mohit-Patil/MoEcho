@@ -3,7 +3,6 @@ package com.example.mohit.moecho.fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Service
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -27,17 +26,9 @@ import com.example.mohit.moecho.R
 import com.example.mohit.moecho.activities.MainActivity
 import com.example.mohit.moecho.databases.EchoDatabase
 import com.example.mohit.moecho.fragments.SongPlayingFragment.Staticated.onSongComplete
-import com.example.mohit.moecho.fragments.SongPlayingFragment.Staticated.playNext
-import com.example.mohit.moecho.fragments.SongPlayingFragment.Staticated.processInformation
-import com.example.mohit.moecho.fragments.SongPlayingFragment.Staticated.updateTextViews
-import com.example.mohit.moecho.fragments.SongPlayingFragment.Statified.myActivity
 import com.example.mohit.moecho.fragments.SongPlayingFragment.Statified.updateSongTime
 import com.example.mohit.moecho.songs
 import com.example.mohit.moecho.utils.SeekBarControl
-import kotlinx.android.synthetic.main.fragment_main_screen.*
-import kotlinx.android.synthetic.main.fragment_song_playing.*
-import java.lang.Exception
-import java.sql.Time
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -92,15 +83,13 @@ class SongPlayingFragment : Fragment() {
             override fun run() {
                 try {
                     val getCurrent = Statified.mediaplayer?.currentPosition
-                    Statified.startTimeText?.setText(
-                        String.format(
-                            "%02d:%02d",
-                            TimeUnit.MILLISECONDS.toMinutes(getCurrent?.toLong() as Long),
-                            TimeUnit.MILLISECONDS.toSeconds(getCurrent.toLong()) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(getCurrent.toLong()))
-                        )
+                    Statified.startTimeText?.text = String.format(
+                        "%02d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(getCurrent?.toLong() as Long),
+                        TimeUnit.MILLISECONDS.toSeconds(getCurrent.toLong()) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(getCurrent.toLong()))
                     )
-                    Statified.seekbar?.setProgress(getCurrent?.toInt() as Int)
+                    Statified.seekbar?.progress = getCurrent?.toInt() as Int
                     Statified.isSongPlaying = true
                     Handler().postDelayed(this, 15)
                 } catch (e: Exception) {
@@ -184,31 +173,27 @@ class SongPlayingFragment : Fragment() {
             if (songArtist.equals("<unknown>", true)) {
                 songArtistupdated = "Unknown"
             }
-            Statified.songTitleView?.setText(songTitleupdated)
-            Statified.songArtistView?.setText(songArtistupdated)
+            Statified.songTitleView?.text = songTitleupdated
+            Statified.songArtistView?.text = songArtistupdated
         }
 
         fun processInformation(mediaPlayer: MediaPlayer) {
             val finalTime = mediaPlayer.duration
             val startTime = mediaPlayer.currentPosition
             Statified.seekbar?.max = finalTime
-            Statified.startTimeText?.setText(
-                String.format(
-                    "%02d:%02d",
-                    TimeUnit.MILLISECONDS.toMinutes(startTime.toLong()),
-                    TimeUnit.MILLISECONDS.toSeconds(startTime.toLong()) -
-                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(startTime.toLong()))
-                )
+            Statified.startTimeText?.text = String.format(
+                "%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(startTime.toLong()),
+                TimeUnit.MILLISECONDS.toSeconds(startTime.toLong()) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(startTime.toLong()))
             )
-            Statified.endTimeText?.setText(
-                String.format(
-                    "%02d:%02d",
-                    TimeUnit.MILLISECONDS.toMinutes(finalTime.toLong()),
-                    TimeUnit.MILLISECONDS.toSeconds(finalTime.toLong()) -
-                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(finalTime.toLong()))
-                )
+            Statified.endTimeText?.text = String.format(
+                "%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(finalTime.toLong()),
+                TimeUnit.MILLISECONDS.toSeconds(finalTime.toLong()) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(finalTime.toLong()))
             )
-            Statified.seekbar?.setProgress(startTime)
+            Statified.seekbar?.progress = startTime
 
             Handler().postDelayed(updateSongTime, 15)
         }
