@@ -1,5 +1,6 @@
 package com.example.mohit.moecho.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
@@ -34,9 +35,11 @@ class MainScreenFragment : Fragment() {
     var trackPosition: Int = 0
     var flag = 0
 
+    @SuppressLint("StaticFieldLeak")
     object Statified {
         var mediaPlayer: MediaPlayer? = null
         var sizeofarr: Int? = null
+        @SuppressLint("StaticFieldLeak")
         var playPauseButton: ImageButton? = null
     }
 

@@ -1,6 +1,7 @@
 package com.example.mohit.moecho.fragments
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
@@ -37,8 +38,10 @@ class FavouriteFragment : Fragment() {
     var visibleFav: RelativeLayout? = null
     var _favScreenAdapter: FavoriteAdapter? = null
 
+    @SuppressLint("StaticFieldLeak")
     object Statified {
         var mediaPlayer: MediaPlayer? = null
+        @SuppressLint("StaticFieldLeak")
         var playPauseButton: ImageButton? = null
 
     }
