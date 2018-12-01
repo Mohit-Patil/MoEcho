@@ -51,7 +51,7 @@ class StepTwo : AppCompatActivity() {
                         var clickIntent = Intent(this, PlayerActivity::class.java)
                         //clickIntent.putExtra("videoid", qq)
                         startActivity(clickIntent)
-                        System.out.println("Has Connection")
+                        //System.out.println("Has Connection")
                     }
                 } else {
                     Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show()
