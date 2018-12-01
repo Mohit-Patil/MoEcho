@@ -1,4 +1,4 @@
-package com.example.mohit.moecho
+package com.example.mohit.moecho.resources
 
 import android.annotation.SuppressLint
 import android.os.Parcel

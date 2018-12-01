@@ -18,7 +18,7 @@ import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.adapters.MainScreenAdapter
 import com.example.mohit.moecho.fragments.MainScreenFragment.Statified.playPauseButton
-import com.example.mohit.moecho.songs
+import com.example.mohit.moecho.resources.songs
 import kotlinx.android.synthetic.main.fragment_main_screen.*
 import java.util.*
 
@@ -205,7 +205,15 @@ class MainScreenFragment : Fragment() {
                 var currentArtist = songCursor.getString(songArtist)
                 var currentData = songCursor.getString(songData)
                 var currentDate = songCursor.getLong(dateIndex)
-                arrayList.add(songs(currentId, currentTitle, currentArtist, currentData, currentDate))
+                arrayList.add(
+                    songs(
+                        currentId,
+                        currentTitle,
+                        currentArtist,
+                        currentData,
+                        currentDate
+                    )
+                )
 
             }
 

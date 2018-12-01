@@ -58,13 +58,18 @@ class MainActivity : AppCompatActivity() {
         Statified.drawerLayout = findViewById(R.id.drawer_layout)
         buttonplayer = findViewById<Button>(R.id.buttonplayer)
         buttonplayer?.setOnClickListener {
-
-            if (SongPlayingFragment.Statified.currentSongHelper?.isPlaying as Boolean) {
-                SongPlayingFragment.Statified.mediaplayer?.pause()
-                MainScreenFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
-                FavouriteFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
-                SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
+            try {
+                if (SongPlayingFragment.Statified.currentSongHelper?.isPlaying as Boolean) {
+                    SongPlayingFragment.Statified.mediaplayer?.pause()
+                    MainScreenFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
+                    FavouriteFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
+                    SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
             }
+
+
             var clickIntent = Intent(this@MainActivity, StepOne::class.java)
             startActivity(clickIntent)
         }

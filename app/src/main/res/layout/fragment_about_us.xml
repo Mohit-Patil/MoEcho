@@ -113,7 +113,8 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="Feel free to report Bugs on the above Repository Link. App will be updated with the Streaming capability."
+            android:autoLink="web"
+            android:text="Feel free to report Bugs on the above Repository Link.\nTwitter:https://twitter.com/mohit__patil\nInstagram:https://www.instagram.com/mohit_patil/"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             tools:ignore="HardcodedText,RtlHardcoded"/>

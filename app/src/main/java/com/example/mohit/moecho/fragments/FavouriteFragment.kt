@@ -22,7 +22,7 @@ import com.example.mohit.moecho.R
 import com.example.mohit.moecho.adapters.FavoriteAdapter
 import com.example.mohit.moecho.databases.EchoDatabase
 import com.example.mohit.moecho.fragments.FavouriteFragment.Statified.playPauseButton
-import com.example.mohit.moecho.songs
+import com.example.mohit.moecho.resources.songs
 
 class FavouriteFragment : Fragment() {
     var myActivity: Activity? = null
@@ -62,7 +62,7 @@ class FavouriteFragment : Fragment() {
         setHasOptionsMenu(true)
         activity?.title = "Favorites"
         noFavorites = view?.findViewById(R.id.nofavorites)
-        nowPlayingBottomBar = view.findViewById(R.id.hiddenbarfavscreen)
+        nowPlayingBottomBar = view?.findViewById(R.id.hiddenbarfavscreen)
         songTitle = view.findViewById(R.id.songTitlefavScreen)
         songTitle?.isSelected = true
         playPauseButton = view.findViewById(R.id.playpausebuttonfav)
@@ -117,7 +117,15 @@ class FavouriteFragment : Fragment() {
                 var currentArtist = songCursor.getString(songArtist)
                 var currentData = songCursor.getString(songData)
                 var currentDate = songCursor.getLong(dateIndex)
-                arrayList.add(songs(currentId, currentTitle, currentArtist, currentData, currentDate))
+                arrayList.add(
+                    songs(
+                        currentId,
+                        currentTitle,
+                        currentArtist,
+                        currentData,
+                        currentDate
+                    )
+                )
 
             }
 

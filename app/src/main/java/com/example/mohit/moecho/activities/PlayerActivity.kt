@@ -1,5 +1,6 @@
 package com.example.mohit.moecho.activities
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -16,8 +17,9 @@ class PlayerActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListene
     private val YOUTUBE_API_KEY = "AIzaSyAecm5XasJhbVEXzp_XHZ8_R3p166R186Y"
     private var playerStateChangeListener: MyPlayerStateChangeListener? = null
     private var playbackEventListener: MyPlaybackEventListener? = null
+    var dialog: ProgressDialog? = null
 
-    protected val youTubePlayerProvider: Provider?
+    private val youTubePlayerProvider: Provider?
         get() = youTubeView
 
 
@@ -30,6 +32,9 @@ class PlayerActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListene
         youTubeView!!.initialize(YOUTUBE_API_KEY, this)
         playerStateChangeListener = MyPlayerStateChangeListener()
         playbackEventListener = MyPlaybackEventListener()
+        dialog = ProgressDialog(this)
+        dialog?.setMessage("Please wait while the song is loading")
+        dialog?.show()
 
 
     }
@@ -41,7 +46,8 @@ class PlayerActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListene
         if (!wasRestored) {
             // player.play();
             player.loadVideo(StepTwo.Statified.qq)
-            player.play()
+            dialog?.dismiss()
+            //player.play()
         }
     }
 

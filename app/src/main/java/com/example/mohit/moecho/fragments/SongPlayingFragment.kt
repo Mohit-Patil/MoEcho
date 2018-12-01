@@ -21,13 +21,13 @@ import android.widget.*
 import com.cleveroad.audiovisualization.AudioVisualization
 import com.cleveroad.audiovisualization.DbmHandler
 import com.cleveroad.audiovisualization.GLAudioVisualizationView
-import com.example.mohit.moecho.CurrentSongHelper
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.activities.MainActivity
 import com.example.mohit.moecho.databases.EchoDatabase
 import com.example.mohit.moecho.fragments.SongPlayingFragment.Staticated.onSongComplete
 import com.example.mohit.moecho.fragments.SongPlayingFragment.Statified.updateSongTime
-import com.example.mohit.moecho.songs
+import com.example.mohit.moecho.resources.CurrentSongHelper
+import com.example.mohit.moecho.resources.songs
 import com.example.mohit.moecho.utils.SeekBarControl
 import java.util.*
 import java.util.concurrent.TimeUnit

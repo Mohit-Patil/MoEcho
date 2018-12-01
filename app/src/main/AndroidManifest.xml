@@ -35,15 +35,15 @@
         </activity>
         <activity
                 android:name=".activities.PlayerActivity"
-                android:label="Player"
+                android:label="Now Playing"
                 android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
                 android:name=".activities.StepOne"
-                android:label="Player"/>
+                android:label="Music Streaming"/>
         <activity
                 android:name=".activities.StepTwo"
-                android:label="Player"/>
+                android:label="Music Streaming"/>
 
         <receiver android:name=".utils.CaptureBroadcast">
             <intent-filter>

@@ -11,7 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.fragments.SongPlayingFragment
-import com.example.mohit.moecho.songs
+import com.example.mohit.moecho.resources.songs
 
 class MainScreenAdapter(_songdetails: ArrayList<songs>, _context: Context) :
     RecyclerView.Adapter<MainScreenAdapter.MyViewHolder>() {

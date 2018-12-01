@@ -1,4 +1,4 @@
-package com.example.mohit.moecho
+package com.example.mohit.moecho.resources
 
 class CurrentSongHelper {
     var songArtist: String? = null
