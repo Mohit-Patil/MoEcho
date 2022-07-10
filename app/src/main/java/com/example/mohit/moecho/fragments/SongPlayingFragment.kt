@@ -25,12 +25,22 @@ import com.example.mohit.moecho.activities.MainActivity
 import com.example.mohit.moecho.databases.EchoDatabase
 import com.example.mohit.moecho.fragments.SongPlayingFragment.Staticated.onSongComplete
 import com.example.mohit.moecho.fragments.SongPlayingFragment.Statified.updateSongTime
+<<<<<<< HEAD
 import com.example.mohit.moecho.resources.CurrentSongHelper
 import com.example.mohit.moecho.resources.songs
 import com.example.mohit.moecho.utils.SeekBarControl
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+=======
+import com.example.mohit.moecho.Songs
+import com.example.mohit.moecho.utils.SeekBarControl
+import java.lang.Exception
+import java.util.*
+import java.util.concurrent.TimeUnit
+
+@Suppress("DEPRECATION")
+>>>>>>> master
 class SongPlayingFragment : Fragment() {
 
     @SuppressLint("StaticFieldLeak")
@@ -66,7 +76,7 @@ class SongPlayingFragment : Fragment() {
         var currentSongHelper: CurrentSongHelper? = null
 
         var currentPosition: Int = 0
-        var fetchSongs: ArrayList<songs>? = null
+        var fetchSongs: ArrayList<Songs>? = null
         var audioVisualization: AudioVisualization? = null
         var glView: GLAudioVisualizationView? = null
         var favoriteContent: EchoDatabase? = null
@@ -82,11 +92,21 @@ class SongPlayingFragment : Fragment() {
             override fun run() {
                 try {
                     val getCurrent = Statified.mediaplayer?.currentPosition
+<<<<<<< HEAD
                     Statified.startTimeText?.text = String.format(
                         "%02d:%02d",
                         TimeUnit.MILLISECONDS.toMinutes(getCurrent?.toLong() as Long),
                         TimeUnit.MILLISECONDS.toSeconds(getCurrent.toLong()) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(getCurrent.toLong()))
+=======
+                    Statified.startTimeText?.setText(
+                        String.format(
+                            "%02d:%02d",
+                            TimeUnit.MILLISECONDS.toMinutes(getCurrent?.toLong() as Long),
+                            TimeUnit.MILLISECONDS.toSeconds(getCurrent.toLong()) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((getCurrent.toLong())))
+                        )
+>>>>>>> master
                     )
                     Statified.seekbar?.progress = getCurrent?.toInt() as Int
                     Statified.isSongPlaying = true
@@ -129,7 +149,7 @@ class SongPlayingFragment : Fragment() {
 
                     try {
                         Statified.mediaplayer?.setDataSource(
-                            Statified.myActivity,
+                            Statified.myActivity as Activity,
                             Uri.parse(Statified.currentSongHelper?.songPath)
                         )
                         Statified.mediaplayer?.prepare()
@@ -236,7 +256,7 @@ class SongPlayingFragment : Fragment() {
             Statified.mediaplayer?.reset()
             try {
                 Statified.mediaplayer?.setDataSource(
-                    Statified.myActivity,
+                    Statified.myActivity as Activity,
                     Uri.parse(Statified.currentSongHelper?.songPath) as Uri
                 )
                 Statified.mediaplayer?.prepare()
@@ -291,7 +311,11 @@ class SongPlayingFragment : Fragment() {
             Statified.mediaplayer?.reset()
             try {
                 Statified.mediaplayer?.setDataSource(
+<<<<<<< HEAD
                     Statified.myActivity,
+=======
+                    Statified.myActivity as Activity,
+>>>>>>> master
                     Uri.parse(Statified.currentSongHelper?.songPath)
                 )
                 Statified.mediaplayer?.prepare()
@@ -401,15 +425,20 @@ class SongPlayingFragment : Fragment() {
 
 
         var path: String? = null
-        var _songTitle: String? = null
-        var _songArtist: String? = null
+        var _songTitle: String
+        var _songArtist: String
         var fromFavBottomBar: String? = null
         var fromMainBottomBar: String? = null
-        var songId: Long = 0
+        var songId: Long
         try {
             path = arguments?.getString("path")
+<<<<<<< HEAD
             _songArtist = arguments?.getString("songArtist")
             _songTitle = arguments?.getString("songTitle")
+=======
+            _songArtist = arguments?.getString("songArtist") as String
+            _songTitle = arguments?.getString("songTitle") as String
+>>>>>>> master
             songId = arguments!!.getInt("SongId").toLong()
             Statified.currentPosition = arguments!!.getInt("songPosition")
             Statified.fetchSongs = arguments!!.getParcelableArrayList("songData")
@@ -475,7 +504,7 @@ class SongPlayingFragment : Fragment() {
             Statified.mediaplayer = MediaPlayer()
             Statified.mediaplayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
             try {
-                Statified.mediaplayer?.setDataSource(Statified.myActivity, Uri.parse(path) as Uri)
+                Statified.mediaplayer?.setDataSource(Statified.myActivity as Activity, Uri.parse(path) as Uri)
                 Statified.mediaplayer?.prepare()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -730,6 +759,56 @@ class SongPlayingFragment : Fragment() {
         })
     }
 
+<<<<<<< HEAD
+=======
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.clear()
+        inflater?.inflate(R.menu.song_playing_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        val item: MenuItem? = menu?.findItem(R.id.action_redirect)
+        item?.isVisible = true
+        val item2: MenuItem? = menu?.findItem(R.id.action_sort)
+        item2?.isVisible = false
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_redirect -> {
+                var pos = 0
+                if (Statified.back.equals("Favorite", true)) {
+                    pos = 0
+                }
+                if (Statified.back.equals("MainScreen", true)) {
+                    pos = 1
+                }
+                if (pos == 1) {
+                    val mainScreenFragment = MainScreenFragment()
+                    //fragmentManager?.popBackStackImmediate()
+                    (context as MainActivity).supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.details_fragment, mainScreenFragment)
+                        .commit()
+                }
+                if (pos == 0) {
+                    val favoriteFragment = FavouriteFragment()
+                    //fragmentManager?.popBackStackImmediate()
+                    (context as MainActivity).supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.details_fragment, favoriteFragment)
+                        .commit()
+                }
+                return false
+            }
+        }
+        return false
+    }
+
+
+>>>>>>> master
     fun bindShakeListener() {
         Statified.mSensorListener = object : SensorEventListener {
             override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {

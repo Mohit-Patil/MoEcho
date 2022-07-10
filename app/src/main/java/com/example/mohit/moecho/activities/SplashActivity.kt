@@ -4,15 +4,22 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+<<<<<<< HEAD
+=======
+import android.os.Build
+import android.support.v7.app.AppCompatActivity
+>>>>>>> master
 import android.os.Bundle
 import android.os.Handler
+import android.support.annotation.RequiresApi
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.example.mohit.moecho.R
 
 class SplashActivity : AppCompatActivity() {
-    var permissionsString = arrayOf(
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
+    private var permissionsString = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.MODIFY_AUDIO_SETTINGS,
         Manifest.permission.READ_PHONE_STATE,
@@ -21,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
     )
 
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -60,7 +68,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    fun hasPermissions(context: Context, vararg permissions: String): Boolean {
+    private fun hasPermissions(context: Context, vararg permissions: String): Boolean {
         var hasAllpermisiions = true
         for (permission in permissions) {
             val res = context.checkCallingOrSelfPermission(permission)

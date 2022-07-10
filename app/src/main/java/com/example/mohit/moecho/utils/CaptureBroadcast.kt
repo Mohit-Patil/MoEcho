@@ -6,6 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.telephony.TelephonyManager
 import com.example.mohit.moecho.R
+<<<<<<< HEAD
+=======
+import com.example.mohit.moecho.activities.MainActivity
+import com.example.mohit.moecho.fragments.FavouriteFragment
+import com.example.mohit.moecho.fragments.MainScreenFragment
+>>>>>>> master
 import com.example.mohit.moecho.fragments.SongPlayingFragment
 
 class CaptureBroadcast : BroadcastReceiver() {
@@ -59,6 +65,8 @@ class CaptureBroadcast : BroadcastReceiver() {
                             SongPlayingFragment.Statified.mediaplayer?.pause()
                             SongPlayingFragment.Statified.playing = true
                             SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
+                            MainScreenFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
+                            FavouriteFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()

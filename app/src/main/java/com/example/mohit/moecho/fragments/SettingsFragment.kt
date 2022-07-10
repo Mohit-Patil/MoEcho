@@ -9,9 +9,17 @@ import android.view.*
 import android.widget.Switch
 import com.example.mohit.moecho.R
 
+<<<<<<< HEAD
 class SettingsFragment : Fragment() {
     var myActivity: Activity? = null
     var shakeSwitch: Switch? = null
+=======
+
+class SettingsFragment : Fragment() {
+
+    private var myActivity: Activity? = null
+    private var shakeSwitch: Switch? = null
+>>>>>>> master
 
     object Statified {
         var MY_PREFS_NAME = "ShakeFeature"
@@ -47,7 +55,11 @@ class SettingsFragment : Fragment() {
         val prefs = myActivity?.getSharedPreferences(Statified.MY_PREFS_NAME, Context.MODE_PRIVATE)
         val isAllowed = prefs?.getBoolean("feature", false)
         shakeSwitch?.isChecked = isAllowed as Boolean
+<<<<<<< HEAD
         shakeSwitch?.setOnCheckedChangeListener({ compoundButton, b ->
+=======
+        shakeSwitch?.setOnCheckedChangeListener { compoundButton, b ->
+>>>>>>> master
             if (b) {
                 val editor = myActivity?.getSharedPreferences(Statified.MY_PREFS_NAME, Context.MODE_PRIVATE)?.edit()
                 editor?.putBoolean("feature", true)
@@ -58,7 +70,7 @@ class SettingsFragment : Fragment() {
                 editor?.apply()
             }
 
-        })
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {

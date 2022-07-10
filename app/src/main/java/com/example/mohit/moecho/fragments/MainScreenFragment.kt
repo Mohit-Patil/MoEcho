@@ -17,13 +17,22 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.adapters.MainScreenAdapter
+<<<<<<< HEAD
 import com.example.mohit.moecho.fragments.MainScreenFragment.Statified.playPauseButton
 import com.example.mohit.moecho.resources.songs
+=======
+import com.example.mohit.moecho.Songs
+>>>>>>> master
 import kotlinx.android.synthetic.main.fragment_main_screen.*
 import java.util.*
+<<<<<<< HEAD
+=======
+import android.view.ViewGroup
+import com.example.mohit.moecho.fragments.MainScreenFragment.Statified.playPauseButton
+>>>>>>> master
 
 class MainScreenFragment : Fragment() {
-    var getSongsList: ArrayList<songs>? = null
+    var getSongsList: ArrayList<Songs>? = null
     var nowPlayingBottomBar: RelativeLayout? = null
 
     var songTitle: TextView? = null
@@ -33,13 +42,20 @@ class MainScreenFragment : Fragment() {
     var myActivity: Activity? = null
     var _mainScreenAdapter: MainScreenAdapter? = null
     var trackPosition: Int = 0
+<<<<<<< HEAD
     var flag = 0
+=======
+    private val BACK_STACK_ROOT_TAG = "main_fragment"
+>>>>>>> master
 
     @SuppressLint("StaticFieldLeak")
     object Statified {
         var mediaPlayer: MediaPlayer? = null
         var sizeofarr: Int? = null
+<<<<<<< HEAD
         @SuppressLint("StaticFieldLeak")
+=======
+>>>>>>> master
         var playPauseButton: ImageButton? = null
     }
 
@@ -125,7 +141,6 @@ class MainScreenFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getSongsList = getSongsFromPhone()
-        val windowManager: WindowManager? = null
         val mLayoutManager = LinearLayoutManager(myActivity)
         val prefs = activity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)
         val action_sort_ascending = prefs?.getString("action_sort_ascending", "true")
@@ -140,17 +155,17 @@ class MainScreenFragment : Fragment() {
             visibleLayout?.visibility = View.INVISIBLE
             noSongs?.visibility = View.VISIBLE
         } else {
-            _mainScreenAdapter = MainScreenAdapter(getSongsList as ArrayList<songs>, myActivity as Context)
+            _mainScreenAdapter = MainScreenAdapter(getSongsList as ArrayList<Songs>, myActivity as Context)
             recyclerView?.layoutManager = mLayoutManager
             recyclerView?.itemAnimator = DefaultItemAnimator()
             recyclerView?.adapter = _mainScreenAdapter
         }
         if (getSongsList != null) {
             if (action_sort_ascending!!.equals("true", true)) {
-                Collections.sort(getSongsList, songs.Statified.nameComparator)
+                Collections.sort(getSongsList, Songs.Statified.nameComparator)
                 _mainScreenAdapter?.notifyDataSetChanged()
             } else if (action_sort_recent!!.equals("true", true)) {
-                Collections.sort(getSongsList, songs.Statified.dateComparator)
+                Collections.sort(getSongsList, Songs.Statified.dateComparator)
                 _mainScreenAdapter?.notifyDataSetChanged()
             }
         }
@@ -168,7 +183,7 @@ class MainScreenFragment : Fragment() {
             editor?.putString("action_sort_recent", "false")
             editor?.apply()
             if (getSongsList != null) {
-                Collections.sort(getSongsList, songs.Statified.nameComparator)
+                Collections.sort(getSongsList, Songs.Statified.nameComparator)
             }
             _mainScreenAdapter?.notifyDataSetChanged()
             return false
@@ -179,7 +194,7 @@ class MainScreenFragment : Fragment() {
             editor?.putString("action_sort_recent", "true")
             editor?.apply()
             if (getSongsList != null) {
-                Collections.sort(getSongsList, songs.Statified.dateComparator)
+                Collections.sort(getSongsList, Songs.Statified.dateComparator)
             }
             _mainScreenAdapter?.notifyDataSetChanged()
             return false
@@ -188,8 +203,23 @@ class MainScreenFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+<<<<<<< HEAD
     fun getSongsFromPhone(): ArrayList<songs> {
         var arrayList = ArrayList<songs>()
+=======
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        myActivity = context as Activity
+    }
+
+    override fun onAttach(activity: Activity?) {
+        super.onAttach(activity)
+        myActivity = activity
+    }
+
+    fun getSongsFromPhone(): ArrayList<Songs> {
+        var arrayList = ArrayList<Songs>()
+>>>>>>> master
         var contentResolver = myActivity?.contentResolver
         var songuri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         var songCursor = contentResolver?.query(songuri, null, null, null, null)
@@ -206,6 +236,7 @@ class MainScreenFragment : Fragment() {
                 var currentArtist = songCursor.getString(songArtist)
                 var currentData = songCursor.getString(songData)
                 var currentDate = songCursor.getLong(dateIndex)
+<<<<<<< HEAD
                 arrayList.add(
                     songs(
                         currentId,
@@ -215,6 +246,9 @@ class MainScreenFragment : Fragment() {
                         currentDate
                     )
                 )
+=======
+                arrayList.add(Songs(currentId, currentTitle, currentArtist, currentData, currentDate))
+>>>>>>> master
 
             }
 
@@ -261,6 +295,7 @@ class MainScreenFragment : Fragment() {
             args.putParcelableArrayList("songData", SongPlayingFragment.Statified.fetchSongs)
             args.putString("MainBottomBar", "success")
             songPlayingFragment.arguments = args
+            fragmentManager?.popBackStackImmediate()
             fragmentManager!!.beginTransaction()
                 .replace(R.id.details_fragment, songPlayingFragment)
                 .addToBackStack("MainScreen")

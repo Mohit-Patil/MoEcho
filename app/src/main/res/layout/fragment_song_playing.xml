@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
               xmlns:tools="http://schemas.android.com/tools" android:id="@+id/songplaying"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -8,6 +9,16 @@
               android:visibility="visible"
               android:clickable="true"
               android:focusable="true">
+=======
+    android:id="@+id/songplaying"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_background"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:visibility="visible">
+>>>>>>> master
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -15,6 +26,7 @@
             android:layout_weight="1">
 
         <RelativeLayout
+<<<<<<< HEAD
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:ignore="UselessParent">
@@ -43,6 +55,34 @@
                     android:background="@drawable/white_circle_icon"
                     android:src="@drawable/favorite_off" tools:ignore="ContentDescription,RtlHardcoded"/>
 
+=======
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.cleveroad.audiovisualization.GLAudioVisualizationView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/visualizer_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:av_backgroundColor="#00032A"
+                app:av_bubblesPerLayer="16"
+                app:av_bubblesRandomizeSizes="true"
+                app:av_bubblesSize="25dp"
+                app:av_layersCount="4"
+                app:av_wavesColors="@array/rainbow"
+                app:av_wavesCount="50"
+                app:av_wavesFooterHeight="170dp"
+                app:av_wavesHeight="60dp" />
+
+            <ImageButton
+                android:id="@+id/favouriteIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="11dp"
+                android:background="@drawable/white_circle_icon"
+                android:src="@drawable/favorite_off" />
+>>>>>>> master
         </RelativeLayout>
     </LinearLayout>
 

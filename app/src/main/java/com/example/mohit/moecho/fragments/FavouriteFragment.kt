@@ -21,8 +21,14 @@ import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.adapters.FavoriteAdapter
 import com.example.mohit.moecho.databases.EchoDatabase
+<<<<<<< HEAD
 import com.example.mohit.moecho.fragments.FavouriteFragment.Statified.playPauseButton
 import com.example.mohit.moecho.resources.songs
+=======
+import com.example.mohit.moecho.Songs
+import com.example.mohit.moecho.fragments.FavouriteFragment.Statified.playPauseButton
+import java.lang.Exception
+>>>>>>> master
 
 class FavouriteFragment : Fragment() {
     var myActivity: Activity? = null
@@ -33,9 +39,10 @@ class FavouriteFragment : Fragment() {
     var recyclerView: RecyclerView? = null
     var trackPosition: Int = 0
     var favoriteContent: EchoDatabase? = null
-    var refreshList: ArrayList<songs>? = null
-    var getListfromDatabase: ArrayList<songs>? = null
+    var refreshList: ArrayList<Songs>? = null
+    var getListfromDatabase: ArrayList<Songs>? = null
     var visibleFav: RelativeLayout? = null
+<<<<<<< HEAD
     var _favScreenAdapter: FavoriteAdapter? = null
 
     @SuppressLint("StaticFieldLeak")
@@ -43,6 +50,26 @@ class FavouriteFragment : Fragment() {
         var mediaPlayer: MediaPlayer? = null
         @SuppressLint("StaticFieldLeak")
         var playPauseButton: ImageButton? = null
+=======
+
+    object Statified {
+        var mediaPlayer: MediaPlayer? = null
+        var playPauseButton: ImageButton? = null
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_favourite, container, false)
+        setHasOptionsMenu(true)
+        activity?.title = "Favorites"
+        noFavorites = view?.findViewById(R.id.nofavorites)
+        nowPlayingBottomBar = view.findViewById(R.id.hiddenbarfavscreen)
+        songTitle = view.findViewById(R.id.songTitlefavScreen)
+        songTitle?.setSelected(true)
+        playPauseButton = view.findViewById(R.id.playpausebuttonfav)
+        recyclerView = view.findViewById(R.id.favoriteRecycler)
+        visibleFav = view.findViewById(R.id.visiblefav)
+>>>>>>> master
 
     }
 
@@ -87,8 +114,16 @@ class FavouriteFragment : Fragment() {
         }
         display_favorites_by_searching()
 
+<<<<<<< HEAD
         if (SongPlayingFragment.Statified.currentSongHelper?.isPlaying == true)
             bottomBarSetup()
+=======
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+>>>>>>> master
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
@@ -99,8 +134,8 @@ class FavouriteFragment : Fragment() {
         searchItem?.isVisible = false
     }
 
-    fun getSongsFromPhone(): ArrayList<songs> {
-        var arrayList = ArrayList<songs>()
+    fun getSongsFromPhone(): ArrayList<Songs> {
+        var arrayList = ArrayList<Songs>()
         var contentResolver = myActivity?.contentResolver
         var songuri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         var songCursor = contentResolver?.query(songuri, null, null, null, null)
@@ -117,6 +152,7 @@ class FavouriteFragment : Fragment() {
                 var currentArtist = songCursor.getString(songArtist)
                 var currentData = songCursor.getString(songData)
                 var currentDate = songCursor.getLong(dateIndex)
+<<<<<<< HEAD
                 arrayList.add(
                     songs(
                         currentId,
@@ -126,6 +162,9 @@ class FavouriteFragment : Fragment() {
                         currentDate
                     )
                 )
+=======
+                arrayList.add(Songs(currentId, currentTitle, currentArtist, currentData, currentDate))
+>>>>>>> master
 
             }
 
@@ -169,6 +208,7 @@ class FavouriteFragment : Fragment() {
             args.putParcelableArrayList("songData", SongPlayingFragment.Statified.fetchSongs)
             args.putString("FavBottomBar", "success")
             songPlayingFragment.arguments = args
+            fragmentManager?.popBackStackImmediate()
             fragmentManager!!.beginTransaction()
                 .replace(R.id.details_fragment, songPlayingFragment)
                 .addToBackStack("FavScreen")
@@ -192,6 +232,7 @@ class FavouriteFragment : Fragment() {
 
     fun display_favorites_by_searching() {
         if (favoriteContent?.checkSize() as Int > 0) {
+<<<<<<< HEAD
             refreshList = ArrayList<songs>()
             getListfromDatabase = favoriteContent?.queryDBList()
             var fetchListfromDevice = getSongsFromPhone()
@@ -200,6 +241,16 @@ class FavouriteFragment : Fragment() {
                     for (j in 0..getListfromDatabase?.size as Int - 1) {
                         if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice.get(i).songID)) {
                             refreshList?.add((getListfromDatabase as ArrayList<songs>)[j])
+=======
+            refreshList = ArrayList<Songs>()
+            getListfromDatabase = favoriteContent?.queryDBList()
+            var fetchListfromDevice = getSongsFromPhone()
+            if (fetchListfromDevice != null) {
+                for (i in 0..fetchListfromDevice?.size - 1) {
+                    for (j in 0..getListfromDatabase?.size as Int - 1) {
+                        if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice.get(i).songID)) {
+                            refreshList?.add((getListfromDatabase as ArrayList<Songs>)[j])
+>>>>>>> master
                         }
                     }
                 }
@@ -210,7 +261,7 @@ class FavouriteFragment : Fragment() {
                 recyclerView?.visibility = View.INVISIBLE
                 noFavorites?.visibility = View.VISIBLE
             } else {
-                var favoriteAdapter = FavoriteAdapter(refreshList as ArrayList<songs>, myActivity as Context)
+                var favoriteAdapter = FavoriteAdapter(refreshList as ArrayList<Songs>, myActivity as Context)
                 val mLayoutManager = LinearLayoutManager(activity)
 
                 recyclerView?.layoutManager = mLayoutManager

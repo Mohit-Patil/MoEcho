@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
-            notificationManager?.createNotificationChannel(notificationChannel)
+            notificationManager?.createNotificationChannel(notificationChannel as NotificationChannel)
             trackNotificationBuilder = Notification.Builder(this, channelId)
                 .setContentTitle("A track is playing in the background")
                 .setSmallIcon(R.drawable.echo_logo)

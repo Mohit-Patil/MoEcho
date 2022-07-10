@@ -41,7 +41,11 @@ class NavigationDrawerAdapter(_contentList: ArrayList<String>, _getImages: IntAr
 
     override fun onBindViewHolder(p0: NavViewHolder, p1: Int) {
         p0.icon_GET?.setBackgroundResource(getImages?.get(p1) as Int)
+<<<<<<< HEAD
         p0.text_GET?.text = contentList?.get(p1)
+=======
+        p0.text_GET?.setText(contentList?.get(p1))
+>>>>>>> master
         p0.contentHolder?.setOnClickListener({
             if (p1 == 0) {
                 val mainScreenFragment = MainScreenFragment()

@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
                                         xmlns:tools="http://schemas.android.com/tools"
                                         android:id="@+id/drawer_layout"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:fitsSystemWindows="true"
                                         tools:openDrawer="start">
+=======
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+>>>>>>> master
 
     <include
             layout="@layout/app_bar_main"
@@ -13,21 +22,37 @@
             android:layout_height="match_parent"/>
 
     <android.support.design.widget.NavigationView
+<<<<<<< HEAD
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true">
+=======
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true">
+>>>>>>> master
 
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             <RelativeLayout
+<<<<<<< HEAD
+=======
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <ImageView
+>>>>>>> master
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:id="@+id/header">
 
                 <ImageView
+<<<<<<< HEAD
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/bg_gradient" tools:ignore="ContentDescription"/>
@@ -39,6 +64,12 @@
                         android:layout_centerInParent="true" tools:ignore="ContentDescription"/>
 
 
+=======
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/echo_logo" />
+>>>>>>> master
             </RelativeLayout>
             <View android:background="#ffffff"
                   android:layout_width="match_parent"
@@ -55,6 +86,7 @@
                     android:background="@drawable/bg_background"/>
 
             <android.support.v7.widget.RecyclerView
+<<<<<<< HEAD
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/buttonplayer"
@@ -64,6 +96,14 @@
             </android.support.v7.widget.RecyclerView>
 
 
+=======
+                android:id="@+id/navigationrecyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/header">
+
+            </android.support.v7.widget.RecyclerView>
+>>>>>>> master
         </RelativeLayout>
 
 
