@@ -4,8 +4,12 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+<<<<<<< HEAD
+import com.example.mohit.moecho.resources.songs
+=======
 import com.example.mohit.moecho.Songs
 import java.lang.Exception
+>>>>>>> master
 
 class EchoDatabase : SQLiteOpenHelper {
 
@@ -37,13 +41,16 @@ class EchoDatabase : SQLiteOpenHelper {
     )
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
+<<<<<<< HEAD
+        sqLiteDatabase?.execSQL("CREATE TABLE " + Staticated.TABLE_NAME + "(" + Staticated.COLUMN_ID + " INTEGER," + Staticated.COLUMN_SONG_ARTIST + " TEXT," + Staticated.COLUMN_SONG_TITLE + " TEXT," + Staticated.COLUMN_SONG_PATH + " TEXT);")
+=======
         sqLiteDatabase?.execSQL("CREATE TABLE " + Staticated.TABLE_NAME + "(" + Staticated.COLUMN_ID + " INTEGER," + Staticated.COLUMN_SONG_ARTIST + " STRING," + Staticated.COLUMN_SONG_TITLE + " STRING," + Staticated.COLUMN_SONG_PATH + " STRING);")
+>>>>>>> master
 
 
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun storeAsFavourite(id: Int?, artist: String?, songTitle: String?, path: String?) {
@@ -98,6 +105,7 @@ class EchoDatabase : SQLiteOpenHelper {
         }
         cSor.close()
         db.close()
+        cSor.close()
         return storeId != -1090
     }
 
@@ -114,7 +122,7 @@ class EchoDatabase : SQLiteOpenHelper {
         val cSor = db.rawQuery(query_params, null)
         if (cSor.moveToFirst()) {
             do {
-                counter = counter + 1
+                counter += 1
             } while (cSor.moveToNext())
         } else {
             db.close()
@@ -122,6 +130,7 @@ class EchoDatabase : SQLiteOpenHelper {
         }
         cSor.close()
         db.close()
+        cSor.close()
         return counter
 
     }

@@ -1,6 +1,7 @@
 package com.example.mohit.moecho.fragments
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
@@ -20,9 +21,14 @@ import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.adapters.FavoriteAdapter
 import com.example.mohit.moecho.databases.EchoDatabase
+<<<<<<< HEAD
+import com.example.mohit.moecho.fragments.FavouriteFragment.Statified.playPauseButton
+import com.example.mohit.moecho.resources.songs
+=======
 import com.example.mohit.moecho.Songs
 import com.example.mohit.moecho.fragments.FavouriteFragment.Statified.playPauseButton
 import java.lang.Exception
+>>>>>>> master
 
 class FavouriteFragment : Fragment() {
     var myActivity: Activity? = null
@@ -36,6 +42,15 @@ class FavouriteFragment : Fragment() {
     var refreshList: ArrayList<Songs>? = null
     var getListfromDatabase: ArrayList<Songs>? = null
     var visibleFav: RelativeLayout? = null
+<<<<<<< HEAD
+    var _favScreenAdapter: FavoriteAdapter? = null
+
+    @SuppressLint("StaticFieldLeak")
+    object Statified {
+        var mediaPlayer: MediaPlayer? = null
+        @SuppressLint("StaticFieldLeak")
+        var playPauseButton: ImageButton? = null
+=======
 
     object Statified {
         var mediaPlayer: MediaPlayer? = null
@@ -54,11 +69,8 @@ class FavouriteFragment : Fragment() {
         playPauseButton = view.findViewById(R.id.playpausebuttonfav)
         recyclerView = view.findViewById(R.id.favoriteRecycler)
         visibleFav = view.findViewById(R.id.visiblefav)
+>>>>>>> master
 
-
-
-
-        return view
     }
 
     override fun onAttach(context: Context?) {
@@ -71,9 +83,26 @@ class FavouriteFragment : Fragment() {
         myActivity = activity
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_favourite, container, false)
+        setHasOptionsMenu(true)
+        activity?.title = "Favorites"
+        noFavorites = view?.findViewById(R.id.nofavorites)
+        nowPlayingBottomBar = view?.findViewById(R.id.hiddenbarfavscreen)
+        songTitle = view.findViewById(R.id.songTitlefavScreen)
+        songTitle?.isSelected = true
+        playPauseButton = view.findViewById(R.id.playpausebuttonfav)
+        recyclerView = view.findViewById(R.id.favoriteRecycler)
+        visibleFav = view.findViewById(R.id.visiblefav)
+        songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
+        SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
+            SongPlayingFragment.Staticated.onSongComplete()
+            songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
+            _favScreenAdapter?.notifyDataSetChanged()
+        }
 
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -84,19 +113,25 @@ class FavouriteFragment : Fragment() {
             visibleFav?.layoutParams?.height = -2
         }
         display_favorites_by_searching()
-        bottomBarSetup()
 
+<<<<<<< HEAD
+        if (SongPlayingFragment.Statified.currentSongHelper?.isPlaying == true)
+            bottomBarSetup()
+=======
 
     }
 
     override fun onResume() {
         super.onResume()
+>>>>>>> master
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
         val item = menu?.findItem(R.id.action_sort)
+        val searchItem = menu?.findItem(R.id.search)
         item?.isVisible = false
+        searchItem?.isVisible = false
     }
 
     fun getSongsFromPhone(): ArrayList<Songs> {
@@ -117,7 +152,19 @@ class FavouriteFragment : Fragment() {
                 var currentArtist = songCursor.getString(songArtist)
                 var currentData = songCursor.getString(songData)
                 var currentDate = songCursor.getLong(dateIndex)
+<<<<<<< HEAD
+                arrayList.add(
+                    songs(
+                        currentId,
+                        currentTitle,
+                        currentArtist,
+                        currentData,
+                        currentDate
+                    )
+                )
+=======
                 arrayList.add(Songs(currentId, currentTitle, currentArtist, currentData, currentDate))
+>>>>>>> master
 
             }
 
@@ -131,11 +178,8 @@ class FavouriteFragment : Fragment() {
     fun bottomBarSetup() {
         try {
             bottomBarClickHandler()
-            songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
-            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener({
-                songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
-                SongPlayingFragment.Staticated.onSongComplete()
-            })
+
+
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 nowPlayingBottomBar?.visibility = View.VISIBLE
             } else {
@@ -167,7 +211,7 @@ class FavouriteFragment : Fragment() {
             fragmentManager?.popBackStackImmediate()
             fragmentManager!!.beginTransaction()
                 .replace(R.id.details_fragment, songPlayingFragment)
-                .addToBackStack(null)
+                .addToBackStack("FavScreen")
                 .commit()
 
 
@@ -176,7 +220,7 @@ class FavouriteFragment : Fragment() {
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 SongPlayingFragment.Statified.mediaplayer?.pause()
                 playPauseButton?.setBackgroundResource(R.drawable.play_icon)
-                trackPosition = SongPlayingFragment.Statified.mediaplayer?.getCurrentPosition() as Int
+                trackPosition = SongPlayingFragment.Statified.mediaplayer?.currentPosition as Int
             } else {
                 SongPlayingFragment.Statified.mediaplayer?.seekTo(trackPosition)
                 SongPlayingFragment.Statified.mediaplayer?.start()
@@ -188,6 +232,16 @@ class FavouriteFragment : Fragment() {
 
     fun display_favorites_by_searching() {
         if (favoriteContent?.checkSize() as Int > 0) {
+<<<<<<< HEAD
+            refreshList = ArrayList<songs>()
+            getListfromDatabase = favoriteContent?.queryDBList()
+            var fetchListfromDevice = getSongsFromPhone()
+            if (fetchListfromDevice != null) {
+                for (i in 0..fetchListfromDevice.size - 1) {
+                    for (j in 0..getListfromDatabase?.size as Int - 1) {
+                        if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice.get(i).songID)) {
+                            refreshList?.add((getListfromDatabase as ArrayList<songs>)[j])
+=======
             refreshList = ArrayList<Songs>()
             getListfromDatabase = favoriteContent?.queryDBList()
             var fetchListfromDevice = getSongsFromPhone()
@@ -196,6 +250,7 @@ class FavouriteFragment : Fragment() {
                     for (j in 0..getListfromDatabase?.size as Int - 1) {
                         if ((getListfromDatabase?.get(j)?.songID) == (fetchListfromDevice.get(i).songID)) {
                             refreshList?.add((getListfromDatabase as ArrayList<Songs>)[j])
+>>>>>>> master
                         }
                     }
                 }

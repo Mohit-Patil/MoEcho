@@ -4,12 +4,16 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+<<<<<<< HEAD
+=======
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
+>>>>>>> master
 import android.os.Bundle
 import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.support.v4.app.ActivityCompat
+import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.example.mohit.moecho.R
 

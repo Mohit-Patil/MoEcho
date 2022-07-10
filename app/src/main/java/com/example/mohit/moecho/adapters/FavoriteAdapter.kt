@@ -11,7 +11,11 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.fragments.SongPlayingFragment
+<<<<<<< HEAD
+import com.example.mohit.moecho.resources.songs
+=======
 import com.example.mohit.moecho.Songs
+>>>>>>> master
 
 class FavoriteAdapter(_songdetails: ArrayList<Songs>, _context: Context) :
     RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
@@ -36,7 +40,11 @@ class FavoriteAdapter(_songdetails: ArrayList<Songs>, _context: Context) :
         p0.trackArtist?.text = songObject?.artist
         p0.contentHolder?.setOnClickListener {
             val songPlayingFragment = SongPlayingFragment()
+<<<<<<< HEAD
+            var args = Bundle()
+=======
             val args = Bundle()
+>>>>>>> master
             args.putString("songArtist", songObject?.artist)
             args.putString("path", songObject?.songData)
             args.putString("songTitle", songObject?.songTitle)
@@ -72,10 +80,14 @@ class FavoriteAdapter(_songdetails: ArrayList<Songs>, _context: Context) :
 
     override fun getItemCount(): Int {
 
-        if (songDetails == null)
-            return 0
+        return if (songDetails == null)
+            0
         else
+<<<<<<< HEAD
+            (songDetails as ArrayList<songs>).size
+=======
             return (songDetails as ArrayList<Songs>).size
+>>>>>>> master
     }
 
 

@@ -11,8 +11,12 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.fragments.SongPlayingFragment
+<<<<<<< HEAD
+import com.example.mohit.moecho.resources.songs
+=======
 import com.example.mohit.moecho.Songs
 import java.lang.Exception
+>>>>>>> master
 
 class MainScreenAdapter(_songdetails: ArrayList<Songs>, _context: Context) :
     RecyclerView.Adapter<MainScreenAdapter.MyViewHolder>() {
@@ -37,7 +41,11 @@ class MainScreenAdapter(_songdetails: ArrayList<Songs>, _context: Context) :
         p0.trackArtist?.text = songObject?.artist
         p0.contentHolder?.setOnClickListener {
             val songPlayingFragment = SongPlayingFragment()
+<<<<<<< HEAD
+            var args = Bundle()
+=======
             val args = Bundle()
+>>>>>>> master
             args.putString("songArtist", songObject?.artist)
             args.putString("path", songObject?.songData)
             args.putString("songTitle", songObject?.songTitle)
@@ -98,5 +106,17 @@ class MainScreenAdapter(_songdetails: ArrayList<Songs>, _context: Context) :
 
     }
 
+    fun filter_data(newList: ArrayList<songs>?) {
 
+
+        if (newList != null) {
+
+            songDetails = ArrayList<songs>()
+            songDetails?.addAll(newList)
+
+            notifyDataSetChanged()
+        }
+
+
+    }
 }

@@ -1,6 +1,6 @@
 package com.example.mohit.moecho.fragments
 
-
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
@@ -10,18 +10,26 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.view.*
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.adapters.MainScreenAdapter
+<<<<<<< HEAD
+import com.example.mohit.moecho.fragments.MainScreenFragment.Statified.playPauseButton
+import com.example.mohit.moecho.resources.songs
+=======
 import com.example.mohit.moecho.Songs
+>>>>>>> master
 import kotlinx.android.synthetic.main.fragment_main_screen.*
-import java.lang.Exception
 import java.util.*
+<<<<<<< HEAD
+=======
 import android.view.ViewGroup
 import com.example.mohit.moecho.fragments.MainScreenFragment.Statified.playPauseButton
+>>>>>>> master
 
 class MainScreenFragment : Fragment() {
     var getSongsList: ArrayList<Songs>? = null
@@ -34,20 +42,37 @@ class MainScreenFragment : Fragment() {
     var myActivity: Activity? = null
     var _mainScreenAdapter: MainScreenAdapter? = null
     var trackPosition: Int = 0
+<<<<<<< HEAD
+    var flag = 0
+=======
     private val BACK_STACK_ROOT_TAG = "main_fragment"
+>>>>>>> master
 
+    @SuppressLint("StaticFieldLeak")
     object Statified {
         var mediaPlayer: MediaPlayer? = null
         var sizeofarr: Int? = null
+<<<<<<< HEAD
+        @SuppressLint("StaticFieldLeak")
+=======
+>>>>>>> master
         var playPauseButton: ImageButton? = null
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        myActivity = context as Activity
+    }
+
+    override fun onAttach(activity: Activity?) {
+        super.onAttach(activity)
+        myActivity = activity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_screen, container, false)
         setHasOptionsMenu(true)
         activity?.title = "All Songs"
@@ -56,19 +81,61 @@ class MainScreenFragment : Fragment() {
         noSongs = view?.findViewById(R.id.nosongs)
         nowPlayingBottomBar = view?.findViewById(R.id.hiddenbarmainscreen)
         songTitle = view?.findViewById<TextView>(R.id.songTitleMainScreen)
-        songTitle?.setSelected(true)
+        songTitle?.isSelected = true
         playPauseButton = view?.findViewById<ImageButton>(R.id.playpausebutton)
         recyclerView = view?.findViewById<RecyclerView>(R.id.contentMain)
-
-
-
-
-
-
-
+        SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
+            SongPlayingFragment.Staticated.onSongComplete()
+            songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
+            _mainScreenAdapter?.notifyDataSetChanged()
+        }
 
 
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.clear()
+        inflater?.inflate(R.menu.main, menu)
+
+        val searchItem = menu?.findItem(R.id.search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.queryHint = "Search Song or Artist"
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+
+            @SuppressLint("SyntheticAccessor")
+            override fun onQueryTextChange(query: String): Boolean {
+                flag = 1
+
+                var name_to_saerch = query.toLowerCase()
+
+                var newList: ArrayList<songs>? = ArrayList<songs>()
+
+                for (songs in getSongsList!!) {
+                    var name = songs.songTitle.toLowerCase()
+                    var artist = songs.artist.toLowerCase()
+                    if (name.contains(name_to_saerch, true))
+                        newList?.add(songs)
+                    else if (artist.contains(name_to_saerch, true))
+                        newList?.add(songs)
+
+                }
+
+                _mainScreenAdapter?.filter_data(newList)
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+                return true
+            }
+
+
+        })
+
+        return
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -78,6 +145,7 @@ class MainScreenFragment : Fragment() {
         val prefs = activity?.getSharedPreferences("action_sort", Context.MODE_PRIVATE)
         val action_sort_ascending = prefs?.getString("action_sort_ascending", "true")
         val action_sort_recent = prefs?.getString("action_sort_recent", "false")
+
 
         if (SongPlayingFragment.Statified?.mediaplayer?.isPlaying == null || SongPlayingFragment.Statified?.mediaplayer?.isPlaying == false) {
             hiddenbarmainscreen?.layoutParams?.height = 0
@@ -92,8 +160,6 @@ class MainScreenFragment : Fragment() {
             recyclerView?.itemAnimator = DefaultItemAnimator()
             recyclerView?.adapter = _mainScreenAdapter
         }
-
-
         if (getSongsList != null) {
             if (action_sort_ascending!!.equals("true", true)) {
                 Collections.sort(getSongsList, Songs.Statified.nameComparator)
@@ -103,16 +169,10 @@ class MainScreenFragment : Fragment() {
                 _mainScreenAdapter?.notifyDataSetChanged()
             }
         }
+        if (SongPlayingFragment.Statified?.currentSongHelper?.isPlaying == true) {
+            bottomBarSetup()
+        }
 
-        bottomBarSetup()
-
-
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
-        inflater?.inflate(R.menu.main, menu)
-        return
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -143,6 +203,10 @@ class MainScreenFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+<<<<<<< HEAD
+    fun getSongsFromPhone(): ArrayList<songs> {
+        var arrayList = ArrayList<songs>()
+=======
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         myActivity = context as Activity
@@ -155,6 +219,7 @@ class MainScreenFragment : Fragment() {
 
     fun getSongsFromPhone(): ArrayList<Songs> {
         var arrayList = ArrayList<Songs>()
+>>>>>>> master
         var contentResolver = myActivity?.contentResolver
         var songuri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         var songCursor = contentResolver?.query(songuri, null, null, null, null)
@@ -171,7 +236,19 @@ class MainScreenFragment : Fragment() {
                 var currentArtist = songCursor.getString(songArtist)
                 var currentData = songCursor.getString(songData)
                 var currentDate = songCursor.getLong(dateIndex)
+<<<<<<< HEAD
+                arrayList.add(
+                    songs(
+                        currentId,
+                        currentTitle,
+                        currentArtist,
+                        currentData,
+                        currentDate
+                    )
+                )
+=======
                 arrayList.add(Songs(currentId, currentTitle, currentArtist, currentData, currentDate))
+>>>>>>> master
 
             }
 
@@ -183,24 +260,17 @@ class MainScreenFragment : Fragment() {
 
     }
 
-
     fun bottomBarSetup() {
         try {
             bottomBarClickHandler()
-            songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
-            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener({
-                songTitle?.setText(SongPlayingFragment.Statified.currentSongHelper?.songTitle)
-                SongPlayingFragment.Staticated.onSongComplete()
-            })
+
+
+            songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
+
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 nowPlayingBottomBar?.visibility = View.VISIBLE
             } else {
                 nowPlayingBottomBar?.visibility = View.INVISIBLE
-            }
-            SongPlayingFragment.Statified.mediaplayer?.setOnCompletionListener {
-                SongPlayingFragment.Staticated.onSongComplete()
-                songTitle?.text = SongPlayingFragment.Statified.currentSongHelper?.songTitle
-                _mainScreenAdapter?.notifyDataSetChanged()
             }
 
 
@@ -208,7 +278,6 @@ class MainScreenFragment : Fragment() {
             e.printStackTrace()
         }
     }
-
 
     fun bottomBarClickHandler() {
         nowPlayingBottomBar?.setOnClickListener({
@@ -229,7 +298,7 @@ class MainScreenFragment : Fragment() {
             fragmentManager?.popBackStackImmediate()
             fragmentManager!!.beginTransaction()
                 .replace(R.id.details_fragment, songPlayingFragment)
-                .addToBackStack(null)
+                .addToBackStack("MainScreen")
                 .commit()
 
 
@@ -238,7 +307,7 @@ class MainScreenFragment : Fragment() {
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                 SongPlayingFragment.Statified.mediaplayer?.pause()
                 playPauseButton?.setBackgroundResource(R.drawable.play_icon)
-                trackPosition = SongPlayingFragment.Statified.mediaplayer?.getCurrentPosition() as Int
+                trackPosition = SongPlayingFragment.Statified.mediaplayer?.currentPosition as Int
             } else {
                 SongPlayingFragment.Statified.mediaplayer?.seekTo(trackPosition)
                 SongPlayingFragment.Statified.mediaplayer?.start()
@@ -247,5 +316,4 @@ class MainScreenFragment : Fragment() {
             }
         })
     }
-
 }

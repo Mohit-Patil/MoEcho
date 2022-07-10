@@ -1,6 +1,9 @@
 package com.example.mohit.moecho.activities
 
-import android.app.*
+import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -13,29 +16,34 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.widget.Button
 import com.example.mohit.moecho.R
 import com.example.mohit.moecho.activities.MainActivity.Statified.notificationManager
 import com.example.mohit.moecho.adapters.NavigationDrawerAdapter
+import com.example.mohit.moecho.fragments.FavouriteFragment
 import com.example.mohit.moecho.fragments.MainScreenFragment
 import com.example.mohit.moecho.fragments.SongPlayingFragment
-import java.lang.Exception
+import com.example.mohit.moecho.utils.NotificationBuilder
 
 class MainActivity : AppCompatActivity() {
 
-    private var navigationDrawerIconsList: ArrayList<String> = arrayListOf()
-    private var imagesForNavdrawer = intArrayOf(
+    @SuppressLint("SyntheticAccessor")
+    var navigationDrawerIconsList: ArrayList<String> = arrayListOf()
+    var imagesForNavdrawer = intArrayOf(
         R.drawable.navigation_allsongs,
         R.drawable.navigation_favorites,
         R.drawable.navigation_settings,
         R.drawable.navigation_aboutus
     )
-    private var trackNotificationBuilder: Notification? = null
-    private var notificationChannel: NotificationChannel? = null
-    private var channelId = "com.example.mohit.moecho.activities"
+    var buttonplayer: Button? = null
+    var trackNotificationBuilder: Notification? = null
+    var notificationChannel: NotificationChannel? = null
+    var channelId = "com.example.mohit.moecho.activities"
     var description = "Song Playing Notification"
 
-
+    @SuppressLint("StaticFieldLeak")
     object Statified {
+        @SuppressLint("StaticFieldLeak")
         var drawerLayout: DrawerLayout? = null
         var notificationManager: NotificationManager? = null
         var IS_MUSIC_SCREEN_MAIN = false
@@ -49,11 +57,28 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         Statified.drawerLayout = findViewById(R.id.drawer_layout)
+        buttonplayer = findViewById<Button>(R.id.buttonplayer)
+        buttonplayer?.setOnClickListener {
+            try {
+                if (SongPlayingFragment.Statified.currentSongHelper?.isPlaying as Boolean) {
+                    SongPlayingFragment.Statified.mediaplayer?.pause()
+                    MainScreenFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
+                    FavouriteFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
+                    SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+
+
+            var clickIntent = Intent(this@MainActivity, StepOne::class.java)
+            startActivity(clickIntent)
+        }
 
         navigationDrawerIconsList.add("All Songs")
         navigationDrawerIconsList.add("Favorites")
         navigationDrawerIconsList.add("Settings")
-        navigationDrawerIconsList.add("About Us")
+        navigationDrawerIconsList.add("About Me")
 
 
         val toggle = ActionBarDrawerToggle(
@@ -64,11 +89,13 @@ class MainActivity : AppCompatActivity() {
         Statified.drawerLayout?.addDrawerListener(toggle)
         toggle.syncState()
         val mainScreenFragment = MainScreenFragment()
-        fragmentManager.popBackStackImmediate()
+
+
         this.supportFragmentManager
             .beginTransaction()
-            .add(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
+            .replace(R.id.details_fragment, mainScreenFragment, "MainScreenFragment")
             .commit()
+
 
         val _navigationAdapter = NavigationDrawerAdapter(navigationDrawerIconsList, imagesForNavdrawer, this)
         _navigationAdapter.notifyDataSetChanged()
@@ -79,13 +106,8 @@ class MainActivity : AppCompatActivity() {
         navigation_recycler_view.adapter = _navigationAdapter
         navigation_recycler_view.setHasFixedSize(true)
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val intent = Intent(this@MainActivity, MainActivity::class.java)
-        val pintent = PendingIntent.getActivity(
-            this@MainActivity, System.currentTimeMillis().toInt(),
-            intent, 0
-        )
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
             notificationManager?.createNotificationChannel(notificationChannel as NotificationChannel)
             trackNotificationBuilder = Notification.Builder(this, channelId)
@@ -104,13 +126,14 @@ class MainActivity : AppCompatActivity() {
                 .setOngoing(true)
                 .setAutoCancel(true)
                 .build()
-        }
+        }*/
     }
+
 
     override fun onStart() {
         super.onStart()
         try {
-            Statified.notificationManager?.cancel(1998)
+            NotificationBuilder.Statified.notificationManager?.cancel(1998)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -121,7 +144,9 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         try {
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
-                Statified.notificationManager?.notify(1998, trackNotificationBuilder)
+                val intentnotif = Intent(applicationContext, NotificationBuilder::class.java)
+                intentnotif.action = NotificationBuilder().ACTION_PLAY
+                startService(intentnotif)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -132,7 +157,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         try {
-            Statified.notificationManager?.cancel(1998)
+            NotificationBuilder.Statified?.notificationManager?.cancel(1998)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -142,7 +167,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         try {
             if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
-                Statified.notificationManager?.notify(1998, trackNotificationBuilder)
+                NotificationBuilder.Statified.notificationManager?.notify(1998, trackNotificationBuilder)
             }
         } catch (e: Exception) {
             e.printStackTrace()

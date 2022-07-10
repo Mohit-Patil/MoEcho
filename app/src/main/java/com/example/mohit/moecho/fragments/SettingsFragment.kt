@@ -9,32 +9,21 @@ import android.view.*
 import android.widget.Switch
 import com.example.mohit.moecho.R
 
+<<<<<<< HEAD
+class SettingsFragment : Fragment() {
+    var myActivity: Activity? = null
+    var shakeSwitch: Switch? = null
+=======
 
 class SettingsFragment : Fragment() {
 
     private var myActivity: Activity? = null
     private var shakeSwitch: Switch? = null
+>>>>>>> master
 
     object Statified {
         var MY_PREFS_NAME = "ShakeFeature"
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_settings, container, false)
-        activity?.title = "Settings"
-        shakeSwitch = view?.findViewById(R.id.switchShake)
-        return view
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -46,12 +35,31 @@ class SettingsFragment : Fragment() {
         myActivity = activity
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+        activity?.title = "Settings"
+        shakeSwitch = view?.findViewById(R.id.switchButton)
+        return view
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val prefs = myActivity?.getSharedPreferences(Statified.MY_PREFS_NAME, Context.MODE_PRIVATE)
         val isAllowed = prefs?.getBoolean("feature", false)
         shakeSwitch?.isChecked = isAllowed as Boolean
+<<<<<<< HEAD
+        shakeSwitch?.setOnCheckedChangeListener({ compoundButton, b ->
+=======
         shakeSwitch?.setOnCheckedChangeListener { compoundButton, b ->
+>>>>>>> master
             if (b) {
                 val editor = myActivity?.getSharedPreferences(Statified.MY_PREFS_NAME, Context.MODE_PRIVATE)?.edit()
                 editor?.putBoolean("feature", true)
@@ -76,6 +84,5 @@ class SettingsFragment : Fragment() {
         inflater?.inflate(R.menu.menu_blank, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
-
 
 }

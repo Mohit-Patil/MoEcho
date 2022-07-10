@@ -6,17 +6,19 @@ import android.content.Context
 import android.content.Intent
 import android.telephony.TelephonyManager
 import com.example.mohit.moecho.R
+<<<<<<< HEAD
+=======
 import com.example.mohit.moecho.activities.MainActivity
 import com.example.mohit.moecho.fragments.FavouriteFragment
 import com.example.mohit.moecho.fragments.MainScreenFragment
+>>>>>>> master
 import com.example.mohit.moecho.fragments.SongPlayingFragment
-import java.lang.Exception
 
 class CaptureBroadcast : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == Intent.ACTION_NEW_OUTGOING_CALL) {
             try {
-                MainActivity.Statified.notificationManager?.cancel(1998)
+                NotificationBuilder.Statified.notificationManager?.cancel(1998)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -28,18 +30,40 @@ class CaptureBroadcast : BroadcastReceiver() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        } else if (intent?.action == android.media.AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
+            try {
+                if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
+                    SongPlayingFragment.Statified.playing = true
+                    SongPlayingFragment.Statified.mediaplayer?.pause()
+                    SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
+
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else if (intent?.action == android.media.AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
+            try {
+                if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
+                    SongPlayingFragment.Statified.playing = true
+                    SongPlayingFragment.Statified.mediaplayer?.pause()
+                    SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         } else {
             val tm: TelephonyManager = context?.getSystemService(Service.TELEPHONY_SERVICE) as TelephonyManager
             when (tm.callState) {
                 TelephonyManager.CALL_STATE_RINGING -> {
                     try {
-                        MainActivity.Statified.notificationManager?.cancel(1998)
+                        NotificationBuilder.Statified.notificationManager?.cancel(1998)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
                     try {
                         if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean) {
                             SongPlayingFragment.Statified.mediaplayer?.pause()
+                            SongPlayingFragment.Statified.playing = true
                             SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.play_icon)
                             MainScreenFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
                             FavouriteFragment.Statified.playPauseButton?.setBackgroundResource(R.drawable.play_icon)
@@ -48,6 +72,21 @@ class CaptureBroadcast : BroadcastReceiver() {
                         e.printStackTrace()
                     }
                 }
+                TelephonyManager.CALL_STATE_IDLE -> {
+                    // not in call
+                    try {
+                        if (SongPlayingFragment.Statified.mediaplayer?.isPlaying as Boolean == false && SongPlayingFragment.Statified.playing) {
+
+                            SongPlayingFragment.Statified.mediaplayer?.start()
+                            SongPlayingFragment.Statified.playing = false
+                            SongPlayingFragment.Statified.playpauseImageButton?.setBackgroundResource(R.drawable.pause_icon)
+
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
                 else -> {
 
                 }
